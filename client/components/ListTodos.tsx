@@ -9,9 +9,11 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton, Button, Input, Divider
+    ModalCloseButton, Button, Input, useDisclosure
 } from '@chakra-ui/react'
+
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import EditTodo from './EditTodo';
 
 const ListTodos = () => {
 
@@ -47,54 +49,36 @@ const ListTodos = () => {
         }
     }
 
+    console.log("todos", todos)
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
 
     return (
         <>
             <h1>List Todos</h1>
 
             <VStack>
-                {todos.map((todo) => (
+                {todos.map((todo, index) => (
 
                     <HStack spacing="24px" w="320px" key={todo.todo_id}>
                         <Flex p={6} w="300px" h="50px" justifyContent="space-between">
-
                             <Text>{todo.description}</Text>
+
                             <Flex w="10px" >
 
                                 <DeleteIcon color="red.500" mr="2" onClick={() => deleteTodo(todo.todo_id)} />
-                                <EditIcon />
+                                <EditIcon onClick={onOpen} />
 
                             </Flex>
 
-
-                            {/* <Modal isOpen={isOpen} onClose={onClose}>
-                                <ModalOverlay />
-                                <ModalContent>
-                                    <ModalHeader>Edit Your Todo</ModalHeader>
-                                    <ModalCloseButton />
-                                    <form onSubmit={handleEditSubmit}>
-                                        <ModalBody>
-                                            <Input
-                                                value={modalValue.text}
-                                                key={modalValue.id}
-                                                variant="outline"
-                                                type="text"
-                                                placeholder="Update your todo..."
-                                                onChange={handleEditInputChange} />
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button colorScheme="teal" mr={3} onClick={onClose}>
-                                                Close
-                                            </Button>
-                                            <Button type="submit" colorScheme="teal" mr={3}>
-                                                Update
-                                            </Button>
-                                        </ModalFooter>
-                                    </form>
-
-                                </ModalContent>
-                            </Modal> */}
-
+                            <EditTodo
+                                key={index}
+                                todo={todo}
+                                isOpen={isOpen}
+                                onOpen={onOpen}
+                                onClose={onClose}
+                            />
 
                         </Flex>
 

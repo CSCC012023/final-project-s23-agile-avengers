@@ -44,8 +44,9 @@ const InputTodo = () => {
 
     }
     return (
-        <Flex bg="gray.100" align="center" justify="center" h="100vh">
+        <Flex bg="gray.100" align="center" justify="center" h="50vh">
             <Box bg="white" p={6} rounded="md" w={64}>
+                <h1>Todo App</h1>
                 <form onSubmit={handleSubmit}>
                     <Stack spacing={5}>
                         <Input
