@@ -1,69 +1,67 @@
 "use client"
 
-import React from 'react';
-import {
-    Box,
-    Flex,
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    Input,
-    Button
-} from '@chakra-ui/react'
-import { Field, Form, Formik, FieldInputProps, FormikProps, FormikValues } from 'formik';
+import React, { useState } from 'react';
+import { Stack, Input, Button, useToast, Flex, Box } from '@chakra-ui/react'
 
 const InputTodo = () => {
 
-    function validateName(value: String) {
-        let error
-        if (!value) {
-            error = 'Input is required'
+    const toast = useToast()
+    const [value, setValue] = useState<string>("")
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault();
+
+        if (value === '') {
+            toast({
+                title: "Please enter the text.",
+                status: "warning",
+                duration: 2000,
+                isClosable: true,
+            })
+            return;
         }
-        return error
+
+        console.log("value", value)
+
+        try {
+            const body = { description: value } // description is the key which is the same as the database schema field
+            console.log(body)
+            const response = await fetch("http://localhost:5000/todos", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            })
+
+            const win: Window = window; // trying to do window.location but TS does not allow this (ref: https://github.com/microsoft/TypeScript/issues/48949)
+            win.location = "/";
+
+        } catch (e: any) {
+            console.error(e.message)
+        }
+
+        setValue('')
+
     }
     return (
-        <>
-            <Flex bg="gray.100" align="center" justify="center" h="100vh">
-                <Box bg="white" p={6} rounded="md" w={64}>
-                    <Formik
-                        initialValues={{
-                            todoItem: ""
-                        }}
-                        onSubmit={(values, actions) => {
-                            setTimeout(() => {
-                                alert(JSON.stringify(values, null, 2))
-                                actions.setSubmitting(false)
-                            }, 1000)
-                        }}
-                    >
-                        {(props: FormikValues) => (
-                            <Form>
-                                <Field name='todoItem' validate={validateName}>
-                                    {({ field, form }: { field: FieldInputProps<string>, form: FormikProps<{ name: string, surname: string }> }) => (
-                                        <FormControl isInvalid={!!form.errors.name && form.touched.name}>
-                                            <FormLabel>Todo List</FormLabel>
-                                            <Input {...field} placeholder='Enter an item...' />
-                                            <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                                        </FormControl>
-                                    )}
-                                </Field>
-                                <Button
-                                    mt={4}
-                                    colorScheme='teal'
-                                    isLoading={props.isSubmitting}
-                                    type='submit'
-                                >
-                                    Submit
-                                </Button>
-                            </Form>
-                        )}
-                    </Formik>
-                </Box>
-            </Flex>
+        <Flex bg="gray.100" align="center" justify="center" h="100vh">
+            <Box bg="white" p={6} rounded="md" w={64}>
+                <form onSubmit={handleSubmit}>
+                    <Stack spacing={5}>
+                        <Input
+                            mt={5}
+                            value={value}
+                            variant="outline"
+                            type="text"
+                            placeholder="Enter your todo..."
+                            onChange={(e) => setValue(e.target.value)} />
+                        <Button colorScheme="teal" type="submit">Add Todo</Button>
+                    </Stack>
+                </form>
+            </Box>
+        </Flex>
+    )
 
-        </>
-    );
 };
 
 export default InputTodo;
