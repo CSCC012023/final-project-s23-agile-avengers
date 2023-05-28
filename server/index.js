@@ -12,6 +12,7 @@ app.use(express.json()); // can use req.body with the help of this
 app.listen(PORT, () => {
     console.log(`server has started on port ${PORT}`)
 });
+
 // ROUTES
 
 // CREATE A TODO
