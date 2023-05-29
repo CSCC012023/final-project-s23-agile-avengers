@@ -22,11 +22,8 @@ const InputTodo = () => {
             return;
         }
 
-        console.log("value", value)
-
         try {
             const body = { description: value } // description is the key which is the same as the database schema field
-            console.log(body)
             const response = await fetch("http://localhost:5000/todos", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

@@ -3,13 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-    HStack, VStack, Text, Flex, Badge, Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton, Button, Input, useDisclosure
+    HStack, VStack, Text, Flex, useDisclosure
 } from '@chakra-ui/react'
 
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
@@ -41,7 +35,6 @@ const ListTodos = () => {
             const deletedTodo = await fetch(`http://localhost:5000/todos/${todo_id}`, {
                 method: "DELETE"
             })
-            console.log(deletedTodo)
             setTodos(todos.filter(todo => todo.todo_id !== todo_id)) // to make sure the deleted todo disappears from screen w/o refreshing
 
         } catch (e: any) {
@@ -53,16 +46,12 @@ const ListTodos = () => {
 
     const [modalValue, setModalValue] = useState({ todo_id: 0, description: '' })
 
-
-
-
     return (
         <>
             <h1>List Todos</h1>
 
             <VStack>
-                {todos.map((todo, index) => {
-                    console.log("INDEX:", index)
+                {todos.map((todo) => {
                     return (
                         <HStack spacing="24px" w="320px" key={todo.todo_id}>
                             <Flex p={6} w="300px" h="50px" justifyContent="space-between">

@@ -23,13 +23,7 @@ interface EditTodoProps {
 
 const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
 
-    const [state, setState] = useState(false)
-
-    // const { isOpen, onOpen, onClose } = useDisclosure()
     const [editTodoName, setEditTodoName] = useState<string>(todo.description)
-
-
-    console.log("TODOID: ", todo.todo_id, todo.description)
 
     // update todo
     const updateDescription = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -48,12 +42,8 @@ const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
         }
     }
 
-    useMemo(() => {
-        console.log("in memo: ", todo.todo_id, todo.description)
-    }, [])
-
     useEffect(() => {
-        setEditTodoName(todo.description)
+        setEditTodoName(todo.description) // to help in making sure the modal value corresponds to the value in the input field
     }, [todo])
 
     return (
