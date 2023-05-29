@@ -49,9 +49,11 @@ const ListTodos = () => {
         }
     }
 
-    console.log("todos", todos)
-
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const [modalValue, setModalValue] = useState({ todo_id: 0, description: '' })
+
+
 
 
     return (
@@ -59,32 +61,35 @@ const ListTodos = () => {
             <h1>List Todos</h1>
 
             <VStack>
-                {todos.map((todo, index) => (
+                {todos.map((todo, index) => {
+                    console.log("INDEX:", index)
+                    return (
+                        <HStack spacing="24px" w="320px" key={todo.todo_id}>
+                            <Flex p={6} w="300px" h="50px" justifyContent="space-between">
+                                <Text>{todo.description}</Text>
 
-                    <HStack spacing="24px" w="320px" key={todo.todo_id}>
-                        <Flex p={6} w="300px" h="50px" justifyContent="space-between">
-                            <Text>{todo.description}</Text>
+                                <Flex w="10px" >
 
-                            <Flex w="10px" >
+                                    <DeleteIcon color="red.500" mr="2" onClick={() => deleteTodo(todo.todo_id)} />
+                                    <EditIcon onClick={() => {
+                                        onOpen();
+                                        setModalValue(todo)
+                                    }} />
 
-                                <DeleteIcon color="red.500" mr="2" onClick={() => deleteTodo(todo.todo_id)} />
-                                <EditIcon onClick={onOpen} />
+                                </Flex>
+                                <EditTodo
+                                    key={todo.todo_id}
+                                    todo={modalValue}
+                                    isOpen={isOpen}
+                                    onOpen={onOpen}
+                                    onClose={onClose}
+                                />
 
                             </Flex>
 
-                            <EditTodo
-                                key={index}
-                                todo={todo}
-                                isOpen={isOpen}
-                                onOpen={onOpen}
-                                onClose={onClose}
-                            />
+                        </HStack>)
 
-                        </Flex>
-
-                    </HStack>
-
-                ))}
+                })}
 
             </VStack>
         </>

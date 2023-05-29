@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import {
     Modal,
@@ -23,12 +23,13 @@ interface EditTodoProps {
 
 const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
 
+    const [state, setState] = useState(false)
+
     // const { isOpen, onOpen, onClose } = useDisclosure()
     const [editTodoName, setEditTodoName] = useState<string>(todo.description)
 
 
-    console.log("editTodoName: ", editTodoName)
-    console.log("todo description:", todo.description)
+    console.log("TODOID: ", todo.todo_id, todo.description)
 
     // update todo
     const updateDescription = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -47,10 +48,17 @@ const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
         }
     }
 
+    useMemo(() => {
+        console.log("in memo: ", todo.todo_id, todo.description)
+    }, [])
+
+    useEffect(() => {
+        setEditTodoName(todo.description)
+    }, [todo])
 
     return (
 
-        <Modal isOpen={isOpen} onClose={() => {
+        <Modal id={todo.todo_id} isOpen={isOpen} onClose={() => {
             onClose();
             setEditTodoName(todo.description)
         }}>
@@ -77,25 +85,3 @@ const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
 };
 
 export default EditTodo;
-
-
-{/* <Modal isOpen={isOpen} onClose={onClose} >
-<ModalOverlay />
-<ModalContent>
-    <ModalHeader>Edit Todo </ModalHeader>
-    <ModalCloseButton />
-    <ModalBody>
-        <Input
-            placeholder='Edit your Todo Item...'
-            onChange={(e) => handleEditInputChange(e, todo.todo_id)}
-        />
-    </ModalBody>
-
-    <ModalFooter>
-        <Button colorScheme='blue' mr={3} onClick={(e) => handleEditSubmit(e)}>
-            Edit
-        </Button>
-        <Button variant='ghost' onClick={onClose}>Cancel</Button>
-    </ModalFooter>
-</ModalContent>
-</Modal > */}
