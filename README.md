@@ -27,7 +27,7 @@ npm run dev
 ```{cmd}
 cd server
 npm install
-nodemon index
+nodemon src/index.ts
 ```
 
 #### To view the database
