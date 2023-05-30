@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const pool = require("./db"); // with pool, we can now run queries with postgres
+const pool = require("./db.ts"); // with pool, we can now run queries with postgres
 const PORT = 5000;
 // middleware
 app.use(cors()); // can connect multiple domains with this (eg : localhost 5000 and 3000)

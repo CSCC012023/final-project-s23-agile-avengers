@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const pool = require("./db"); // with pool, we can now run queries with postgres
+const pool = require("./db.ts"); // with pool, we can now run queries with postgres
 
 const PORT = 5000;
 
