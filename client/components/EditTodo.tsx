@@ -30,13 +30,14 @@ const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
         e.preventDefault();
         try {
             const body = { description: editTodoName }
-            const response = await fetch(`http://localhost:5000/todos/${todo.todo_id}`, {
+            const response = await fetch(`http://localhost:5000/todos/${todo._id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json " },
                 body: JSON.stringify(body)
             })
-            const win: Window = window; // trying to do window.location but TS does not allow this (ref: https://github.com/microsoft/TypeScript/issues/48949)
-            win.location = "/";
+            onClose();
+            // const win: Window = window; // trying to do window.location but TS does not allow this (ref: https://github.com/microsoft/TypeScript/issues/48949)
+            // win.location = "/";
         } catch (e: any) {
             console.error(e.message)
         }
@@ -48,7 +49,7 @@ const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
 
     return (
 
-        <Modal id={todo.todo_id} isOpen={isOpen} onClose={() => {
+        <Modal id={todo._id} isOpen={isOpen} onClose={() => {
             onClose();
             setEditTodoName(todo.description)
         }}>

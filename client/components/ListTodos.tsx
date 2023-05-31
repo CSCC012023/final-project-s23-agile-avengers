@@ -26,7 +26,7 @@ const ListTodos = () => {
     }
     useEffect(() => {
         getTodos();
-    }, [])
+    }, [todos])
 
 
     //delete todo
@@ -59,7 +59,7 @@ const ListTodos = () => {
 
                                 <Flex w="10px" >
 
-                                    <DeleteIcon color="red.500" mr="2" onClick={() => deleteTodo(todo.todo_id)} />
+                                    <DeleteIcon color="red.500" mr="2" onClick={() => deleteTodo(todo._id)} />
                                     <EditIcon onClick={() => {
                                         onOpen();
                                         setModalValue(todo)
@@ -67,7 +67,7 @@ const ListTodos = () => {
 
                                 </Flex>
                                 <EditTodo
-                                    key={todo.todo_id}
+                                    key={todo._id}
                                     todo={modalValue}
                                     isOpen={isOpen}
                                     onOpen={onOpen}

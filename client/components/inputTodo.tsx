@@ -30,8 +30,8 @@ const InputTodo = () => {
                 body: JSON.stringify(body)
             })
 
-            const win: Window = window; // trying to do window.location but TS does not allow this (ref: https://github.com/microsoft/TypeScript/issues/48949)
-            win.location = "/";
+            // const win: Window = window; // trying to do window.location but TS does not allow this (ref: https://github.com/microsoft/TypeScript/issues/48949)
+            // win.location = "/";
 
         } catch (e: any) {
             console.error(e.message)

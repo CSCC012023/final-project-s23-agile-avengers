@@ -1,4 +1,4 @@
-import Todo from "../models/todo"
+import Todo from "../models/todo.js"
 
 Todo.getSingleTodo = (req, res) => {
     const { id } = req.params;
@@ -52,3 +52,5 @@ Todo.deleteTodo = (req, res) => {
                 .json({ message: "book not found", error: err.message })
         );
 };
+
+export default Todo;

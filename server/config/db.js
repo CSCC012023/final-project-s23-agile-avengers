@@ -1,8 +1,10 @@
 import * as mongoose from "mongoose";
 
-// const db = process.env.MONGO_URI;
+import dotenv from 'dotenv';
 
-const db = "mongodb+srv://shashwat444:abcd1234@todo-cluster.kaifbpc.mongodb.net/"
+dotenv.config()
+
+const db = process.env.MONGO_URI;
 
 const connectDB = async () => {
     try {
