@@ -13,7 +13,8 @@
         "ms-ossdata.vscode-postgresql",
         "esbenp.prettier-vscode",
         "shardulm94.trailing-spaces",
-        "salbert.comment-ts"
+        "salbert.comment-ts",
+        "magssch.react-typescript-boilerplate"
     ],
     "unwantedRecommendations": [
         "kimlimjustin.jsdoc-generator"
