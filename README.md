@@ -21,7 +21,6 @@ Young adults between the ages of 18-21 face a sudden challenge when they first s
 
 FinLearn is a financial literacy platform for young adults who are ready to take a step towards an independent lifestyle. FinLearn introduces young adults to concepts in personal finance and portfolio management through expert-curated lessons and a sandbox environment to test their learning. This is a zero-liability learning solution for learning to manage money without the risk of incurring a financial loss.
 
-
 ## Technologies Used
 
 - [MongoDB](https://www.mongodb.com/)
@@ -35,13 +34,58 @@ FinLearn is a financial literacy platform for young adults who are ready to take
 
 ## Installation
 
+The `client` folder contains the Frontend of the App built using Next.js and React with Typescript. The `server` folder contains the backend built using Node.js and Express for the endpoints with database connection to MongoDB Atlas using Mongoose.
+
 ### Requirements
 
 - [Node.js LTS](https://nodejs.org/en/download)
+- [MongoDB Account](https://account.mongodb.com/account/register)
 
 ### Setup
 
+1. Clone the repo
+
+   ```bash
+   git clone https://github.com/CSCC012023/final-project-s23-agile-avengers.git
+   ```
+
+2. If you are not using **VS Code** then follow these steps
+
+   ```bash
+   cd client
+   npm install
+
+   cd ../server
+   npm install
+   ```
+
+3. If you are using **VS Code** then follow these steps
+    1. Open the Command Palette using `Ctrl+Shift+P` or `Cmd+Shift+P`
+    2. Search for `Tasks: Run Task` and select it
+    3. Search for `Setup` and select it
+    4. VS Code will automatically install all the packages and close the shells.
+
+4. After registering for MongoDB Account request for `MONGO_URI` from [Shashwat Piyush Doshi](https://github.com/shashwat-doshi)
+
 ### Start
+
+- If you are not using **VS Code** then follow these steps
+
+   ```bash
+   cd client
+   npm run dev
+   ```
+
+   ```bash
+   cd server
+   npm run dev
+   ```
+
+- If you are using **VS Code** then follow these steps
+    1. Open the Command Palette using `Ctrl+Shift+P` or `Cmd+Shift+P`
+    2. Search for `Tasks: Run Task` and select it
+    3. Search for `Start Dev` and select it
+    4. VS Code will automatically Start the Client and Server and you can close then.
 
 ## Contribution
 
