@@ -4,6 +4,7 @@
 
 - [Table of Contents](#table-of-contents)
 - [Motivation](#motivation)
+- [Product Summary](#product-summary)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
   - [Requirements](#requirements)
