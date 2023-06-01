@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import { Stack, Input, Button, useToast, Flex, Box } from '@chakra-ui/react'
@@ -63,4 +63,3 @@ const InputTodo = () => {
 };
 
 export default InputTodo;
-
