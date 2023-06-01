@@ -4,6 +4,17 @@
 
 FinLearn is a financial literacy platform for young adults who are ready to take a step towards an independent lifestyle. FinLearn introduces young adults to concepts in personal finance and portfolio management through expert-curated lessons and a sandbox environment to test their learning. This is a zero-liability learning solution for learning to manage money without the risk of incurring a financial loss.
 
+## Technologies Used
+
+- [MongoDB](https://www.mongodb.com/)
+  - [Atlas](https://www.mongodb.com/atlas)
+  - [Mongoose](https://mongoosejs.com/)
+- [Chakra UI](https://chakra-ui.com)
+- [Express](https://expressjs.com/)
+- [Next.js](https://nextjs.org/docs)
+- [Node](https://nodejs.org/en/)
+- [Figma](https://www.figma.com/)
+
 ## Installation
 
 ### Requirements
