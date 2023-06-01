@@ -7,8 +7,11 @@ FinLearn is a financial literacy platform for young adults who are ready to take
 ## Contribution
 
 1. Do you use git flow ?
+
     Yes, we do follow Git Flow in this project.
+
 2. What do you name your branches ?
+
     A branch should begin with a category, reference and description and will be this pattern `category/reference/description`.
 
     **Category** <br />
@@ -23,10 +26,12 @@ FinLearn is a financial literacy platform for young adults who are ready to take
     This portion should include a ticket number and must follow the format `\FIN=#\`. If no
     ticket exists then `non-ref` can be used.
 
-3. Do you use github issues or another ticketing website ?
+3. Do you use Github issues or another ticketing website ?
+
     We use JIRA to track all issues that are referenced in PRs and in commits
 
 4. Do you use pull requests ?
+
     Yes, we do use PRs and they must use the Pull Request Template
 
-For more information about this check out the Team Contract
+For more information about this check out the Team Contract under Version Control
