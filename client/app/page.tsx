@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import InputTodo from '@/components/inputTodo'
 import ListTodos from '@/components/ListTodos'
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
     Modal,
@@ -10,10 +10,8 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    useDisclosure,
     Button,
-    Input,
-    FormControl
+    Input
 } from '@chakra-ui/react'
 
 interface EditTodoProps {
@@ -23,7 +21,7 @@ interface EditTodoProps {
     onClose: () => void,
 }
 
-const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
+const EditTodo = ({ todo, isOpen, onClose }: EditTodoProps) => {
 
     const [editTodoName, setEditTodoName] = useState<string>(todo.description)
 
@@ -64,7 +62,7 @@ const EditTodo = ({ todo, isOpen, onOpen, onClose }: EditTodoProps) => {
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button colorScheme='blue' mr={3} onClick={(e) => updateDescription(e)}>
+                    <Button colorScheme='blue' mr={3} onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => updateDescription(e)}>
                         Edit
                     </Button>
                     <Button variant='ghost' onClick={() => {
