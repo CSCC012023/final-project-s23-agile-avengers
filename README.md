@@ -1,5 +1,9 @@
 # FinLearn
 
+## Motivation
+
+FinLearn is a financial literacy platform for young adults who are ready to take a step towards an independent lifestyle. FinLearn introduces young adults to concepts in personal finance and portfolio management through expert-curated lessons and a sandbox environment to test their learning. This is a zero-liability learning solution for learning to manage money without the risk of incurring a financial loss.
+
 ## Contribution
 
 1. Do you use git flow ?
