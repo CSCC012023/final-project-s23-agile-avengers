@@ -29,6 +29,7 @@ FinLearn is a financial literacy platform for young adults who are ready to take
 - [Chakra UI](https://chakra-ui.com)
 - [Express](https://expressjs.com/)
 - [Next.js](https://nextjs.org/docs)
+- [Typescript](https://www.typescriptlang.org/)
 - [Node](https://nodejs.org/en/)
 - [Figma](https://www.figma.com/)
 
