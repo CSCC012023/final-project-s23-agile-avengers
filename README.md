@@ -56,3 +56,15 @@ FinLearn is a financial literacy platform for young adults who are ready to take
     Yes, we do use PRs and they must use the Pull Request Template
 
 For more information about this check out the Team Contract under Version Control
+
+### Contributors
+
+Created by Team Agile Avengers
+
+- [Adam Badar](https://github.com/adam-badar)
+- [Aditya Kulkarni](https://github.com/Aditya-k-23)
+- [Aryan Thakur](https://github.com/aryan-thakur)
+- [Balraj Kharol](https://github.com/balraj03)
+- [Rahul Sharma](https://github.com/D3nam)
+- [Shashwat Piyush Doshi](https://github.com/shashwat-doshi)
+- [Shawn Santhoshgeorge](https://github.com/ShawnGeorge03)
