@@ -4,7 +4,7 @@
 
 FinLearn is a financial literacy platform for young adults who are ready to take a step towards an independent lifestyle. FinLearn introduces young adults to concepts in personal finance and portfolio management through expert-curated lessons and a sandbox environment to test their learning. This is a zero-liability learning solution for learning to manage money without the risk of incurring a financial loss.
 
-[Product Vision](https://www.figma.com/file/KbE7OfjSJZwsO2bdE598EU/FinLearn-Product-VIsion?type=design&node-id=0%3A1&t=EVNuosm2ExHmcJ06-1)
+[Product Vision](https://www.figma.com/file/KbE7OfjSJZwsO2bdE598EU/FinLearn-Product-VIsion?type=design&node-id=1%3A2&t=GeyjOgFiNa2WWR47-1)
 
 [Figma Design](https://www.figma.com/file/60Sd92fZbhCcNtnpLVMkaY/FinLearn-UI?type=design&node-id=0-1)
 
@@ -32,16 +32,11 @@ For a given user story/task/subtask:
    - Each user story must meet the acceptance criteria outlined before the development of the story.
    - The code should be well-documented i.e. A person on the team who is unaware of the code can understand the code. For a frontend page or backend endpoint, the documentation should outline in depth the use cases, the edge cases, etc.
 
-
-----
-
-
-
 ### Highlights
 
-- The MVP for FinLearn will implement the trading simulator and the theoretical learning aspects as outlined in the [Product Vision](https://www.figma.com/file/KbE7OfjSJZwsO2bdE598EU/FinLearn-Product-VIsion?type=design&node-id=0%3A1&t=EVNuosm2ExHmcJ06-1) document. The reason we chose to go ahead with these is that these are the aspects of the platform that have the highest utility and will create the greatest impact on the users.
+- The MVP for FinLearn will implement the trading simulator and the theoretical learning aspects as outlined in the [Product Vision](https://www.figma.com/file/KbE7OfjSJZwsO2bdE598EU/FinLearn-Product-VIsion?type=design&node-id=1%3A2&t=GeyjOgFiNa2WWR47-1) document. The reason we chose to go ahead with these is that these are the aspects of the platform that have the highest utility and will create the greatest impact on the users.
 - Every member of the team will be taking up all kinds of tasks (acting as a full-stack developer) to ensure that everyone gets an experience of everything.
-- The team uses JIRA for task allocation, Confluence for documentation, Discord for communication, and GitHub for version control. All of these tools were chosen based on their utility and the familiarity of team members with the tool.
+- The team uses JIRA for task allocation, Confluence for documentation, Discord for communication, GitHub for sourcecode management and Git for version control. All of these tools were chosen based on their utility and the familiarity of team members with the tool.
 - The database we will implement will be a NoSQL database built using MongoDB Atlas. The NoSQL DB eliminates the requirement for building ER tables and also is more relevant as per industry standards. The cloud provides us with the ability to create a singular database that can be accessed across different devices.
-- The UI of the application will be geared towards the target demographic (young adults around the age of 18-25) and was created while keeping design principles and competitor products in mind.
+- The UI of the application will be geared towards the target demographic (young adults around the age of 18-25) which was determined after conducting thorough user research and was created while keeping design principles and competitor products in mind.
 - The vision of the product is to build a financial literacy platform which provides all the functionality in a sandbox environment in a singular platform as well as provides investing psychology insights to the user based on their activity on the platform.
