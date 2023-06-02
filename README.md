@@ -5,6 +5,7 @@
 - [Table of Contents](#table-of-contents)
 - [Motivation](#motivation)
 - [Product Summary](#product-summary)
+- [Figma Design](https://www.figma.com/file/60Sd92fZbhCcNtnpLVMkaY/FinLearn-UI?type=design&node-id=0%3A1&t=2tLlEYOO0zEVJooo-1)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
   - [Requirements](#requirements)
