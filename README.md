@@ -67,7 +67,14 @@ The `client` folder contains the Frontend of the App built using Next.js and Rea
     3. Search for `Setup` and select it
     4. VS Code will automatically install all the packages and close the shells.
 
-4. After registering for MongoDB Account request for `MONGO_URI` from [Shashwat Piyush Doshi](https://github.com/shashwat-doshi)
+4. Create a `.env` file inside the server to store the `MONGO_URI`, use the below command
+
+    ```bash
+    cd server
+    touch .env
+    ```
+
+5. After creating `.env` and MongoDB Account request for `MONGO_URI` from [Shashwat Piyush Doshi](https://github.com/shashwat-doshi)
 
 ### Start
 
