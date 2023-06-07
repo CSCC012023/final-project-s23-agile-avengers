@@ -1,8 +1,10 @@
-import Todo from "../models/todo.js"
+import { Request, Response } from "express";
 
-Todo.getSingleTodo = (req, res) => {
+import { modelTodo } from "../models/todo";
+
+export const getSingleTodo = (req: Request, res: Response) => {
     const { id } = req.params;
-    Todo.find({ _id: id })
+    modelTodo.find({ _id: id })
         .then((todo) => res.json(todo))
         .catch((err) =>
             res
@@ -11,8 +13,8 @@ Todo.getSingleTodo = (req, res) => {
         );
 };
 
-Todo.getAllTodo = (req, res) => {
-    Todo.find()
+export const getAllTodo = (req: Request, res: Response) => {
+    modelTodo.find()
         .then((todo) => res.json(todo))
         .catch((err) =>
             res
@@ -21,8 +23,8 @@ Todo.getAllTodo = (req, res) => {
         );
 };
 
-Todo.postCreateTodo = (req, res) => {
-    Todo.create(req.body)
+export const postCreateTodo = (req: Request, res: Response) => {
+    modelTodo.create(req.body)
         .then((data) => res.json({ message: "Todo added successfully", data }))
         .catch((err) =>
             res
@@ -31,8 +33,8 @@ Todo.postCreateTodo = (req, res) => {
         );
 };
 
-Todo.putUpdateTodo = (req, res) => {
-    Todo.findByIdAndUpdate(req.params.id, req.body)
+export const putUpdateTodo = (req: Request, res: Response) => {
+    modelTodo.findByIdAndUpdate(req.params.id, req.body)
         .then((data) => res.json({ message: "updated successfully", data }))
         .catch((err) =>
             res
@@ -41,8 +43,8 @@ Todo.putUpdateTodo = (req, res) => {
         );
 };
 
-Todo.deleteTodo = (req, res) => {
-    Todo.findByIdAndRemove(req.params.id, req.body)
+export const deleteTodo = (req: Request, res: Response) => {
+    modelTodo.findByIdAndRemove(req.params.id, req.body)
         .then((data) =>
             res.json({ message: "todo deleted successfully", data })
         )
@@ -52,5 +54,3 @@ Todo.deleteTodo = (req, res) => {
                 .json({ message: "book not found", error: err.message })
         );
 };
-
-export default Todo;

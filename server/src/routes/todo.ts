@@ -1,15 +1,21 @@
-import express from "express";
+import { Router } from "express";
 
-const router = express.Router();
+import { getSingleTodo,
+    getAllTodo,
+    postCreateTodo,
+    putUpdateTodo,
+    deleteTodo
+  } from "../controllers/todo";
 
-import Todo from "../controllers/todo.js"
+
+const router = Router();
 
 /**
  * @route GET /todos/:id
  * @description get a todo
  * @access public
  */
-router.get("/todos/:id", Todo.getSingleTodo);
+router.get("/todos/:id", getSingleTodo);
 
 
 /**
@@ -17,14 +23,14 @@ router.get("/todos/:id", Todo.getSingleTodo);
  * @description get all todo
  * @access public
  */
-router.get("/todos", Todo.getAllTodo);
+router.get("/todos", getAllTodo);
 
 /**
  * @route POST /todos
  * @description add a new todo
  * @access public
  */
-router.post("/todos", Todo.postCreateTodo);
+router.post("/todos", postCreateTodo);
 
 
 /**
@@ -32,13 +38,13 @@ router.post("/todos", Todo.postCreateTodo);
  * @description update todo
  * @access public
  */
-router.put("/todos/:id", Todo.putUpdateTodo);
+router.put("/todos/:id", putUpdateTodo);
 
 /**
  * @route DELETE /todos/:id
  * @description delete todo
  * @access public
  */
-router.delete("/todos/:id", Todo.deleteTodo);
+router.delete("/todos/:id", deleteTodo);
 
 export default router;
