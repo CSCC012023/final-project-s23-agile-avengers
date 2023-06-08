@@ -1,6 +1,9 @@
 import { model, Schema } from "mongoose"
 import { Article } from "./types/interface";
 
+/*
+The article model from our database
+*/
 const ArticleSchema = new Schema({
   title: {
     type: String,
