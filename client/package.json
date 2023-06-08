@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rimraf node_modules .next"
+    "clean": "rimraf node_modules .next",
+    "format": "prettier --config ../.prettierrc --ignore-path ../.prettierignore -u --write ."
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",

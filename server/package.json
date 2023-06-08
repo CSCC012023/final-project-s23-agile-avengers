@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/server.js",
     "dev": "nodemon ./src/server.js",
-    "clean": "rimraf node_modules"
+    "clean": "rimraf node_modules",
+    "format": "prettier --config ../.prettierrc --ignore-path ../.prettierignore -u --write ."
   },
   "keywords": [],
   "author": "",
