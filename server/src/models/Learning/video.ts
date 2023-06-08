@@ -1,10 +1,7 @@
 import { model, Schema } from "mongoose"
 import { Video } from "./types/interface";
 
-/*
-The video model from our database
-*/
-const VideoSchema = new Schema<Video>({
+const VideoSchema = new Schema({
   title : {
     type: String,
     required: true
