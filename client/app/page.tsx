@@ -1,11 +1,5 @@
-import InputTodo from '@/components/inputTodo';
-import ListTodos from '@/components/ListTodos';
+'use client';
 
 export default function Home() {
-  return (
-    <>
-      <InputTodo />
-      <ListTodos />
-    </>
-  );
+  return <h1>Hello</h1>
 }
