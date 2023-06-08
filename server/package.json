@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
+    "prettier": "^2.8.8",
     "rimraf": "^5.0.1"
   }
 }
