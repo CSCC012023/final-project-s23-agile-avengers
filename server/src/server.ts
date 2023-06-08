@@ -13,11 +13,8 @@ const env = load({
 connectDB(env.MONGO_URI);
 
 const app: Application = express();
-const corsOptions: CorsOptions = {
-    origin: [`http://localhost:${env.PORT}`],
-}
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
