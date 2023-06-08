@@ -2,6 +2,9 @@
 import { Schema, model } from "mongoose";
 import { Course, Video, Article, Unit } from "./types/interface";
 
+/*
+The unit model from our database
+*/
 const UnitSchema = new Schema({
     name: {
         type: "String",
