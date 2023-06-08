@@ -5,7 +5,7 @@ import { Course, Video, Article, Unit } from "./types/interface";
 /*
 The unit model from our database
 */
-const UnitSchema = new Schema({
+const UnitSchema = new Schema<Unit>({
     name: {
         type: "String",
         required: true,
