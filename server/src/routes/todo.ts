@@ -1,12 +1,12 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { getSingleTodo,
-    getAllTodo,
-    postCreateTodo,
-    putUpdateTodo,
-    deleteTodo
-  } from "../controllers/todo";
-
+import {
+  getSingleTodo,
+  getAllTodo,
+  postCreateTodo,
+  putUpdateTodo,
+  deleteTodo,
+} from '../controllers/todo';
 
 const router = Router();
 
@@ -15,36 +15,34 @@ const router = Router();
  * @description get a todo
  * @access public
  */
-router.get("/todos/:id", getSingleTodo);
-
+router.get('/todos/:id', getSingleTodo);
 
 /**
  * @route GET /todos
  * @description get all todo
  * @access public
  */
-router.get("/todos", getAllTodo);
+router.get('/todos', getAllTodo);
 
 /**
  * @route POST /todos
  * @description add a new todo
  * @access public
  */
-router.post("/todos", postCreateTodo);
-
+router.post('/todos', postCreateTodo);
 
 /**
  * @route PUT /todos/:id
  * @description update todo
  * @access public
  */
-router.put("/todos/:id", putUpdateTodo);
+router.put('/todos/:id', putUpdateTodo);
 
 /**
  * @route DELETE /todos/:id
  * @description delete todo
  * @access public
  */
-router.delete("/todos/:id", deleteTodo);
+router.delete('/todos/:id', deleteTodo);
 
 export default router;
