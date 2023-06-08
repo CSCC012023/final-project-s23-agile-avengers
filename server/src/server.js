@@ -1,12 +1,12 @@
-import express from "express";
+import express from 'express';
 
-import cors from "cors";
+import cors from 'cors';
 
 import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
-import connectDB from "./config/db.js";
+import connectDB from './config/db.js';
 
 // connect database
 connectDB();
@@ -19,11 +19,11 @@ app.use(cors()); // can connect multiple domains with this (eg : localhost 5000 
 app.use(express.json()); // can use req.body with the help of this
 
 app.listen(PORT, () => {
-    console.log(`server has started on port ${PORT}`)
+  console.log(`server has started on port ${PORT}`);
 });
 
 // routes
-import todo from "./routes/todo.js"
+import todo from './routes/todo.js';
 
 // use routes
-app.use("/", todo); // added
+app.use('/', todo); // added
