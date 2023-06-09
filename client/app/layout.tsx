@@ -1,12 +1,12 @@
-import { Providers } from "./providers";
+import { Providers } from './providers';
 
 import { Metadata } from 'next';
 
-import '@/styles/main.scss'
+import '@/styles/main.scss';
 
 export const metadata: Metadata = {
-	title: 'FinLearn',
-	description: 'A Financial Learning Site',
+  title: 'FinLearn',
+  description: 'A Financial Learning Site',
   icons: [
     {
       url: '/icons/favicon.ico',
@@ -37,17 +37,15 @@ export const metadata: Metadata = {
       url: '/icons/android-chrome-512x512.png',
       type: 'image/png',
       sizes: '512x512',
-    }
-  ]
+    },
+  ],
 };
 
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body>
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

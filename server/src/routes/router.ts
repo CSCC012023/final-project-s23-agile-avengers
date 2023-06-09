@@ -1,6 +1,6 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { getStatus } from "../controllers/status";
+import { getStatus } from '../controllers/status';
 
 const router = Router();
 
@@ -9,6 +9,6 @@ const router = Router();
  * @description Get Status of Database
  * @access public
  */
-router.get("/status", getStatus);
+router.get('/status', getStatus);
 
 export default router;

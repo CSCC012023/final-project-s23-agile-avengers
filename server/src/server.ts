@@ -1,9 +1,9 @@
-import express, { Application } from "express";
+import express, { Application } from 'express';
 import { load } from 'ts-dotenv';
-import cors from "cors";
+import cors from 'cors';
 
-import { connectDB } from "./config/db";
-import router from './routes/router'
+import { connectDB } from './config/db';
+import router from './routes/router';
 
 const env = load({
   PORT: Number,
@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.listen(env.PORT, () => {
-    console.log(`Connected on PORT: ${env.PORT}`)
-})
+  console.log(`Connected on PORT: ${env.PORT}`);
+});
 
-app.use('/', router)
+app.use('/', router);
