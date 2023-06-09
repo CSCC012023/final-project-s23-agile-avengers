@@ -1,5 +1,8 @@
 'use client';
 
+import styles from '@/styles/pages/Home.module.scss';
+
 export default function Home() {
-  return <h1>Hello</h1>
+  const { title } = styles;
+  return <h1 className={title}>Hello</h1>
 }
