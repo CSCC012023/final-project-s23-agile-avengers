@@ -1,3 +1,3 @@
 export interface UserTodo {
-    description: string;
+  description: string;
 }
