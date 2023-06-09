@@ -4,7 +4,7 @@ import { Article } from "./types/interface";
 /*
 The article model from our database
 */
-const ArticleSchema = new Schema<Article>({
+const ArticleSchema = new Schema({
   title: {
     type: String,
     required: true,

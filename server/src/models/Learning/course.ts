@@ -4,7 +4,7 @@ import { Course } from "./types/interface";
 /*
 The course model from our database
 */
-const CourseSchema = new Schema<Course>({
+const CourseSchema = new Schema<any>({
   name: {
     type: 'String',
     required: true,
