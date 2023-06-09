@@ -4,8 +4,8 @@ import { Video } from './types/interface';
 /*
 The video model from our database
 */
-const VideoSchema = new Schema<Video>({
-  title: {
+const VideoSchema = new Schema({
+  title : {
     type: String,
     required: true,
   },
