@@ -1,8 +1,11 @@
-'use client';
-
-import styles from '@/styles/pages/Home.module.scss';
+import InputTodo from '@/components/inputTodo';
+import ListTodos from '@/components/ListTodos';
 
 export default function Home() {
-  const { title } = styles;
-  return <h1 className={title}>Hello</h1>;
+  return (
+    <>
+      <InputTodo />
+      <ListTodos />
+    </>
+  );
 }
