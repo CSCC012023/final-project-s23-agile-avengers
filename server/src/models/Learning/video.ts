@@ -5,15 +5,15 @@ import { Video } from "./types/interface";
 The video model from our database
 */
 const VideoSchema = new Schema<Video>({
-  title : {
+  title: {
     type: String,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
     required: true,
     default: Date.now(),
-    immutable: true
+    immutable: true,
   },
   updatedAt: {
     type: Date,
@@ -22,16 +22,16 @@ const VideoSchema = new Schema<Video>({
   },
   link: {
     type: String,
-    required: true
+    required: true,
   },
   author: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-  }
-})
+  },
+});
 
-const modelVideo = model<Video>("Video", VideoSchema)
+const modelVideo = model<Video>('Video', VideoSchema);
 export default modelVideo;
