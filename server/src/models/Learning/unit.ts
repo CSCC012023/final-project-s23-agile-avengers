@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { Unit } from '../../types/learning';
+import { Course, Video, Article, Unit } from './types/interface';
 
 /*
 The unit model from our database
