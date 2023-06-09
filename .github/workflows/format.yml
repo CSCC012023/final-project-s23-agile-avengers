@@ -9,6 +9,7 @@ on:
       - main
       - develop
       - 'releases/**'
+permissions: write-all
 jobs:
   format:
     runs-on: ubuntu-latest
