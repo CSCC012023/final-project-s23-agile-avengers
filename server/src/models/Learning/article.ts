@@ -1,19 +1,16 @@
-import { model, Schema } from 'mongoose';
-import { Article } from '../../types/learning';
+import { model, Schema } from "mongoose"
+import { Article } from "./types/interface";
 
-/*
-The article model from our database
-*/
-const ArticleSchema = new Schema<Article>({
+const ArticleSchema = new Schema({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   createdAt: {
     type: Date,
     required: true,
     default: Date.now(),
-    immutable: true,
+    immutable: true
   },
   updatedAt: {
     type: Date,
@@ -21,13 +18,13 @@ const ArticleSchema = new Schema<Article>({
     default: Date.now(),
   },
   image: {
-    type: String,
+    type: String
   },
   author: {
     type: String,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 
-const modelArticle = model<Article>('Article', ArticleSchema);
+const modelArticle = model<Article>("Article", ArticleSchema)
 export default modelArticle;
