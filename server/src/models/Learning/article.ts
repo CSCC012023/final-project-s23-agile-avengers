@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose"
-import { Article } from "./types/interface";
+import { model, Schema } from 'mongoose';
+import { Article } from './types/interface';
 
 /*
 The article model from our database
