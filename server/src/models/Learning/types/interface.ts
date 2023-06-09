@@ -1,5 +1,8 @@
 import { Types } from 'mongoose';
 
+/*
+Types needed for Learning models
+*/
 export interface Article {
   title: String,
   createdAt:Date

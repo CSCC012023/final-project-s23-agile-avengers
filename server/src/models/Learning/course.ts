@@ -1,6 +1,9 @@
 import { model, Schema } from "mongoose"
 import { Course } from "./types/interface";
 
+/*
+The course model from our database
+*/
 const CourseSchema = new Schema<any>({
   name: {
       type: "String",
