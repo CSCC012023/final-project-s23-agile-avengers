@@ -1,7 +1,9 @@
-export default function AllCourses() {
+import ListCourses from '@/components/AllCourses'
+
+export default function CoursesAll() {
   return (
     <>
-      <h1>Hello Broski</h1>
+      <ListCourses />
     </>
   )
 }
