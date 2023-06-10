@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+'use client';
+
 import {
   Box,
   Flex,
@@ -13,12 +14,11 @@ import {
   useDisclosure,
   Stack,
   Image,
-  MenuDivider
+  MenuDivider,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NavLink from './NavLink';
-import style from "./navbar.styles.module.scss";
-const logo = "FinLearn_logo_light_transparent.png"
+import style from '../../styles/components/navbar.module.scss';
 const Links = ['Dashboard', 'Learning'];
 
 const Navbar = () => {
@@ -26,8 +26,13 @@ const Navbar = () => {
 
   return (
     <>
-      <Box bg='#D9D9D9' px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+      <Box
+        bg="brand.gray"
+        px={4}>
+        <Flex
+          h={16}
+          alignItems={'center'}
+          justifyContent={'space-between'}>
           <IconButton
             size={'md'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -35,8 +40,14 @@ const Navbar = () => {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={'center'}>
-            <Image className={style.logo} src="FinLearn_logo_light_transparent.png" alt="logo"/>
+          <HStack
+            spacing={8}
+            alignItems={'center'}>
+            <Image
+              className={style.logo}
+              src="FinLearn_logo_light_transparent.png"
+              alt="logo"
+            />
             <HStack
               as={'nav'}
               spacing={4}
@@ -63,7 +74,7 @@ const Navbar = () => {
               </MenuButton>
               <MenuList>
                 <MenuItem>My Account</MenuItem>
-                <MenuDivider/>
+                <MenuDivider />
                 <MenuItem>Logout</MenuItem>
               </MenuList>
             </Menu>
@@ -71,8 +82,12 @@ const Navbar = () => {
         </Flex>
 
         {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
+          <Box
+            pb={4}
+            display={{ md: 'none' }}>
+            <Stack
+              as={'nav'}
+              spacing={4}>
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>
               ))}
@@ -82,5 +97,5 @@ const Navbar = () => {
       </Box>
     </>
   );
-}
+};
 export default Navbar;
