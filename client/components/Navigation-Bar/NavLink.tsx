@@ -1,7 +1,8 @@
-import { ReactNode } from 'react';
+import { navLinkProps } from '@/types/components/Navigation-Bar/types';
 import { Link } from '@chakra-ui/react';
 
-const NavLink = ({ children }: { children: ReactNode }) => (
+
+const NavLink = ({ href, name }: navLinkProps) => (
   <Link
     px={2}
     py={1}
@@ -10,8 +11,8 @@ const NavLink = ({ children }: { children: ReactNode }) => (
       textDecoration: 'none',
       bg: 'brand.white',
     }}
-    href={'#'}>
-    {children}
+    href={href}>
+    {name}
   </Link>
 );
 export default NavLink;
