@@ -1,0 +1,14 @@
+@import '../abstracts/variables';
+
+.logo {
+  width: 23%;
+}
+
+@media (max-width: $tablet) {
+  .logo {
+    width: 60%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

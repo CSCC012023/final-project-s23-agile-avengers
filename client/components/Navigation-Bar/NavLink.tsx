@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import {Link, useColorModeValue } from '@chakra-ui/react';
+import { Link } from '@chakra-ui/react';
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -8,7 +8,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
-      bg: '#FFFFFF',
+      bg: 'brand.white',
     }}
     href={'#'}>
     {children}

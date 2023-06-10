@@ -1,8 +1,8 @@
 import { Providers } from './providers';
 
 import { Metadata } from 'next';
-
 import '@/styles/main.scss';
+import Navbar from '@/components/Navigation-Bar/Navbar';
 
 export const metadata: Metadata = {
   title: 'FinLearn',
@@ -45,7 +45,10 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Navbar></Navbar>
+          {children}
+        </Providers>
       </body>
     </html>
   );
