@@ -31,5 +31,6 @@ const VideoSchema = new Schema<Video>({
     type: String,
   },
 });
+
 const modelVideo = model<Video>('Video', VideoSchema);
 export default modelVideo;
