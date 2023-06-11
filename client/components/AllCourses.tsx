@@ -2,59 +2,42 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { Course } from '../../server/types/learning';
+
 import {
    Flex,
    Text, 
-   Card,
-   CardHeader, 
-   CardBody, 
-   Box,
-   CardFooter,
-   Spacer
+   Spinner
 } from '@chakra-ui/react'
 
-import { QuestionIcon } from '@chakra-ui/icons'
+import CourseCard from './CourseCard';
 
 const ListCourses = () => {
-
-    const [courses, setCourses] = useState<Array<any>>([])
+    
+    const [courses, setCourses] = useState<Array<Course>>([])
 
     const getCourses = async () => {
         try {
             // probably need to use better Promise syntax, then catch etc.
-            //const response = await fetch("http://localhost:5000/courses");
-            //const jsonData = await response.json();
-
-            const jsonData = [{
-                "name": "fjeafbea",
-                "image": "fwrfwrlkgklwb"
-            }];
+            const response: Response = await fetch("http://localhost:5000/courses");
+            const jsonData: any = await response.json()
 
             setCourses(jsonData);
-            
+
         } catch (e: any) {
             console.error(e.message)
         }
     }
 
-    /*useEffect(() => {
+    useEffect(() => {
         getCourses();
-    }, [courses])*/
+    }, [])
 
     return (
         <>
-         <Text fontSize='5xl' margin={10}>Courses.</Text>
-         <Flex direction={'column'} width={'100%'} margin={'5%'}>
-            <Card cursor={'pointer'} background={'gray.200'} height={250} width={250} borderRadius={10}>
-            <CardHeader>
-            </CardHeader>
-            <CardBody>
-             <Flex direction="column" justifyContent={'center'} alignItems={'center'}>
-             <Text align="center" fontWeight={'bold'} fontSize='2xl'>Money101</Text>
-             <QuestionIcon mt={5} boxSize={70}/>
-             </Flex>
-            </CardBody>
-            </Card>
+         <Text fontSize='5xl' m={10}>Courses.</Text>
+         <Flex gap='2' direction={'row'} margin={'5%'} alignItems={'center'} justifyContent={'space-around'}>
+            { courses == undefined ? <Spinner thickness='4px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='xl' /> : courses.map((course, index) => {return <CourseCard name={course.name} image={course.icon} />}) }
          </Flex>
         </>
     );
