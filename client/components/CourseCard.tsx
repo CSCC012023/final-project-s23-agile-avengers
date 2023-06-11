@@ -11,6 +11,7 @@ import {
    Image,
 } from '@chakra-ui/react'
 
+/* An indiviudal course card, with all relevant properties passed in as props */
 const CourseCard = (props: any) => {
 
     return (

@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
 import  modelCourse from '../models/Learning/course';
 
+/* Controller method that uses the model modelCourse to retrieve all modelCourse objects */
 const getAllObjects = async (req: any, res: any) => {
     try {
       const allObjects = await modelCourse.find();

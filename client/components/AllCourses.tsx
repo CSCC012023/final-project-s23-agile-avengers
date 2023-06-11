@@ -18,7 +18,7 @@ const ListCourses = () => {
 
     const getCourses = async () => {
         try {
-            // probably need to use better Promise syntax, then catch etc.
+            // update to better promise handling
             const response: Response = await fetch("http://localhost:5000/courses");
             const jsonData: any = await response.json()
 
@@ -29,6 +29,7 @@ const ListCourses = () => {
         }
     }
 
+    /* Without a dependency array the call to get all courses is only made once */
     useEffect(() => {
         getCourses();
     }, [])
