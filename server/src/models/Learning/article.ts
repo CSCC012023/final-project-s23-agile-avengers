@@ -27,3 +27,6 @@ const ArticleSchema = new Schema<Article>({
     required: true,
   },
 });
+
+const modelArticle = model<Article>('Video', ArticleSchema);
+export default modelArticle;
