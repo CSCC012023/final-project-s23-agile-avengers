@@ -1,10 +1,11 @@
 @import '../abstracts/variables';
+@import '../abstracts/mixins';
 
 .logo {
-  width: 23%;
+  width: 22%;
 }
 
-@media (max-width: $tablet) {
+@include leq($tablet) {
   .logo {
     width: 60%;
     height: auto;

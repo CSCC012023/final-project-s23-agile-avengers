@@ -2,7 +2,7 @@ import { Providers } from './providers';
 
 import { Metadata } from 'next';
 import '@/styles/main.scss';
-import Navbar from '@/components/Navigation-Bar/Navbar';
+import Navbar from '@/components/Navbar/Navbar';
 
 export const metadata: Metadata = {
   title: 'FinLearn',
