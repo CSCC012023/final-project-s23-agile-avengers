@@ -1,9 +1,9 @@
 import { model, Schema } from 'mongoose';
-import { Article } from '../../types/learning';
+import { Video } from '../../../types/learning';
 /*
-The article model from our database
+The video model from our database
 */
-const ArticleSchema = new Schema<Article>({
+const VideoSchema = new Schema<Video>({
   title: {
     type: String,
     required: true,
@@ -19,11 +19,17 @@ const ArticleSchema = new Schema<Article>({
     required: true,
     default: Date.now(),
   },
-  image: {
+  link: {
     type: String,
+    required: true,
   },
   author: {
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+  },
 });
+const modelVideo = model<Video>('Video', VideoSchema);
+export default modelVideo;

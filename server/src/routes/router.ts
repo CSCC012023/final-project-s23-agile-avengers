@@ -1,6 +1,8 @@
 import { Router } from 'express';
 
 import { getStatus } from '../controllers/status';
+import getAllObjects from '../controllers/courses';
+
 
 const router = Router();
 
@@ -10,5 +12,12 @@ const router = Router();
  * @access public
  */
 router.get('/status', getStatus);
+
+/**
+ * @route GET /courses
+ * @description Get all the courses
+ * @access public
+ */
+router.get('/courses', getAllObjects);
 
 export default router;
