@@ -29,8 +29,6 @@ export interface Unit {
 }
 
 export interface Course {
-  [x: string]: any;
-  image: any;
   name: String;
   icon: String;
   units: [Types.ObjectId];

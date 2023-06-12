@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Course } from '../../server/types/learning';
+import { Course } from '../../../server/types/learning';
 
 import {
    Flex,
@@ -12,7 +12,7 @@ import {
 
 import CourseCard from './CourseCard';
 
-const ListCourses = () => {
+const AllCourses = () => {
     
     const [courses, setCourses] = useState<Array<Course>>([])
 
@@ -38,11 +38,11 @@ const ListCourses = () => {
         <>
          <Text fontSize='5xl' m={10}>Courses.</Text>
          <Flex gap='2' direction={'row'} margin={'5%'} alignItems={'center'} justifyContent={'space-around'}>
-            { courses == undefined ? <Spinner thickness='4px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='xl' /> : courses.map((course, index) => {return <CourseCard name={course.name} image={course.icon} />}) }
+            { courses == undefined ? <Spinner thickness='4px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='xl' /> : courses.map((course, index) => {return <CourseCard name={course.name} image={course.icon} key={index} />}) }
          </Flex>
         </>
     );
 
 };
 
-export default ListCourses;
+export default AllCourses;
