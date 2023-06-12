@@ -1,4 +1,5 @@
 import { Providers } from './providers';
+import { ClerkProvider } from '@clerk/nextjs'
 
 import { Metadata } from 'next';
 
@@ -43,10 +44,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
-      <body>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <Providers>{children}</Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
