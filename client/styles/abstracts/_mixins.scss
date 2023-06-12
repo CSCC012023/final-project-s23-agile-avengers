@@ -1,6 +1,6 @@
 // Media Queries to handle changes for Device Width
 @mixin leq($breakpoint) {
-  @if type-of($breakpoint) == 'number' {
+  @if type-of($breakpoint) != 'number' {
     @error 'Property #{$breakpoint} must be a number.';
   }
 
@@ -10,7 +10,7 @@
 }
 
 @mixin geq($breakpoint) {
-  @if type-of($breakpoint) == 'number' {
+  @if type-of($breakpoint) != 'number' {
     @error 'Property #{$breakpoint} must be a number.';
   }
 
@@ -20,11 +20,11 @@
 }
 
 @mixin between($lwr-breakpoint, $upr-breakpoint) {
-  @if type-of($lwr-breakpoint) == 'number' {
+  @if type-of($lwr-breakpoint) != 'number' {
     @error 'Property #{$lwr-breakpoint} must be a number.';
   }
 
-  @if type-of($upr-breakpoint) == 'number' {
+  @if type-of($upr-breakpoint) != 'number' {
     @error 'Property #{$upr-breakpoint} must be a number.';
   }
 
