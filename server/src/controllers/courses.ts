@@ -11,5 +11,4 @@ const getAllObjects = async (req: any, res: any) => {
     }
   };
 
-
 export default getAllObjects;

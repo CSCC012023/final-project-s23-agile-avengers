@@ -3,7 +3,6 @@ import { Router } from 'express';
 import { getStatus } from '../controllers/status';
 import getAllObjects from '../controllers/courses';
 
-
 const router = Router();
 
 /**
