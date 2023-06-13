@@ -1,14 +1,17 @@
 'use client';
 
-import { UserButton } from "@clerk/nextjs";
+import { SignUpButton, SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import { Button, ButtonGroup, Flex, Box, Heading, Spacer } from '@chakra-ui/react'
 import { useUser } from "@clerk/nextjs";
-import SignInBtn from './components/SignInBtn';
-import SignUpBtn from './components/SignUpBtn';
 
 export default function Home() {
-  // const { isLoaded, userId, sessionId, getToken } = useAuth();
+  
   const { isSignedIn } = useUser();
+  const { isLoaded } = useAuth();
+
+  if (!isLoaded) {
+    return null;
+}
 
   return(
     isSignedIn ? (
@@ -27,12 +30,16 @@ export default function Home() {
         </Box>
         <Spacer />
         <ButtonGroup gap='2'>
-          <Button colorScheme='teal' variant='outline'>
-            <SignUpBtn />
-          </Button>
-          <Button colorScheme='teal'>
-          <SignInBtn />
-          </Button>
+          <SignUpButton>
+            <Button colorScheme='teal' variant='outline'>
+              Sign Up
+            </Button>
+          </SignUpButton>
+          <SignInButton>
+            <Button colorScheme='teal'>
+              Sign In
+            </Button>
+          </SignInButton>
         </ButtonGroup>
       </Flex>
     )

@@ -7,6 +7,7 @@ export default function Page() {
   return (
     <Center paddingTop={"100px"}>
       <SignIn 
+        redirectUrl={'/'}
         appearance={{
           layout: {
             logoPlacement: "inside",
