@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { Article } from '../../types/learning';
+
 /*
 The article model from our database
 */
@@ -27,3 +28,6 @@ const ArticleSchema = new Schema<Article>({
     required: true,
   },
 });
+
+const modelArticle = model<Article>('Video', ArticleSchema);
+export default modelArticle;
