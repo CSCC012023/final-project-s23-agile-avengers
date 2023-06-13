@@ -19,7 +19,7 @@ const AllCourses = () => {
     const getCourses = async () => {
         try {
             // update to better promise handling
-            const response: Response = await fetch("http://localhost:5000/courses");
+            const response: Response = await fetch("http://localhost:4000/courses");
             const jsonData: any = await response.json()
 
             setCourses(jsonData);
