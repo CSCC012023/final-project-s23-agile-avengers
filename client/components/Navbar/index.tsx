@@ -29,7 +29,7 @@ const navLinks = [
   },
   {
     name: 'Learning',
-    href: '/dashboard',
+    href: '/learning',
   },
 ];
 
