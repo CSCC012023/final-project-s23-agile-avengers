@@ -18,7 +18,8 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NavLink from './NavLink';
-import style from '../../styles/components/navbar.module.scss';
+
+import style from '@/styles/components/Navbar.module.scss';
 
 const navLinks = [
   {
