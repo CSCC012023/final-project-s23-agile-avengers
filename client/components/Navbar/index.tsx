@@ -20,6 +20,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NavLink from './NavLink';
 
 import style from '@/styles/components/Navbar.module.scss';
+import logoImg from '@/public/Logo_Transparent_Dark.png';
 
 const navLinks = [
   {
@@ -55,8 +56,8 @@ const Navbar = () => {
           alignItems={'center'}>
           <Image
             className={style.logo}
-            src="FinLearn_logo_light_transparent.png"
-            alt="logo"
+            src={logoImg.src}
+            alt="Logo"
           />
           <HStack
             as={'nav'}
