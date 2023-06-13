@@ -19,10 +19,9 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NavLink from './NavLink';
 import style from '../../styles/components/navbar.module.scss';
-import { SignUpButton, SignInButton, UserButton, useAuth } from "@clerk/nextjs";
+import { SignUpButton, SignInButton, UserButton, useAuth } from '@clerk/nextjs';
 
-import UserAvatar from "./UserAvatar"
-
+import UserAvatar from './UserAvatar';
 
 const navLinks = [
   {

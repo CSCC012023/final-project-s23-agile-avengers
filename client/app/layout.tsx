@@ -1,5 +1,5 @@
 import { Providers } from './providers';
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs';
 
 import { Metadata } from 'next';
 import '@/styles/main.scss';
@@ -46,15 +46,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Props) {
   return (
-  <ClerkProvider>
-    <html lang="en">
-      <body>
-        <Providers>
-          <Navbar></Navbar>
-          {children}
-        </Providers>
-      </body>
-    </html>
-  </ClerkProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <Providers>
+            <Navbar></Navbar>
+            {children}
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

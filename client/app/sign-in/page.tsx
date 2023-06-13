@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { SignIn } from "@clerk/nextjs";
-import { Center } from '@chakra-ui/react'
+import { SignIn } from '@clerk/nextjs';
+import { Center } from '@chakra-ui/react';
 
 export default function Page() {
   return (
-    <Center paddingTop={"100px"}>
-      <SignIn 
+    <Center paddingTop={'100px'}>
+      <SignIn
         redirectUrl={'/'}
         appearance={{
           layout: {
-            logoPlacement: "inside",
+            logoPlacement: 'inside',
           },
           variables: {
-            colorPrimary: "black",
-          }
+            colorPrimary: 'black',
+          },
         }}
       />
     </Center>
