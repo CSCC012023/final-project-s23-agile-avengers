@@ -1,28 +1,14 @@
 'use client';
 
-import styles from '@/styles/pages/Home.module.scss';
 import { UserButton } from "@clerk/nextjs";
-
 import { Button, ButtonGroup, Flex, Box, Heading, Spacer } from '@chakra-ui/react'
-
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import SignInBtn from './components/SignInBtn';
 import SignUpBtn from './components/SignUpBtn';
 
 export default function Home() {
-  const { title } = styles;
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
-
-  // In case the user signs out while on the page.
-  // if (!isLoaded || !userId) {
-  //   return null;
-  // }
-
-  const { isSignedIn, user } = useUser();
-
-  console.log("isLoaded", isLoaded);
-  console.log("user userid sessionid", user, userId, sessionId);
-
+  // const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isSignedIn } = useUser();
 
   return(
     isSignedIn ? (
@@ -32,9 +18,6 @@ export default function Home() {
         </Box>
         <Spacer />
         <UserButton afterSignOutUrl="/"/>
-        {/* <div>
-        Hello, "{userId}" your current active session is {sessionId}
-        </div> */}
       </Flex>
     ) 
     : (
