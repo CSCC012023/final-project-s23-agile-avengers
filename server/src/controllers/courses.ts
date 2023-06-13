@@ -1,4 +1,4 @@
-import { Course } from '../../types/learning';
+import { Course } from '../types/learning';
 import modelCourse from '../models/Learning/course';
 
 /* Controller method that uses the model modelCourse to retrieve all modelCourse objects */
