@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { Unit } from '../../types/learning';
+
 /*
 The unit model from our database
 */

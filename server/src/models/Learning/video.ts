@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { Video } from '../../types/learning';
+
 /*
 The video model from our database
 */

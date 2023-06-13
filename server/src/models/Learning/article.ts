@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { Article } from '../../types/learning';
+
 /*
 The article model from our database
 */

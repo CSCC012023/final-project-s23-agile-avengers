@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { Course } from '../../types/learning';
+
 /*
 The course model from our database
 */
