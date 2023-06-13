@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { Course } from '../../../types/learning';
+import { Course } from '../../types/learning';
 
 /*
 The course model from our database
@@ -22,5 +22,4 @@ const CourseSchema = new Schema<Course>({
 });
 
 const modelCourse = model<Course>('Course', CourseSchema);
-
 export default modelCourse;
