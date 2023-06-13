@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { connection } from 'mongoose';
 
-import { modelUser } from '../models/user';
+import { modelUser } from '../models/Account/user';
 
 export const postCreateUser = (req: Request, res: Response) => {
   modelUser
