@@ -3,8 +3,11 @@
 import styles from '@/styles/pages/Home.module.scss';
 import { UserButton } from "@clerk/nextjs";
 
+import { Button, ButtonGroup, Flex, Box, Heading, Spacer } from '@chakra-ui/react'
+
 import { useAuth, useUser } from "@clerk/nextjs";
 import SignInBtn from './components/SignInBtn';
+import SignUpBtn from './components/SignUpBtn';
 
 export default function Home() {
   const { title } = styles;
@@ -23,19 +26,33 @@ export default function Home() {
 
   return(
     isSignedIn ? (
-    <>
-      <h1 className={title}>Hello</h1>
-      <UserButton afterSignOutUrl="/"/>
-      <div>
-      Hello, "{userId}" your current active session is {sessionId}
-      </div>
-    </> ) 
+      <Flex minWidth='max-content' alignItems='center' gap='2' padding={"18px"}>
+        <Box p='2'>
+          <Heading size='md'>FinLearn</Heading>
+        </Box>
+        <Spacer />
+        <UserButton afterSignOutUrl="/"/>
+        {/* <div>
+        Hello, "{userId}" your current active session is {sessionId}
+        </div> */}
+      </Flex>
+    ) 
     : (
-      <>
-       <SignInBtn />
-      </>
+      <Flex minWidth='max-content' alignItems='center' gap='2' padding={"18px"}>
+        <Box p='2'>
+          <Heading size='md'>FinLearn</Heading>
+        </Box>
+        <Spacer />
+        <ButtonGroup gap='2'>
+          <Button colorScheme='teal' variant='outline'>
+            <SignUpBtn />
+          </Button>
+          <Button colorScheme='teal'>
+          <SignInBtn />
+          </Button>
+        </ButtonGroup>
+      </Flex>
     )
-
 
   );
   

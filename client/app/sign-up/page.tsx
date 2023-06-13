@@ -6,7 +6,16 @@ import { Center } from '@chakra-ui/react'
 export default function Page() {
   return (
     <Center paddingTop={"100px"}>
-      <SignUp />
+      <SignUp 
+        appearance={{
+          layout: {
+            logoPlacement: "inside",
+          },
+          variables: {
+            colorPrimary: "black",
+          }
+        }}
+      />
     </Center>
   );
 }
