@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-
-import { Course } from '@/types/learning';
-
+import { useEffect, useState } from 'react';
 import { Flex, Text, Spinner } from '@chakra-ui/react';
 
+import { Course } from '@/types/learning';
 import CourseCard from './CourseCard';
 
 const AllCourses = () => {
@@ -50,11 +48,12 @@ const AllCourses = () => {
             size="xl"
           />
         ) : (
-          courses.map((course, index) => {
+          courses.map(({ name, slug, icon }, index) => {
             return (
               <CourseCard
-                name={course.name}
-                image={course.icon}
+                name={name}
+                slug={slug}
+                icon={icon}
                 key={index}
               />
             );
