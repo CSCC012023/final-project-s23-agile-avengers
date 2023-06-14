@@ -20,6 +20,10 @@ export interface UnitProps {
   contents: Array<String>;
 };
 
+export interface UnitListItemProps {
+  title: String;
+};
+
 export interface Article {
   title: String;
   createdAt: Date;
