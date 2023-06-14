@@ -1,0 +1,62 @@
+[
+  {
+    "id": "A",
+    "title": "Money 101",
+    "units": [
+      {
+        "id": "A",
+        "title": "Blue-chip Stocks",
+        "contents": [
+          "A list of popular companies that are considered blue-chip.",
+          "What are blue-chip stocks ?",
+          "How to identify blue-chip stocks ?",
+          "A list of popular companies that are considered blue-chip."
+        ]
+      },
+      {
+        "id": "B",
+        "title": "Cryptocurrencies and NFTs",
+        "contents": [
+          "A list of popular companies that are considered blue-chip.",
+          "What are blue-chip stocks ?",
+          "How to identify blue-chip stocks ?",
+          "A list of popular companies that are considered blue-chip."
+        ]
+      },
+      {
+        "id": "C",
+        "title": "Fiat Currency vs De-Fi",
+        "contents": [
+          "A list of popular companies that are considered blue-chip.",
+          "What are blue-chip stocks ?",
+          "How to identify blue-chip stocks ?",
+          "A list of popular companies that are considered blue-chip."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "B",
+    "title": "Basics of Stock Market",
+    "units": [
+      {
+        "id": "A",
+        "title": "Introduction to Stock Market",
+        "contents": [
+          "What are stocks ?",
+          "Myths of the stock market",
+          "Understanding Stock Exchanges"
+        ]
+      },
+      {
+        "id": "B",
+        "title": "Initial Public Offerings",
+        "contents": [
+          "What are IPOs ?",
+          "Types of IPOs and the IPO process ?",
+          "How to identify blue-chip stocks ?"
+        ]
+      }
+    ]
+  }
+]
