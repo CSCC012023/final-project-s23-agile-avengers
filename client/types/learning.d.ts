@@ -3,40 +3,52 @@ Types needed for Learning models
 */
 
 export interface Course {
-  name: String;
-  icon: String;
-  units: Array<Unit>;
+  name: string;
+  slug: string;
+  icon: string;
 }
 
+export interface AllCourseProps {
+  name: string;
+  slug: string;
+  icon: string;
+}
+
+type CourseProps = {
+  params: {
+    courseID?: string;
+  };
+};
+
 export interface Unit {
-  name: String;
+  name: string;
   createdAt: Date;
   updatedAt: Date;
   content: Array<Article | Video>;
 }
 
 export interface UnitProps {
-  title: String;
-  contents: Array<String>;
-};
+  title: string;
+  contents: Array<string>;
+}
 
 export interface UnitListItemProps {
-  title: String;
-};
+  title: string;
+}
 
 export interface Article {
-  title: String;
+  title: string;
   createdAt: Date;
   updatedAt: Date;
-  image?: String;
-  author: String;
+  image?: string;
+  author: string;
 }
 
 export interface Video {
-  title: String;
+  title: string;
   createdAt: Date;
   updatedAt: Date;
-  link: String;
-  author: String;
-  description?: String;
+  link: string;
+  author: string;
+  description?: string;
 }
