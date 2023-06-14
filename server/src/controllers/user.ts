@@ -8,7 +8,7 @@ export const postCreateUser = (req: Request, res: Response) => {
     .create(req.body)
     .then((data) => res.json({ message: 'user added successfully', data }))
     .catch((err) => {
-      err.code === 11000
+      err.code === 11000 // error code 11000 : duplicate entry
         ? res
             .status(400)
             .json({ message: 'User already exists', error: err.message })
