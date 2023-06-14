@@ -16,6 +16,8 @@ import style from '@/styles/components/Navbar.module.scss';
 import logoImg from '@/public/Logo_Transparent_Dark.png';
 import UserAvatar from './UserAvatar';
 
+import { useAuth } from '@clerk/nextjs';
+
 const navLinks = [
   {
     name: 'Dashboard',
@@ -29,6 +31,7 @@ const navLinks = [
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isSignedIn } = useAuth();
 
   return (
     <Box
@@ -53,6 +56,7 @@ const Navbar = () => {
             src={logoImg.src}
             alt="Logo"
           />
+          { isSignedIn &&
           <HStack
             as={'nav'}
             spacing={4}
@@ -65,6 +69,7 @@ const Navbar = () => {
               />
             ))}
           </HStack>
+          }
         </HStack>
         <Flex alignItems={'center'}>
           <UserAvatar />
