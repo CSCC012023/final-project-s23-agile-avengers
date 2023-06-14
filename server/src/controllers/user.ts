@@ -17,3 +17,13 @@ export const postCreateUser = (req: Request, res: Response) => {
             .json({ message: 'Failed to add user', error: err.message });
     });
 };
+
+export const getAllUsers = (req: Request, res: Response) => {
+  modelUser
+    .find()
+    .then((data) => res.status(200).json(data))
+    .catch((error: Error) => {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    });
+};
