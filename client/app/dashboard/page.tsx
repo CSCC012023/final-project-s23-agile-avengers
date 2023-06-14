@@ -1,9 +1,7 @@
-import AllCourses from '@/components/AllCourses';
-
 export default function LearningPage() {
   return (
     <>
-      <AllCourses />
+      <h1>This is the Dashboard Page</h1>
     </>
   );
 }
