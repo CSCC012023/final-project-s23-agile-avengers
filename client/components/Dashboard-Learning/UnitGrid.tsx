@@ -14,21 +14,36 @@ import UnitCard from './UnitCard';
 
 const Units = [
   {
-    name: "Blue chips Stocks",
-    content: [{
-      name: "Learn to invest"
-    }]
-  }
-]
+    name: 'Blue chips Stocks',
+    content: [
+      {
+        name: 'Learn to invest',
+      },
+    ],
+  },
+];
 const UnitGrid = () => {
   return (
     <SimpleGrid
       spacing={4}
-      templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+      columns={{ sm: 2, md: 3 }}
       m={3}>
-      <UnitCard props={Units[0]} />
-      <UnitCard />
-      <UnitCard />
+      <UnitCard
+        name={Units[0].name}
+        content={Units[0].content[0]}
+      />
+      <UnitCard
+        name={Units[0].name}
+        content={Units[0].content[0]}
+      />
+      <UnitCard
+        name={Units[0].name}
+        content={Units[0].content[0]}
+      />
+      <UnitCard
+        name={Units[0].name}
+        content={Units[0].content[0]}
+      />
     </SimpleGrid>
   );
 };
