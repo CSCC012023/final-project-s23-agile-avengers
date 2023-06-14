@@ -56,20 +56,20 @@ const Navbar = () => {
             src={logoImg.src}
             alt="Logo"
           />
-          { isSignedIn &&
-          <HStack
-            as={'nav'}
-            spacing={4}
-            display={{ base: 'none', md: 'flex' }}>
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.name}
-                href={link.href}
-                name={link.name}
-              />
-            ))}
-          </HStack>
-          }
+          {isSignedIn && (
+            <HStack
+              as={'nav'}
+              spacing={4}
+              display={{ base: 'none', md: 'flex' }}>
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  href={link.href}
+                  name={link.name}
+                />
+              ))}
+            </HStack>
+          )}
         </HStack>
         <Flex alignItems={'center'}>
           <UserAvatar />
