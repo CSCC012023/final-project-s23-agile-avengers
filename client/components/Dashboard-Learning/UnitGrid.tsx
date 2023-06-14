@@ -26,7 +26,7 @@ const UnitGrid = () => {
   return (
     <SimpleGrid
       spacing={4}
-      templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+      columns={{ sm: 2, md: 3 }}
       m={3}>
       <UnitCard
         name={Units[0].name}

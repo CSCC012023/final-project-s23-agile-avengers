@@ -4,11 +4,13 @@ import {
   Text,
   Heading,
   CardBody,
-  CardFooter,
   Button,
   Progress,
+  Icon,
+  Box,
 } from '@chakra-ui/react';
 import { Unit } from '@/types/components/Dashboard-Learning/types';
+import { AiOutlineVideoCamera, AiOutlineFileText } from 'react-icons/ai';
 
 const UnitCard = (props: Unit) => {
   return (
@@ -18,15 +20,22 @@ const UnitCard = (props: Unit) => {
       </CardHeader>
       <Progress
         value={80}
-        ml={2}
+        ml={5}
         w="80%"
       />
       <CardBody>
-        <Text>View a summary of all your customers over the last month.</Text>
+        <Text>5/9 completed</Text>
+        <Box
+          display={'inline-flex'}
+          mt={5}>
+          <Icon
+            as={AiOutlineVideoCamera}
+            boxSize={6}
+          />
+          <Text ml={2}> {props.content.name}</Text>
+        </Box>
+        <Button w={'100%'}>Continue Learning</Button>
       </CardBody>
-      <CardFooter>
-        <Button>Continue Learning</Button>
-      </CardFooter>
     </Card>
   );
 };
