@@ -8,14 +8,11 @@ import {
   CardBody,
   Heading,
   Text,
-  Flex,
-  Box,
-  Spacer,
   Spinner,
   Center,
 } from '@chakra-ui/react';
 
-import { useUser, UserButton, useAuth } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 
 const DashboardPage = () => {
   const { user } = useUser();

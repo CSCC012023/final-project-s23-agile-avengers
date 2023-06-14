@@ -1,6 +1,6 @@
-import AllCourses from '@/components/AllCourses/AllCourses';
+import AllCourses from '@/components/AllCourses';
 
-export default function CoursesAll() {
+export default function LearningPage() {
   return (
     <>
       <AllCourses />

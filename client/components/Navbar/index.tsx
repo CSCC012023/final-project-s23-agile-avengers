@@ -3,24 +3,17 @@
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
   IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   useDisclosure,
   Stack,
   Image,
-  MenuDivider,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NavLink from './NavLink';
-import style from '../../styles/components/navbar.module.scss';
-import { SignUpButton, SignInButton, UserButton, useAuth } from '@clerk/nextjs';
 
+import style from '@/styles/components/Navbar.module.scss';
+import logoImg from '@/public/Logo_Transparent_Dark.png';
 import UserAvatar from './UserAvatar';
 
 const navLinks = [
@@ -57,8 +50,8 @@ const Navbar = () => {
           alignItems={'center'}>
           <Image
             className={style.logo}
-            src="FinLearn_logo_light_transparent.png"
-            alt="logo"
+            src={logoImg.src}
+            alt="Logo"
           />
           <HStack
             as={'nav'}

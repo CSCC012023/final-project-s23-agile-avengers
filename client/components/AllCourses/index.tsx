@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Course } from '../../../server/types/learning';
+import { Course } from '@/types/learning';
 
 import { Flex, Text, Spinner } from '@chakra-ui/react';
 
