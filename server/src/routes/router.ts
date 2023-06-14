@@ -1,10 +1,9 @@
 import { Router } from 'express';
 
 import { getStatus } from '../controllers/status';
-import { postCreateUser } from '../controllers/user';
-import getAllObjects from '../controllers/courses';
-import { getAllUsers } from '../controllers/user';
 import { getCourse } from '../controllers/units';
+import { getAllCourses } from '../controllers/courses';
+import { getAllUsers, createNewUser } from '../controllers/user';
 
 const router = Router();
 
@@ -20,7 +19,7 @@ router.get('/status', getStatus);
  * @description Create a new user in Database which is retrieved from Clerk
  * @access public
  */
-router.post('/user', postCreateUser);
+router.post('/user', createNewUser);
 
 /**
  * @route GET /user
@@ -34,7 +33,7 @@ router.get('/user', getAllUsers);
  * @description Get all the courses
  * @access public
  */
-router.get('/courses', getAllObjects);
+router.get('/courses', getAllCourses);
 
 /**
  * @route GET /units
