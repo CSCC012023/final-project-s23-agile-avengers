@@ -28,7 +28,6 @@ router.post('/user', postCreateUser);
  */
 router.get('/user', getAllUsers);
 
-
 /**
  * @route GET /courses
  * @description Get all the courses
