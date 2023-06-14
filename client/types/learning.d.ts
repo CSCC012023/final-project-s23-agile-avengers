@@ -15,6 +15,11 @@ export interface Unit {
   content: Array<Article | Video>;
 }
 
+export interface UnitProps {
+  title: String;
+  contents: Array<String>;
+};
+
 export interface Article {
   title: String;
   createdAt: Date;
