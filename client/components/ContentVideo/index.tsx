@@ -34,25 +34,6 @@ const ContentVideo = () => {
   }, []);
 
   return (
-    // {courses == undefined ? (
-    //   <Spinner
-    //     thickness="4px"
-    //     speed="0.65s"
-    //     emptyColor="gray.200"
-    //     color="blue.500"
-    //     size="xl"
-    //   />
-    // ) : (
-    //   courses.map((course, index) => {
-    //     return (
-    //       <CourseCard
-    //         name={course.name}
-    //         image={course.icon}
-    //         key={index}
-    //       />
-    //     );
-    //   })
-    // )}
     <div>
       {videos == undefined ? (
         <Spinner
@@ -61,6 +42,9 @@ const ContentVideo = () => {
           emptyColor="gray.200"
           color="blue.500"
           size="xl"
+          marginTop="240"
+          justifyContent="center"
+          alignSelf="center"
         />
       ) : (
         <Container
