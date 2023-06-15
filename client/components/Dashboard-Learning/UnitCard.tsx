@@ -8,7 +8,6 @@ import {
   Progress,
   Icon,
   Box,
-  Flex,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Unit } from '@/types/components/Dashboard-Learning/types';
@@ -21,7 +20,7 @@ type UnitCradProps = {
 };
 const UnitCard = ({ unit, courseSlug }: UnitCradProps) => {
   return (
-    <Card>
+    <Card bgColor="brand.white">
       <CardHeader>
         <Heading size="md"> {unit.name}</Heading>
       </CardHeader>

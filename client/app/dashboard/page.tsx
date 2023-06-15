@@ -16,7 +16,7 @@ const DashboardPage = () => {
   const { user } = useUser();
   const { isLoaded, userId } = useAuth();
   const [courses, setCourses] = useState<Array<Course>>([]);
-  const [areCoursesAndUnitsReady, setAreCoursesAndUnitsReady] = useState(false);
+  const [isSideBarReady, setIsSideBarReady] = useState(false);
   const [selectedCourse, setSeletctedCourse] = useState<Course>();
   const [units, setUnits] = useState<Array<Unit>>();
   const [isUnitGridReady, setIsUnitGridReady] = useState(false);
@@ -44,7 +44,7 @@ const DashboardPage = () => {
       console.log('heya');
       setCourses(jsonData);
       setSeletctedCourse(jsonData[0]);
-      setAreCoursesAndUnitsReady(true);
+      setIsSideBarReady(true);
     } catch (e: any) {
       console.error(e.message);
     }
@@ -58,7 +58,7 @@ const DashboardPage = () => {
     getUnits();
   }, [selectedCourse]);
 
-  if (!isLoaded || !userId || !areCoursesAndUnitsReady) {
+  if (!isLoaded || !userId || !isSideBarReady) {
     // need to check for userId as well as its a protected route {
     return (
       <Center paddingTop={'50px'}>

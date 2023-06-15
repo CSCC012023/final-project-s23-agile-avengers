@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  SimpleGrid,
-  Text,
-  CardFooter,
-  Button,
-} from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 import { Unit } from '@/types/components/Dashboard-Learning/types';
 import UnitCard from './UnitCard';
 
