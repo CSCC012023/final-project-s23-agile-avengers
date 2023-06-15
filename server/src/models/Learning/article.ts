@@ -5,7 +5,7 @@ import { Article } from '../../types/learning';
 The article model from our database
 */
 const ArticleSchema = new Schema<Article>({
-  title: {
+  name: {
     type: String,
     required: true,
   },

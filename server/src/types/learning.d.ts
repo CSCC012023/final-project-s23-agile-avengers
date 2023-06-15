@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 Types needed for Learning models
 */
 export interface Article {
-  title: String;
+  name: String;
   slug: String;
   createdAt: Date;
   updatedAt: Date;
@@ -14,7 +14,7 @@ export interface Article {
 }
 
 export interface Video {
-  title: String;
+  name: String;
   slug: String;
   createdAt: Date;
   updatedAt: Date;

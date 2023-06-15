@@ -5,7 +5,7 @@ import { Video } from '../../types/learning';
 The video model from our database
 */
 const VideoSchema = new Schema<Video>({
-  title: {
+  name: {
     type: String,
     required: true,
   },

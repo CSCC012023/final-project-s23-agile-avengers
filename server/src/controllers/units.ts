@@ -18,7 +18,7 @@ type PopulatedUnit = {
 const populateContent = async (
   contentId: Types.ObjectId
 ): Promise<Article | Video | null> => {
-  const requiredFields = 'title slug contentType -_id';
+  const requiredFields = 'name slug contentType -_id';
   const video: Video | null = await modelVideo
     .findById(contentId)
     .select(requiredFields);
