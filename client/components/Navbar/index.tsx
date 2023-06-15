@@ -8,6 +8,7 @@ import {
   useDisclosure,
   Stack,
   Image,
+  Link,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NavLink from './NavLink';
@@ -15,6 +16,9 @@ import NavLink from './NavLink';
 import style from '@/styles/components/Navbar.module.scss';
 import logoImg from '@/public/Logo_Transparent_Dark.png';
 import UserAvatar from './UserAvatar';
+import NextLink from 'next/link';
+
+import { useAuth } from '@clerk/nextjs';
 
 const navLinks = [
   {
@@ -29,6 +33,7 @@ const navLinks = [
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isSignedIn } = useAuth();
 
   return (
     <Box
@@ -48,23 +53,29 @@ const Navbar = () => {
         <HStack
           spacing={8}
           alignItems={'center'}>
-          <Image
-            className={style.logo}
-            src={logoImg.src}
-            alt="Logo"
-          />
-          <HStack
-            as={'nav'}
-            spacing={4}
-            display={{ base: 'none', md: 'flex' }}>
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.name}
-                href={link.href}
-                name={link.name}
-              />
-            ))}
-          </HStack>
+          <Link
+            as={NextLink}
+            href="/">
+            <Image
+              className={style.logo}
+              src={logoImg.src}
+              alt="Logo"
+            />
+          </Link>
+          {isSignedIn && (
+            <HStack
+              as={'nav'}
+              spacing={4}
+              display={{ base: 'none', md: 'flex' }}>
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  href={link.href}
+                  name={link.name}
+                />
+              ))}
+            </HStack>
+          )}
         </HStack>
         <Flex alignItems={'center'}>
           <UserAvatar />
