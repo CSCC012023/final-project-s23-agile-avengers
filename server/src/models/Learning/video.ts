@@ -5,9 +5,14 @@ import { Video } from '../../types/learning';
 The video model from our database
 */
 const VideoSchema = new Schema<Video>({
-  title: {
+  name: {
     type: String,
     required: true,
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
   },
   createdAt: {
     type: Date,
@@ -30,6 +35,12 @@ const VideoSchema = new Schema<Video>({
   },
   description: {
     type: String,
+  },
+  contentType: {
+    type: String,
+    required: true,
+    immutable: true,
+    default: 'article',
   },
 });
 
