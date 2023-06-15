@@ -9,6 +9,11 @@ const VideoSchema = new Schema<Video>({
     type: String,
     required: true,
   },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   createdAt: {
     type: Date,
     required: true,
@@ -35,7 +40,7 @@ const VideoSchema = new Schema<Video>({
     type: String,
     required: true,
     immutable: true,
-    default: 'article'
+    default: 'article',
   },
 });
 

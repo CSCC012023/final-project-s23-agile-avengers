@@ -9,6 +9,11 @@ const ArticleSchema = new Schema<Article>({
     type: String,
     required: true,
   },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   createdAt: {
     type: Date,
     required: true,
@@ -31,7 +36,7 @@ const ArticleSchema = new Schema<Article>({
     type: String,
     required: true,
     immutable: true,
-    default: 'article'
+    default: 'article',
   },
 });
 
