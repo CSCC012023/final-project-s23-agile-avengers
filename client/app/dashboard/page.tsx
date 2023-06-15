@@ -7,6 +7,10 @@ import Sidebar from '../../components/Dashboard-Learning/Sidebar';
 import { useUser, useAuth } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
 import { Course } from '@/types/learning';
+import {
+  CourseWithUnits,
+  Unit,
+} from '@/types/components/Dashboard-Learning/types';
 
 const DashboardPage = () => {
   const { user } = useUser();
@@ -14,7 +18,24 @@ const DashboardPage = () => {
   const [courses, setCourses] = useState<Array<Course>>([]);
   const [areCoursesAndUnitsReady, setAreCoursesAndUnitsReady] = useState(false);
   const [selectedCourse, setSeletctedCourse] = useState<Course>();
-
+  const [units, setUnits] = useState<Array<Unit>>();
+  const [isUnitGridReady, setIsUnitGridReady] = useState(false);
+  const getUnits = async () => {
+    if (!selectedCourse) {
+      return;
+    }
+    try {
+      const url = `http://localhost:4000/units?courseSlug=${selectedCourse?.slug}`;
+      const response = await fetch(url);
+      const data: CourseWithUnits = await response.json();
+      console.log(data);
+      setUnits(data.units);
+      setIsUnitGridReady(true);
+    } catch (error) {
+      setUnits(undefined);
+      console.error((error as Error).message);
+    }
+  };
   const getCourses = async () => {
     try {
       // update to better promise handling
@@ -32,6 +53,10 @@ const DashboardPage = () => {
   useEffect(() => {
     getCourses();
   }, []);
+  useEffect(() => {
+    setIsUnitGridReady(false);
+    getUnits();
+  }, [selectedCourse]);
 
   if (!isLoaded || !userId || !areCoursesAndUnitsReady) {
     // need to check for userId as well as its a protected route {
@@ -57,7 +82,14 @@ const DashboardPage = () => {
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <UnitGrid />
+          {isUnitGridReady && units && selectedCourse ? (
+            <UnitGrid
+              units={units}
+              courseSlug={selectedCourse.slug}
+            />
+          ) : (
+            <Spinner size="lg" />
+          )}
         </GridItem>
       </Grid>
     </>

@@ -10,37 +10,27 @@ import {
   CardFooter,
   Button,
 } from '@chakra-ui/react';
+import { Unit } from '@/types/components/Dashboard-Learning/types';
 import UnitCard from './UnitCard';
 
-const Units = [
-  {
-    name: 'Blue chips Stocks',
-    content: [
-      {
-        name: 'Learn to invest',
-      },
-    ],
-  },
-];
-const UnitGrid = () => {
+type UnitGridParams = {
+  units: Unit[];
+  courseSlug: String;
+};
+const UnitGrid = ({ units, courseSlug }: UnitGridParams) => {
   return (
     <SimpleGrid
       spacing={4}
-      columns={{ sm: 2, md: 3 }}
+      columns={{ sm: 1, md: 2, lg: 3 }}
       m={3}
       boxShadow="m">
-      <UnitCard
-        name={Units[0].name}
-        content={Units[0].content[0]}
-      />
-      <UnitCard
-        name={Units[0].name}
-        content={Units[0].content[0]}
-      />
-      <UnitCard
-        name={Units[0].name}
-        content={Units[0].content[0]}
-      />
+      {units.map((unit) => (
+        <UnitCard
+          key={unit.slug}
+          unit={unit}
+          courseSlug={courseSlug}
+        />
+      ))}
     </SimpleGrid>
   );
 };
