@@ -6,8 +6,13 @@ The course model from our database
 */
 const CourseSchema = new Schema<Course>({
   name: {
-    type: 'String',
+    type: String,
     required: true,
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
   },
   icon: {
     type: String,

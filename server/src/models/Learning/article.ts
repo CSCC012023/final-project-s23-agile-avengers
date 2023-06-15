@@ -5,9 +5,14 @@ import { Article } from '../../types/learning';
 The article model from our database
 */
 const ArticleSchema = new Schema<Article>({
-  title: {
+  name: {
     type: String,
     required: true,
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
   },
   createdAt: {
     type: Date,
@@ -27,7 +32,13 @@ const ArticleSchema = new Schema<Article>({
     type: String,
     required: true,
   },
+  contentType: {
+    type: String,
+    required: true,
+    immutable: true,
+    default: 'article',
+  },
 });
 
-const modelArticle = model<Article>('Video', ArticleSchema);
+const modelArticle = model<Article>('Article', ArticleSchema);
 export default modelArticle;

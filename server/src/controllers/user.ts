@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { connection } from 'mongoose';
 
 import { modelUser } from '../models/Account/user';
 
-export const postCreateUser = (req: Request, res: Response) => {
+export const createNewUser = (req: Request, res: Response) => {
   modelUser
     .create(req.body)
     .then((data) => res.json({ message: 'user added successfully', data }))
@@ -21,6 +20,7 @@ export const postCreateUser = (req: Request, res: Response) => {
 export const getAllUsers = (req: Request, res: Response) => {
   modelUser
     .find()
+    .select('-_id -__v')
     .then((data) => res.status(200).json(data))
     .catch((error: Error) => {
       console.error(error);
