@@ -31,7 +31,7 @@ const AllCourses = () => {
       <Text
         fontSize="5xl"
         m={10}>
-        Courses.
+        Courses
       </Text>
       <Flex
         gap="2"
