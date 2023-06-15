@@ -8,6 +8,7 @@ import {
   useDisclosure,
   Stack,
   Image,
+  Link,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NavLink from './NavLink';
@@ -15,6 +16,7 @@ import NavLink from './NavLink';
 import style from '@/styles/components/Navbar.module.scss';
 import logoImg from '@/public/Logo_Transparent_Dark.png';
 import UserAvatar from './UserAvatar';
+import NextLink from 'next/link';
 
 import { useAuth } from '@clerk/nextjs';
 
@@ -51,11 +53,15 @@ const Navbar = () => {
         <HStack
           spacing={8}
           alignItems={'center'}>
-          <Image
-            className={style.logo}
-            src={logoImg.src}
-            alt="Logo"
-          />
+          <Link
+            as={NextLink}
+            href="/">
+            <Image
+              className={style.logo}
+              src={logoImg.src}
+              alt="Logo"
+            />
+          </Link>
           {isSignedIn && (
             <HStack
               as={'nav'}
