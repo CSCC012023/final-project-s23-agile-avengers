@@ -27,7 +27,13 @@ const ArticleSchema = new Schema<Article>({
     type: String,
     required: true,
   },
+  contentType: {
+    type: String,
+    required: true,
+    immutable: true,
+    default: 'article'
+  },
 });
 
-const modelArticle = model<Article>('Video', ArticleSchema);
+const modelArticle = model<Article>('Article', ArticleSchema);
 export default modelArticle;

@@ -31,6 +31,12 @@ const VideoSchema = new Schema<Video>({
   description: {
     type: String,
   },
+  contentType: {
+    type: String,
+    required: true,
+    immutable: true,
+    default: 'article'
+  },
 });
 
 const modelVideo = model<Video>('Video', VideoSchema);
