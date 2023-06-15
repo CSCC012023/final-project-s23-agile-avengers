@@ -13,13 +13,16 @@ const DashboardPage = () => {
   const { isLoaded, userId } = useAuth();
   const [courses, setCourses] = useState<Array<Course>>([]);
   const [areCoursesAndUnitsReady, setAreCoursesAndUnitsReady] = useState(false);
+  const [selectedCourse, setSeletctedCourse] = useState<Course>();
+
   const getCourses = async () => {
     try {
       // update to better promise handling
       const response: Response = await fetch('http://localhost:4000/courses');
       const jsonData: any = await response.json();
-
+      console.log('heya');
       setCourses(jsonData);
+      setSeletctedCourse(jsonData[0]);
       setAreCoursesAndUnitsReady(true);
     } catch (e: any) {
       console.error(e.message);
@@ -46,14 +49,14 @@ const DashboardPage = () => {
         templateColumns="repeat(3, 1fr)"
         gap={4}
         m={3}>
-        <GridItem
-          colSpan={1}
-          bg="tomato">
-          <Sidebar courses={courses} />
+        <GridItem colSpan={1}>
+          <Sidebar
+            courses={courses}
+            selectedCourse={selectedCourse}
+            setSelectedCourse={setSeletctedCourse}
+          />
         </GridItem>
-        <GridItem
-          colSpan={2}
-          bg="tomato">
+        <GridItem colSpan={2}>
           <UnitGrid />
         </GridItem>
       </Grid>

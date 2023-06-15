@@ -8,6 +8,7 @@ const theme = extendTheme({
       gray: '#D9D9D9',
       black: '#000000',
       white: '#FFFFFF',
+      blue: '#4880C8',
     },
   },
 });

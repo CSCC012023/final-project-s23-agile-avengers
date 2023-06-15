@@ -34,7 +34,11 @@ const UnitCard = (props: Unit) => {
           />
           <Text ml={2}> {props.content.name}</Text>
         </Box>
-        <Button w={'100%'}>Continue Learning</Button>
+        <Button
+          w={'100%'}
+          fontSize={['xs', null, null, 'md']}>
+          Continue Learning
+        </Button>
       </CardBody>
     </Card>
   );

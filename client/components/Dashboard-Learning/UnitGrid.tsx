@@ -27,18 +27,19 @@ const UnitGrid = () => {
     <SimpleGrid
       spacing={4}
       columns={{ sm: 2, md: 3 }}
-      m={3}>
+      m={3}
+      boxShadow="m">
       <UnitCard
         name={Units[0].name}
-        content={Units[0].content}
+        content={Units[0].content[0]}
       />
       <UnitCard
         name={Units[0].name}
-        content={Units[0].content}
+        content={Units[0].content[0]}
       />
       <UnitCard
         name={Units[0].name}
-        content={Units[0].content}
+        content={Units[0].content[0]}
       />
     </SimpleGrid>
   );

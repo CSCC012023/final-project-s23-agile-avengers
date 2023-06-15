@@ -10,7 +10,6 @@ import CourseCard from './CourseCard';
 
 const AllCourses = () => {
   const [courses, setCourses] = useState<Array<Course>>([]);
-
   const getCourses = async () => {
     try {
       // update to better promise handling
