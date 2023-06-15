@@ -4,6 +4,7 @@ import { getStatus } from '../controllers/status';
 import { postCreateUser } from '../controllers/user';
 import getAllObjects from '../controllers/courses';
 import { getAllUsers } from '../controllers/user';
+import { getCourse } from '../controllers/units';
 
 const router = Router();
 
@@ -34,5 +35,12 @@ router.get('/user', getAllUsers);
  * @access public
  */
 router.get('/courses', getAllObjects);
+
+/**
+ * @route GET /units
+ * @description Get a specific course by ID
+ * @access public
+ */
+router.get('/units', getCourse);
 
 export default router;
