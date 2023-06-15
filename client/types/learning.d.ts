@@ -14,26 +14,11 @@ export interface AllCourseProps {
   icon: string;
 }
 
-type CourseProps = {
-  params: {
-    courseID?: string;
-  };
-};
-
 export interface Unit {
   name: string;
   createdAt: Date;
   updatedAt: Date;
   content: Array<Article | Video>;
-}
-
-export interface UnitProps {
-  title: string;
-  contents: Array<string>;
-}
-
-export interface UnitListItemProps {
-  title: string;
 }
 
 export interface Article {
