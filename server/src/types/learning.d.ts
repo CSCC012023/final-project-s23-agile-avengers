@@ -9,6 +9,7 @@ export interface Article {
   updatedAt: Date;
   image?: String;
   author: String;
+  contentType: String
 }
 
 export interface Video {
@@ -18,6 +19,7 @@ export interface Video {
   link: String;
   author: String;
   description?: String;
+  contentType: String
 }
 
 export interface Unit {
@@ -30,6 +32,7 @@ export interface Unit {
 
 export interface Course {
   name: String;
+  slug: String;
   icon: String;
   units: [Types.ObjectId];
 }
