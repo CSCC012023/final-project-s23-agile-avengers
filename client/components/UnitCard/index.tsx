@@ -16,7 +16,7 @@ type UnitProps = {
       contentType: 'video' | 'article';
     }
   ];
-}
+};
 
 const UnitCard = ({ name, courseSlug, contents }: UnitProps) => {
   const { unitHeader, contentWrapper } = styles;
