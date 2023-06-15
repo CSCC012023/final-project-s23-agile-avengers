@@ -36,19 +36,21 @@ export default function CoursePage({ params }: CourseProps) {
 
   const [course, setCourse] = useState<Course>();
 
-  const getCourse = () => {
-    fetch(`http://localhost:4000/units?courseSlug=${params?.courseSlug}`)
-      .then(async (data) => {
-        const response = await data.json();
-        setCourse(response);
-      })
-      .catch((error: Error) => {
-        setCourse(undefined);
-        console.error(error.message);
-      });
+  const getCourse = async () => {
+    try {
+      const url = `http://localhost:4000/units?courseSlug=${params?.courseSlug}`;
+      const response = await fetch(url);
+      const data: Course = await response.json();
+      setCourse(data);
+    } catch (error) {
+      setCourse(undefined);
+      console.error((error as Error).message);
+    }
   };
 
-  useEffect(() => getCourse(), [params]);
+  useEffect(() => {
+    getCourse();
+  }, [params]);
 
   if (!course) {
     return (
@@ -63,33 +65,33 @@ export default function CoursePage({ params }: CourseProps) {
         <Text>Loading Course Information</Text>
       </div>
     );
-  } else {
-    return (
-      <div className={container}>
-        <h1 className={title}>{course?.name}</h1>
-        <div className={unitLists}>
-          {course?.units.map(({ name }, unitKey) => {
-            return (
-              <UnitListItem
-                key={unitKey}
-                name={name}
-              />
-            );
-          })}
-        </div>
-        <div className={unitsWrapper}>
-          {course?.units.map(({ name, contents }, unitKey) => {
-            return (
-              <UnitCard
-                key={unitKey}
-                name={name}
-                courseSlug={params?.courseSlug as string}
-                contents={contents}
-              />
-            );
-          })}
-        </div>
-      </div>
-    );
   }
+
+  return (
+    <div className={container}>
+      <h1 className={title}>{course?.name}</h1>
+      <div className={unitLists}>
+        {course?.units.map(({ name }, unitKey) => {
+          return (
+            <UnitListItem
+              key={unitKey}
+              name={name}
+            />
+          );
+        })}
+      </div>
+      <div className={unitsWrapper}>
+        {course?.units.map(({ name, contents }, unitKey) => {
+          return (
+            <UnitCard
+              key={unitKey}
+              name={name}
+              courseSlug={params?.courseSlug as string}
+              contents={contents}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
 }
