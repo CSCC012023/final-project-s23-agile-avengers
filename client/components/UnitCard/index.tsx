@@ -3,11 +3,22 @@
 import { Card, CardHeader, CardBody } from '@chakra-ui/react';
 import { Heading, Text } from '@chakra-ui/react';
 
-import { UnitProps } from '@/types/learning';
-
 import styles from '@/styles/components/UnitCard.module.scss';
+import Link from 'next/link';
 
-const UnitCard = ({ title, contents }: UnitProps) => {
+type UnitProps = {
+  name: string;
+  courseSlug: string;
+  contents: [
+    {
+      name: string;
+      slug: string;
+      contentType: 'video' | 'article';
+    }
+  ];
+}
+
+const UnitCard = ({ name, courseSlug, contents }: UnitProps) => {
   const { unitHeader, contentWrapper } = styles;
 
   return (
@@ -17,19 +28,23 @@ const UnitCard = ({ title, contents }: UnitProps) => {
         color="brand.white"
         borderTopRadius="md"
         className={unitHeader}>
-        <Heading size="md"> {title}</Heading>
+        <Heading
+          size="md"
+          textTransform="capitalize">
+          {name}
+        </Heading>
       </CardHeader>
       <CardBody
         bg="brand.gray"
         borderBottomRadius="md"
         className={contentWrapper}>
-        {contents.map((content, contentKey) => {
+        {contents.map(({ name, slug }, contentKey) => {
           return (
-            <Text
+            <Link
               key={contentKey}
-              size="sm">
-              {content}
-            </Text>
+              href={`/learning/${courseSlug}/${slug}`}>
+              <Text size="sm"> {name} </Text>
+            </Link>
           );
         })}
       </CardBody>

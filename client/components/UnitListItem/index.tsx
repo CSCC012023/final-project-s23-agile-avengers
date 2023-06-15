@@ -1,8 +1,17 @@
-import { UnitListItemProps } from '@/types/learning';
 import { Heading } from '@chakra-ui/react';
 
-const UnitListItem = ({ title }: UnitListItemProps) => {
-  return <Heading size="lg"> {title} </Heading>;
+type UnitListItemProps = {
+  name: string;
+};
+
+const UnitListItem = ({ name }: UnitListItemProps) => {
+  return (
+    <Heading
+      size="lg"
+      textTransform="capitalize">
+      {name}
+    </Heading>
+  );
 };
 
 export default UnitListItem;
