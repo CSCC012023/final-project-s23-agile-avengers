@@ -4,6 +4,7 @@ import { getStatus } from '../controllers/status';
 import { postCreateUser } from '../controllers/user';
 import getAllObjects from '../controllers/courses';
 import { getAllUsers } from '../controllers/user';
+import getContentVideo from '../controllers/videos';
 
 const router = Router();
 
@@ -27,6 +28,13 @@ router.post('/user', postCreateUser);
  * @access public
  */
 router.get('/user', getAllUsers);
+
+/**
+ * @route GET /video
+ * @description Get all videos in the database
+ * @access public
+ */
+router.get('/video', getContentVideo);
 
 /**
  * @route GET /courses

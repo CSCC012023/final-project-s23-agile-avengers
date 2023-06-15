@@ -15,7 +15,7 @@ export interface Video {
   title: String;
   createdAt: Date;
   updatedAt: Date;
-  link: String;
+  videoId: String;
   author: String;
   description?: String;
 }
