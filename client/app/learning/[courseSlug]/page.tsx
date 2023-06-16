@@ -5,7 +5,7 @@ import { Text, Spinner } from '@chakra-ui/react';
 
 import UnitCard from '@/components/UnitCard';
 import UnitListItem from '@/components/UnitListItem';
-
+import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
 import styles from '@/styles/pages/Course.module.scss';
 
 type CourseProps = {
@@ -14,33 +14,16 @@ type CourseProps = {
   };
 };
 
-type Course = {
-  name: string;
-  units: [
-    {
-      name: string;
-      slug: string;
-      contents: [
-        {
-          name: string;
-          slug: string;
-          contentType: 'video' | 'article';
-        }
-      ];
-    }
-  ];
-};
-
 export default function CoursePage({ params }: CourseProps) {
   const { center, container, title, unitLists, unitsWrapper } = styles;
 
-  const [course, setCourse] = useState<Course>();
+  const [course, setCourse] = useState<CourseWithUnits>();
 
   const getCourse = async () => {
     try {
       const url = `http://localhost:4000/units?courseSlug=${params?.courseSlug}`;
       const response = await fetch(url);
-      const data: Course = await response.json();
+      const data: CourseWithUnits = await response.json();
       setCourse(data);
     } catch (error) {
       setCourse(undefined);
