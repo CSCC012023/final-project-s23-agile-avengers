@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { Video } from '@/types/learning';
 import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
-import { Course } from '../page';
+import { Course } from '../../article/[articleSlug]/page';
 import {
   Box,
   Heading,
@@ -42,11 +42,9 @@ export default function ContentPage({ params }: VideoProps) {
 
   const fetchVideo = async () => {
     try {
-      // console.log(params?.videoSlug);
       const urlCourse = `http://localhost:4000/units?courseSlug=${params?.courseSlug}`;
       const responseCourse = await fetch(urlCourse);
       const dataCourse: Course = await responseCourse.json();
-      console.log(dataCourse);
       const url = `http://localhost:4000/video?videoSlug=${params?.videoSlug}`;
       const response = await fetch(url);
       const data: CourseVideo = await response.json();

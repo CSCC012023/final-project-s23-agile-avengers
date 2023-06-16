@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Article } from '../../../../../server/src/types/learning';
+import { Article } from '@/types/learning';
 import {
   Box,
   Heading,
@@ -32,8 +32,6 @@ type ArticleProps = {
 const ArticleList = ({ params }: ArticleProps) => {
   const [article, setArticle] = useState<Article>();
 
-  console.log('article', article);
-
   const getArticle = async () => {
     try {
       // update to better promise handling
@@ -41,9 +39,6 @@ const ArticleList = ({ params }: ArticleProps) => {
         `http://localhost:4000/articles?articleSlug=${params.articleSlug}`
       );
       const jsonData: any = await response.json();
-
-      console.log('jsonData response', jsonData);
-
       setArticle(jsonData.article);
     } catch (e: any) {
       console.error(e.message);
@@ -54,20 +49,18 @@ const ArticleList = ({ params }: ArticleProps) => {
   useEffect(() => {
     getArticle();
   }, []);
-  return (article == undefined ? 
-    (
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-      />
-    ):
-    (
+  return article == undefined ? (
+    <Spinner
+      thickness="4px"
+      speed="0.65s"
+      emptyColor="gray.200"
+      color="blue.500"
+      size="xl"
+    />
+  ) : (
     <div>
       <Container maxW={'7xl'}>
-        <Heading>{String(article.name)}</Heading>
+        <Heading>{article?.name}</Heading>
         <Box>
           <BlogAuthor
             name={String(article.author)}
@@ -90,10 +83,10 @@ const ArticleList = ({ params }: ArticleProps) => {
           paddingTop="20px"
           spacing="2"
           alignItems="flex-start">
-          <Text fontSize="lg">{article.articleText} </Text>
+          <Text fontSize="lg">{article?.articleText} </Text>
         </VStack>
       </Container>
-    </div>)
+    </div>
   );
 };
 
