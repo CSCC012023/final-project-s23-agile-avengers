@@ -38,11 +38,11 @@ const UnitCard = ({ name, courseSlug, contents }: UnitProps) => {
         bg="brand.gray"
         borderBottomRadius="md"
         className={contentWrapper}>
-        {contents.map(({ name, slug }, contentKey) => {
+        {contents.map(({ name, slug, contentType }, contentKey) => {
           return (
             <Link
               key={contentKey}
-              href={`/learning/${courseSlug}/${slug}`}>
+              href={`/learning/${courseSlug}/${contentType}/${slug}`}>
               <Text size="sm"> {name} </Text>
             </Link>
           );
