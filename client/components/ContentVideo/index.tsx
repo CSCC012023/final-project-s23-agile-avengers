@@ -20,7 +20,9 @@ const ContentVideo = () => {
 
   const fetchVideo = async () => {
     try {
-      const response = await fetch('http://localhost:4000/video?videoSlug=${params?.videoSlug}');
+      const response = await fetch(
+        'http://localhost:4000/video?videoSlug=${params?.videoSlug}'
+      );
       const jsonData = await response.json();
       setVideos(jsonData[0]);
     } catch (error) {
