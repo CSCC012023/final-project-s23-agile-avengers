@@ -11,6 +11,7 @@ export interface Article {
   image?: String;
   author: String;
   contentType: String;
+  articleText: String;
 }
 
 export interface Video {

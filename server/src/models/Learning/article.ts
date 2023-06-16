@@ -32,11 +32,16 @@ const ArticleSchema = new Schema<Article>({
     type: String,
     required: true,
   },
+
   contentType: {
     type: String,
     required: true,
     immutable: true,
     default: 'article',
+  },
+  articleText: {
+    type: String,
+    required: true,
   },
 });
 
