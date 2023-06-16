@@ -2,12 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import UnitCard from '@/components/UnitCard';
-import UnitListItem from '@/components/UnitListItem';
 import { Video } from '@/types/learning';
 import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
 import { Course } from '../page';
-
 import {
   Box,
   Heading,
@@ -15,8 +12,16 @@ import {
   Container,
   VStack,
   Spinner,
+  Link,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from '@chakra-ui/react';
+
 import styles from '@/styles/pages/Course.module.scss';
+import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
 
 type VideoProps = {
   params: {
@@ -58,7 +63,22 @@ export default function ContentPage({ params }: VideoProps) {
   }, [params]);
 
   return (
-    <div>
+    <div className={container}>
+      <h1 className={title}>{course?.name}</h1>
+      <div className={unitLists}>
+        <Accordion allowToggle>
+          {course?.units.map(({ name, contents }, unitKey) => {
+            return (
+              <SidePaneItem
+                key={unitKey}
+                contents={contents}
+                name={name}
+                courseSlug={params?.courseSlug as string}
+              />
+            );
+          })}
+        </Accordion>
+      </div>
       {courseVideo == undefined ? (
         <Spinner
           thickness="4px"
