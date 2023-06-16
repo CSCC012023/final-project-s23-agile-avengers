@@ -14,7 +14,7 @@ type CourseProps = {
   };
 };
 
-type Course = {
+export type Course = {
   name: string;
   units: [
     {

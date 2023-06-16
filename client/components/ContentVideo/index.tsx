@@ -20,9 +20,8 @@ const ContentVideo = () => {
 
   const fetchVideo = async () => {
     try {
-      const response = await fetch('http://localhost:4000/video');
+      const response = await fetch('http://localhost:4000/video?videoSlug=${params?.videoSlug}');
       const jsonData = await response.json();
-      console.log(jsonData);
       setVideos(jsonData[0]);
     } catch (error) {
       console.error('Failed to fetch videos:', error);
@@ -50,7 +49,7 @@ const ContentVideo = () => {
         <Container
           maxW={'7xl'}
           p="12">
-          <Heading as="h1">{videos.title}</Heading>
+          <Heading as="h1">{videos.name}</Heading>
 
           <Box mt="5">
             <YouTubePlayer videoId={videos.videoId.toString()} />

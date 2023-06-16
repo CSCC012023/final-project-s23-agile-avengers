@@ -1,15 +1,20 @@
-import { Video } from '../types/learning';
+import { Request, Response } from 'express';
+
 import modelVideo from '../models/Learning/video';
 
-/* Controller method that uses the model modelCourse to retrieve all modelCourse objects */
-const getContentVideo = async (req: any, res: any) => {
-  modelVideo
-    .find()
-    .then((data: Video[]) => res.status(200).json(data))
-    .catch((error: Error) => {
-      console.error(error);
-      res.status(500).json({ error: 'Internal server error' });
-    });
+import { Video } from '../types/learning';
+
+export const getContentVideo = async (req: Request, res: Response) => {
+  const video = await modelVideo.findOne<Video>({ slug: req.query.videoSlug });
+  console.log('This is the video log', video);
+  // Check if course exists
+  if (!video)
+    return res
+      .status(404)
+      .send({ message: 'Not Found: Video does not exist.' });
+  return res.status(200).json({
+    video: video,
+  });
 };
 
 export default getContentVideo;
