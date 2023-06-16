@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import { Grid, GridItem } from '@chakra-ui/react';
-import { Spinner, Center } from '@chakra-ui/react';
+import { Grid, GridItem, Spinner, Center, Text } from '@chakra-ui/react';
+
 import UnitGrid from '@/components/Dashboard-Learning/UnitGrid';
 import Sidebar from '../../components/Dashboard-Learning/Sidebar';
 import { useUser, useAuth } from '@clerk/nextjs';
@@ -11,6 +11,7 @@ import {
   CourseWithUnits,
   Unit,
 } from '@/types/components/Dashboard-Learning/types';
+import styles from '../../styles/pages/Dashboard.module.scss';
 
 const DashboardPage = () => {
   const { user } = useUser();
@@ -28,7 +29,6 @@ const DashboardPage = () => {
       const url = `http://localhost:4000/units?courseSlug=${selectedCourse?.slug}`;
       const response = await fetch(url);
       const data: CourseWithUnits = await response.json();
-      console.log(data);
       setUnits(data.units);
       setIsUnitGridReady(true);
     } catch (error) {
@@ -41,7 +41,6 @@ const DashboardPage = () => {
       // update to better promise handling
       const response: Response = await fetch('http://localhost:4000/courses');
       const jsonData: any = await response.json();
-      console.log('heya');
       setCourses(jsonData);
       setSeletctedCourse(jsonData[0]);
       setIsSideBarReady(true);
@@ -61,9 +60,17 @@ const DashboardPage = () => {
   if (!isLoaded || !userId || !isSideBarReady) {
     // need to check for userId as well as its a protected route {
     return (
-      <Center paddingTop={'50px'}>
-        <Spinner size="lg" />;
-      </Center>
+      <div className={styles.center}>
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+          m={'auto'}
+        />
+        <Text>Loading Dashboard Information</Text>
+      </div>
     );
   }
 
@@ -88,7 +95,9 @@ const DashboardPage = () => {
               courseSlug={selectedCourse.slug}
             />
           ) : (
-            <Spinner size="lg" />
+            <div className={styles.center}>
+              <Spinner size="lg" />
+            </div>
           )}
         </GridItem>
       </Grid>

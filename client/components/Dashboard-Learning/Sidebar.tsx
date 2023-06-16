@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import styles from '../../styles/components/sidebar.module.scss';
 import { Course } from '@/types/learning';
-import { AiFillCaretRight } from 'react-icons/ai';
+import { AiFillCaretRight } from '@react-icons/all-files/ai/AiFillCaretRight';
 
 type SideBarProps = {
   courses: Course[];

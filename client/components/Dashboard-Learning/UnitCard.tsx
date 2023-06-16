@@ -11,7 +11,8 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Unit } from '@/types/components/Dashboard-Learning/types';
-import { AiOutlineVideoCamera, AiOutlineFileText } from 'react-icons/ai';
+import { AiOutlineVideoCamera } from '@react-icons/all-files/ai/AiOutlineVideoCamera';
+import { AiOutlineFileText } from '@react-icons/all-files/ai/AiOutlineFileText';
 import styles from '../../styles/components/Dashboard.UnitCard.module.scss';
 
 type UnitCradProps = {
@@ -49,6 +50,7 @@ const UnitCard = ({ unit, courseSlug }: UnitCradProps) => {
         <Link href={`/learning/${courseSlug}`}>
           <Button
             w={'100%'}
+            mt={3}
             fontSize={['xs', null, null, 'md']}>
             Begin Learning
           </Button>
