@@ -5,14 +5,14 @@ import { Request, Response } from 'express';
 /* Controller method that uses the model modelCourse to retrieve all modelCourse objects */
 // Take in course name, unit name, Article ID/Name then find the article with the given ID
 const getArticleBySlug = async (req: Request, res: Response) => {
-  if (!req.query.articleSlug){
+  if (!req.query.articleSlug) {
     return res.status(400).json({
-      message: "Please provide article slug"
-    })
+      message: 'Please provide article slug',
+    });
   }
-  console.log(req.query.articleSlug);
-  const article = await modelArticle.findOne<Article>({ slug: req.query.articleSlug });
-  console.log('This is the article log', article);
+  const article = await modelArticle.findOne<Article>({
+    slug: req.query.articleSlug,
+  });
   // Check if course exists
   if (!article)
     return res
