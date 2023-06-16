@@ -71,8 +71,6 @@ const ArticlePage = () => {
       const response: Response = await fetch('http://localhost:4000/article');
       const jsonData: any = await response.json();
 
-      console.log('jsonData response', jsonData);
-
       setArticle(jsonData);
     } catch (e: any) {
       console.error(e.message);
@@ -83,8 +81,6 @@ const ArticlePage = () => {
   useEffect(() => {
     getArticle();
   }, []);
-
-  article.map((e) => console.log('repeat'));
 
   return article.map((article, index) => {
     return (
