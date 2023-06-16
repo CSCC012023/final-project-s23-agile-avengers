@@ -69,7 +69,6 @@ const DashboardPage = () => {
           size="xl"
           m={'auto'}
         />
-        <Text>Loading Dashboard Information</Text>
       </div>
     );
   }
