@@ -4,7 +4,7 @@ import { getStatus } from '../controllers/status';
 import getContentVideo from '../controllers/videos';
 import { getCourse } from '../controllers/units';
 import { getAllUsers, createNewUser } from '../controllers/user';
-import {getAllCourses} from '../controllers/courses'
+import { getAllCourses } from '../controllers/courses';
 import getArticleBySlug from '../controllers/article';
 
 const router = Router();
