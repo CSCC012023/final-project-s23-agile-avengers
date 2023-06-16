@@ -21,19 +21,22 @@ export interface Unit {
   content: Array<Article | Video>;
 }
 
-export interface Article {
-  title: string;
+export type Article = {
+  name: string;
+  slug: string;
   createdAt: Date;
   updatedAt: Date;
   image?: string;
   author: string;
+  contentType: string;
+  articleText: string;
 }
 
 export interface Video {
   name: string;
   createdAt: Date;
   updatedAt: Date;
-  videoId: String;
-  author: String;
-  description?: String;
+  videoId: string;
+  author: string;
+  description?: string;
 }
