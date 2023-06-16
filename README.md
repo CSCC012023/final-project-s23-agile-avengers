@@ -76,15 +76,15 @@ The `client` folder contains the Frontend of the App built using Next.js and Rea
     MONGO_URI='Request Shashwat Piyush Doshi'
     ```
     
-5. Create a `.env` file inside the `server` folder and copy the following
+5. Create a `.env` file inside the `client` folder and copy the following
 
     ```bash
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY='Retrieve through Clerk Dashboard'
     CLERK_SECRET_KEY='Retrieve through Clerk Dashboard'
     NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
     NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-    NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
-    NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
     ```
 
 

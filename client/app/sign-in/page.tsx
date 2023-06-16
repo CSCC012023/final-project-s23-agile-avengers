@@ -7,7 +7,6 @@ export default function Page() {
   return (
     <Center marginY={'6vh'}>
       <SignIn
-        redirectUrl={'/'}
         appearance={{
           layout: {
             logoPlacement: 'inside',
