@@ -8,7 +8,7 @@ interface IBlogTags {
 type BlogAuthorProps = {
   date: String;
   name: String;
-}
+};
 const BlogAuthor: React.FC<BlogAuthorProps> = (props: BlogAuthorProps) => {
   return (
     <HStack

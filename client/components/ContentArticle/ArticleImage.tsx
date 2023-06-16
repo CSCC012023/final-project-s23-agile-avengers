@@ -1,13 +1,13 @@
 import { Link, Image, Box } from '@chakra-ui/react';
 
 type ArticleImageProps = {
-  image: String|undefined;
+  image: String | undefined;
 };
 const ArticleImage = ({ image }: ArticleImageProps) => {
-  if (image==undefined){
-    return (<></>)
+  if (image == undefined) {
+    return <></>;
   }
-  
+
   return (
     <Box
       borderRadius="lg"
