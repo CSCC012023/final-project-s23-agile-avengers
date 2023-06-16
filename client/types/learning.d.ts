@@ -30,10 +30,10 @@ export interface Article {
 }
 
 export interface Video {
-  title: string;
+  name: string;
   createdAt: Date;
   updatedAt: Date;
-  link: string;
-  author: string;
-  description?: string;
+  videoId: String;
+  author: String;
+  description?: String;
 }

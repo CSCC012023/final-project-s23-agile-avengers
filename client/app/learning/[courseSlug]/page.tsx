@@ -14,6 +14,23 @@ type CourseProps = {
   };
 };
 
+export type Course = {
+  name: string;
+  units: [
+    {
+      name: string;
+      slug: string;
+      contents: [
+        {
+          name: string;
+          slug: string;
+          contentType: 'video' | 'article';
+        }
+      ];
+    }
+  ];
+};
+
 export default function CoursePage({ params }: CourseProps) {
   const { center, container, title, unitLists, unitsWrapper } = styles;
 

@@ -18,7 +18,7 @@ export interface Video {
   slug: String;
   createdAt: Date;
   updatedAt: Date;
-  link: String;
+  videoId: String;
   author: String;
   description?: String;
   contentType: String;

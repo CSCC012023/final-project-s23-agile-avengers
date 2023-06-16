@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { getStatus } from '../controllers/status';
+import getContentVideo from '../controllers/videos';
 import { getCourse } from '../controllers/units';
 import { getAllCourses } from '../controllers/courses';
 import { getAllUsers, createNewUser } from '../controllers/user';
@@ -27,6 +28,13 @@ router.post('/user', createNewUser);
  * @access public
  */
 router.get('/user', getAllUsers);
+
+/**
+ * @route GET /video
+ * @description Get all videos in the database
+ * @access public
+ */
+router.get('/video', getContentVideo);
 
 /**
  * @route GET /courses
