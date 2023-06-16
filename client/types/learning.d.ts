@@ -30,7 +30,7 @@ export type Article = {
   author: string;
   contentType: string;
   articleText: string;
-}
+};
 
 export interface Video {
   name: string;
