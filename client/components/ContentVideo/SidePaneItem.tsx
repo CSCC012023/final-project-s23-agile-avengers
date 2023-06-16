@@ -35,11 +35,11 @@ const SidePaneItem = ({ name, contents, courseSlug }: SidePaneItemProp) => {
         </AccordionButton>
       </h2>
       <AccordionPanel pb={4}>
-        {contents.map(({ name, slug }, contentKey) => {
+        {contents.map(({ name, slug, contentType }, contentKey) => {
           return (
             <Link
               key={contentKey}
-              href={`/learning/${courseSlug}/${slug}`}>
+              href={`/learning/${courseSlug}/${contentType}/${slug}`}>
               <Text
                 size="sm"
                 marginTop="10">

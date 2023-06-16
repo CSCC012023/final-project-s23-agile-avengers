@@ -25,8 +25,8 @@ const YoutubePlayer: React.FC<YoutubePlayerProps> = ({ videoId }) => {
     // Create the YouTube player when the API is ready
     window.onYouTubeIframeAPIReady = () => {
       new window.YT.Player(youtubePlayerContainer, {
-        height: '360',
-        width: '640',
+        height: '100%',
+        width: '100%',
         videoId: videoId,
       });
     };

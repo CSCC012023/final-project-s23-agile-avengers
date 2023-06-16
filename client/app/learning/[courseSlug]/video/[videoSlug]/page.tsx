@@ -4,20 +4,15 @@ import { useEffect, useState } from 'react';
 
 import { Video } from '@/types/learning';
 import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
-import { Course } from '../../article/[articleSlug]/page';
+import { Course } from '../../page';
 import {
-  Box,
   Heading,
   Text,
   Container,
   VStack,
   Spinner,
-  Link,
   Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
+  AspectRatio,
 } from '@chakra-ui/react';
 
 import styles from '@/styles/pages/Course.module.scss';
@@ -35,7 +30,7 @@ type CourseVideo = {
 };
 
 export default function ContentPage({ params }: VideoProps) {
-  const { center, container, title, unitLists, unitsWrapper } = styles;
+  const { container, title, unitLists } = styles;
 
   const [courseVideo, setCourseVideo] = useState<CourseVideo>();
   const [course, setCourse] = useState<Course>();
@@ -94,9 +89,11 @@ export default function ContentPage({ params }: VideoProps) {
           p="12">
           <Heading as="h1">{courseVideo.video.name}</Heading>
 
-          <Box mt="5">
+          <AspectRatio
+            ratio={16 / 9}
+            w="100%">
             <YoutubePlayer videoId={courseVideo.video.videoId.toString()} />
-          </Box>
+          </AspectRatio>
 
           <VStack
             paddingTop="40px"
