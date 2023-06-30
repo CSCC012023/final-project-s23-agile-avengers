@@ -5,7 +5,7 @@ import { getAllUsers, createNewUser } from '../controllers/user';
 import { getAllCourses } from '../controllers/courses';
 import { getAllUnitsBySlug } from '../controllers/units';
 import { getArticleBySlug } from '../controllers/article';
-import { getVideoBySlug } from '../controllers/videos';
+import { getVideoBySlug } from '../controllers/video';
 
 const router = Router();
 

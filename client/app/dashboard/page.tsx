@@ -51,7 +51,7 @@ const DashboardPage = () => {
   /* Without a dependency array the call to get all courses is only made once */
   useEffect(() => {
     getCourses();
-  });
+  }, []);
   useEffect(() => {
     setIsUnitGridReady(false);
     getUnits();
