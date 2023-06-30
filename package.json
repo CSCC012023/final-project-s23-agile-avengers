@@ -5,7 +5,8 @@
   "license": "ISC",
   "workspaces": ["client", "server"],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --config .prettierrc --ignore-path .prettierignore -u --write .",
+    "purge": "rimraf node_modules client/.next server/build"
   },
   "devDependencies": {
     "prettier": "^2.8.8",
