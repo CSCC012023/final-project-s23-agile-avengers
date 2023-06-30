@@ -1,0 +1,10 @@
+{
+  "name": "finlearn",
+  "version": "0.8.0",
+  "description": "FinLearn Packages",
+  "license": "ISC",
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
