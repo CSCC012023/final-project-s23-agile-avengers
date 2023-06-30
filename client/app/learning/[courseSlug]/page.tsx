@@ -1,12 +1,12 @@
 'use client';
 
+import { Spinner, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { Text, Spinner } from '@chakra-ui/react';
 
 import UnitCard from '@/components/UnitCard';
 import UnitListItem from '@/components/UnitListItem';
-import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
 import styles from '@/styles/pages/Course.module.scss';
+import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
 
 type CourseProps = {
   params: {
@@ -52,20 +52,19 @@ export default function CoursePage({ params }: CourseProps) {
     getCourse();
   }, [params]);
 
-  if (!course) {
+  if (!course)
     return (
       <div className={center}>
         <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
           color="blue.500"
+          emptyColor="gray.200"
           size="xl"
+          speed="0.65s"
+          thickness="4px"
         />
         <Text>Loading Course Information</Text>
       </div>
     );
-  }
 
   return (
     <div className={container}>
@@ -84,10 +83,10 @@ export default function CoursePage({ params }: CourseProps) {
         {course?.units.map(({ name, contents }, unitKey) => {
           return (
             <UnitCard
+              contents={contents}
+              courseSlug={params?.courseSlug as string}
               key={unitKey}
               name={name}
-              courseSlug={params?.courseSlug as string}
-              contents={contents}
             />
           );
         })}

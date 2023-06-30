@@ -1,30 +1,29 @@
 'use client';
-import React from 'react';
-import { Grid, GridItem, Spinner, Center, Text } from '@chakra-ui/react';
+
+import { Grid, GridItem, Spinner } from '@chakra-ui/react';
 
 import UnitGrid from '@/components/Dashboard-Learning/UnitGrid';
-import Sidebar from '../../components/Dashboard-Learning/Sidebar';
-import { useUser, useAuth } from '@clerk/nextjs';
-import { useState, useEffect } from 'react';
-import { Course } from '@/types/learning';
+import styles from '@/styles/pages/Dashboard.module.scss';
 import {
   CourseWithUnits,
   Unit,
 } from '@/types/components/Dashboard-Learning/types';
-import styles from '../../styles/pages/Dashboard.module.scss';
+import { Course } from '@/types/learning';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
+import Sidebar from '../../components/Dashboard-Learning/Sidebar';
 
 const DashboardPage = () => {
-  const { user } = useUser();
   const { isLoaded, userId } = useAuth();
-  const [courses, setCourses] = useState<Array<Course>>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [isSideBarReady, setIsSideBarReady] = useState(false);
   const [selectedCourse, setSeletctedCourse] = useState<Course>();
   const [units, setUnits] = useState<Array<Unit>>();
   const [isUnitGridReady, setIsUnitGridReady] = useState(false);
+
   const getUnits = async () => {
-    if (!selectedCourse) {
-      return;
-    }
+    if (!selectedCourse) return;
+
     try {
       const url = `http://localhost:4000/units?courseSlug=${selectedCourse?.slug}`;
       const response = await fetch(url);
@@ -36,50 +35,50 @@ const DashboardPage = () => {
       console.error((error as Error).message);
     }
   };
+
   const getCourses = async () => {
     try {
       // update to better promise handling
-      const response: Response = await fetch('http://localhost:4000/courses');
-      const jsonData: any = await response.json();
+      const response = await fetch('http://localhost:4000/courses');
+      const jsonData: Course[] = await response.json();
       setCourses(jsonData);
       setSeletctedCourse(jsonData[0]);
       setIsSideBarReady(true);
-    } catch (e: any) {
-      console.error(e.message);
+    } catch (error) {
+      console.error((error as Error).message);
     }
   };
   /* Without a dependency array the call to get all courses is only made once */
   useEffect(() => {
     getCourses();
-  }, []);
+  });
   useEffect(() => {
     setIsUnitGridReady(false);
     getUnits();
   }, [selectedCourse]);
 
-  if (!isLoaded || !userId || !isSideBarReady) {
+  if (!isLoaded || !userId || !isSideBarReady)
     // need to check for userId as well as its a protected route {
     return (
       <div className={styles.center}>
         <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
           color="blue.500"
-          size="xl"
+          emptyColor="gray.200"
           m={'auto'}
+          size="xl"
+          speed="0.65s"
+          thickness="4px"
         />
       </div>
     );
-  }
 
   return (
     <>
       <Grid
-        h="800px"
-        templateColumns="repeat(3, 1fr)"
         gap={4}
-        m={3}>
+        h="800px"
+        m={3}
+        templateColumns="repeat(3, 1fr)">
         <GridItem colSpan={1}>
           <Sidebar
             courses={courses}
@@ -90,8 +89,8 @@ const DashboardPage = () => {
         <GridItem colSpan={2}>
           {isUnitGridReady && units && selectedCourse ? (
             <UnitGrid
-              units={units}
               courseSlug={selectedCourse.slug}
+              units={units}
             />
           ) : (
             <div className={styles.center}>
