@@ -6,5 +6,9 @@
   "workspaces": ["client", "server"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.1"
   }
 }
