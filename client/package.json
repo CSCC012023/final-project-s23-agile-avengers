@@ -5,7 +5,8 @@
   "type": "commonjs",
   "license": "ISC",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
