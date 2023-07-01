@@ -14,6 +14,7 @@
 - [NPM Workspaces](#npm-workspaces)
   - [Install Packages](#install-packages)
   - [Running Commands](#running-commands)
+- [Postman Testing](https://www.postman.com/agile-avengers-cscc01/workspace/agile-avengers/collection/14201720-ffadf271-0e18-49b6-a533-36e37ba981d0?action=share&creator=14201720)
 - [Contribution](#contribution)
   - [Contributors](#contributors)
 
