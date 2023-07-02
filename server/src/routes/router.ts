@@ -72,6 +72,6 @@ router.get('/search', getSearchResults);
  * @description Get all the autocomplete results
  * @access public
  */
-router.get('/search', getAutoCompleteResults);
+router.get('/searchAutoComplete', getAutoCompleteResults);
 
 export default router;

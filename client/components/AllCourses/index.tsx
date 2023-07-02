@@ -6,11 +6,10 @@ import {
   Flex,
   Text,
   Spinner,
-  Spacer,
+  Link,
   Input,
   InputGroup,
   InputLeftElement,
-  FormControl,
 } from '@chakra-ui/react';
 
 import { SearchIcon } from '@chakra-ui/icons';
@@ -21,40 +20,40 @@ import CourseCard from './CourseCard';
 const AllCourses = () => {
   const [courses, setCourses] = useState<Array<Course>>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [autoComplete, setAutoComplete] = useState<Array<string>>([]);
+  const [autoComplete, setAutoComplete] = useState<Array<any>>([]);
 
   useEffect(() => {
     const getAutoCompleteList = async () => {
-      try {
-        if (searchTerm.length) {
+      if (searchTerm.length) {
+        try {
           const response: Response = await fetch(
-            `http://localhost:4000/search?text=${searchTerm}`
+            `http://localhost:4000/searchAutoComplete?text=${searchTerm}`
           );
-          const jsonData: any = await response.json();
+          const searchAutoComplete: any = await response.json();
+          setAutoComplete(() => searchAutoComplete); //here
+        } catch (e: any) {
+          console.error(e);
         }
-      } catch (e: any) {
-        console.error(e);
+      } else {
+        setAutoComplete([]);
       }
     };
 
     getAutoCompleteList();
-  }, []);
+  }, [searchTerm]);
 
   const handleSubmitSearch = async (e: any) => {
     e.preventDefault(); // prevents default behavior of submitting form and refreshing the page
 
     try {
-      if (searchTerm.length === 0) {
+      if (!searchTerm.length) {
         getCourses();
       } else {
         const response: Response = await fetch(
           `http://localhost:4000/search?text=${searchTerm}`
         );
         const jsonData: any = await response.json();
-        if (Object.keys(jsonData).length === 0) {
-          console.log('search is empty');
-          // show no results found
-        } else {
+        if (Object.keys(jsonData).length !== 0) {
           setCourses(jsonData);
         }
       }
@@ -98,6 +97,28 @@ const AllCourses = () => {
               />
             </InputGroup>
           </form>
+          {autoComplete.length > 0 && (
+            <ul>
+              {autoComplete.map((item) => {
+                if (item.source === 'course') {
+                  return (
+                    <Link
+                      key={item._id}
+                      href={`/learning/${item.slug}`}>
+                      {item.name} : {item.source}
+                    </Link>
+                  );
+                } else {
+                  // need to add href to Units page once @Aditya finishes Units Page
+                  return (
+                    <Link key={item._id}>
+                      {item.name} : {item.source}
+                    </Link>
+                  );
+                }
+              })}
+            </ul>
+          )}
         </Box>
       </Flex>
       <Flex
