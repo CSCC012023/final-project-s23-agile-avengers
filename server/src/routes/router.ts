@@ -6,6 +6,8 @@ import { getCourse } from '../controllers/units';
 import { getAllUsers, createNewUser } from '../controllers/user';
 import { getAllCourses } from '../controllers/courses';
 import getArticleBySlug from '../controllers/article';
+import { getSearchResults } from '../controllers/search';
+import { getAutoCompleteResults } from '../controllers/search';
 
 const router = Router();
 
@@ -57,5 +59,19 @@ router.get('/units', getCourse);
  * @access public
  */
 router.get('/articles', getArticleBySlug);
+
+/**
+ * @route GET /search
+ * @description Get all the search results
+ * @access public
+ */
+router.get('/search', getSearchResults);
+
+/**
+ * @route GET /searchAutoComplete
+ * @description Get all the autocomplete results
+ * @access public
+ */
+router.get('/search', getAutoCompleteResults);
 
 export default router;
