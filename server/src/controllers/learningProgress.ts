@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { modelUser } from '../models/Account/user';
+import { modelProgress } from '../models/Learning/progress';
 
 export const getLearningProgress = async (req: Request, res: Response) => {
   if (!req.query.userID) {
@@ -16,5 +17,21 @@ export const getLearningProgress = async (req: Request, res: Response) => {
       message: 'User not found with the given userID',
     });
   }
-  res.send(user._id);
+  const learningProgress = await modelProgress
+    .findOne({
+      userID: user._id,
+    })
+    .populate({
+      path: 'courses',
+      populate: {
+        path: 'courseID',
+        model: 'Course',
+      },
+    })
+    .exec();
+
+  if (!learningProgress) {
+    return res.send({});
+  }
+  res.send(learningProgress);
 };
