@@ -7,7 +7,7 @@ import { getAllUsers, createNewUser } from '../controllers/user';
 import { getAllCourses } from '../controllers/courses';
 import getArticleBySlug from '../controllers/article';
 import { getLearningProgress } from '../controllers/learningProgress';
-
+import { tempInsert } from '../controllers/tempInsert';
 const router = Router();
 
 /**
@@ -65,5 +65,12 @@ router.get('/articles', getArticleBySlug);
  * @access public
  */
 router.get('/learningProgress', getLearningProgress);
+
+/**
+ * @route GET /learningProgress
+ * @description Get course progress
+ * @access public
+ */
+router.get('/temp', tempInsert);
 
 export default router;

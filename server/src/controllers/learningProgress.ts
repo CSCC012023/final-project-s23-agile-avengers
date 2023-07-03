@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { modelUser } from '../models/Account/user';
 import { modelProgress } from '../models/Learning/progress';
+import modelUnit from '../models/Learning/unit';
 
 export const getLearningProgress = async (req: Request, res: Response) => {
   if (!req.query.userID) {
@@ -26,6 +27,13 @@ export const getLearningProgress = async (req: Request, res: Response) => {
       populate: {
         path: 'courseID',
         model: 'Course',
+      },
+    })
+    .populate({
+      path: 'units',
+      populate: {
+        path: 'unitID',
+        model: 'Unit',
       },
     })
     .exec();

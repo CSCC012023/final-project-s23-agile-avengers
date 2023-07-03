@@ -1,26 +1,42 @@
 'use client';
 import React from 'react';
-import { Grid, GridItem, Spinner, Center, Text } from '@chakra-ui/react';
+import { Grid, GridItem, Spinner } from '@chakra-ui/react';
 
 import UnitGrid from '@/components/Dashboard-Learning/UnitGrid';
 import Sidebar from '../../components/Dashboard-Learning/Sidebar';
 import { useUser, useAuth } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
-import { Course } from '@/types/learning';
+import { Course, UnitWithProgress } from '@/types/learning';
 import {
   CourseWithUnits,
   Unit,
 } from '@/types/components/Dashboard-Learning/types';
 import styles from '../../styles/pages/Dashboard.module.scss';
+import { progress } from 'framer-motion';
 
 const DashboardPage = () => {
   const { user } = useUser();
   const { isLoaded, userId } = useAuth();
-  const [courses, setCourses] = useState<Array<Course>>([]);
+  const [exploreCourses, setExploreCourses] = useState<Array<Course>>([]);
+  const [userCourses, setUserCourses] = useState<Array<Course>>([]);
   const [isSideBarReady, setIsSideBarReady] = useState(false);
   const [selectedCourse, setSeletctedCourse] = useState<Course>();
   const [units, setUnits] = useState<Array<Unit>>();
   const [isUnitGridReady, setIsUnitGridReady] = useState(false);
+  const [userUnits, setUserUnits] = useState<Array<UnitWithProgress>>([]);
+
+  const isObjectEmpty = (objectName: any) => {
+    return Object.keys(objectName).length === 0;
+  };
+
+  const isCourseInList = (courses: Course[], slug: String): Boolean => {
+    for (const course of courses) {
+      if (course.slug === slug) {
+        return true;
+      }
+    }
+    return false;
+  };
   const getUnits = async () => {
     if (!selectedCourse) {
       return;
@@ -38,11 +54,37 @@ const DashboardPage = () => {
   };
   const getCourses = async () => {
     try {
-      // update to better promise handling
-      const response: Response = await fetch('http://localhost:4000/courses');
-      const jsonData: any = await response.json();
-      setCourses(jsonData);
-      setSeletctedCourse(jsonData[0]);
+      /* set users courses*/
+      const userCoursesResponse: Response = await fetch(
+        `http://localhost:4000/learningProgress?userID=${userId}`
+      );
+      const userCoursesData = await userCoursesResponse.json();
+      const loadedUserCourses: Course[] = isObjectEmpty(userCoursesData)
+        ? []
+        : userCoursesData.courses.map((elem: any) => elem.courseID);
+      setUserCourses(loadedUserCourses);
+      const loadedUserUnits: UnitWithProgress[] = isObjectEmpty(userCoursesData)
+        ? []
+        : userCoursesData.units.map((elem: any) => {
+            return { unit: elem.unitID, progress: elem.progress };
+          });
+      setUserUnits(loadedUserUnits);
+
+      /* set explore courses*/
+      const exploreCoursesResponse: Response = await fetch(
+        'http://localhost:4000/courses'
+      );
+      const exploreCoursesData: Course[] = await exploreCoursesResponse.json();
+      const filteredCourses = exploreCoursesData.filter(
+        (elem) => !isCourseInList(loadedUserCourses, elem.slug)
+      );
+
+      setExploreCourses(filteredCourses);
+
+      /* set default selected course*/
+      loadedUserCourses.length > 0
+        ? setSeletctedCourse(loadedUserCourses[0])
+        : setSeletctedCourse(filteredCourses[0]);
       setIsSideBarReady(true);
     } catch (e: any) {
       console.error(e.message);
@@ -82,7 +124,8 @@ const DashboardPage = () => {
         m={3}>
         <GridItem colSpan={1}>
           <Sidebar
-            courses={courses}
+            exploreCourses={exploreCourses}
+            userCourses={userCourses}
             selectedCourse={selectedCourse}
             setSelectedCourse={setSeletctedCourse}
           />
@@ -91,6 +134,7 @@ const DashboardPage = () => {
           {isUnitGridReady && units && selectedCourse ? (
             <UnitGrid
               units={units}
+              userUnits={userUnits}
               courseSlug={selectedCourse.slug}
             />
           ) : (
