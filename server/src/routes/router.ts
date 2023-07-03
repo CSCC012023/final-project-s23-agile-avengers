@@ -6,6 +6,7 @@ import { getCourse } from '../controllers/units';
 import { getAllUsers, createNewUser } from '../controllers/user';
 import { getAllCourses } from '../controllers/courses';
 import getArticleBySlug from '../controllers/article';
+import { getLearningProgress } from '../controllers/learningProgress';
 
 const router = Router();
 
@@ -57,5 +58,12 @@ router.get('/units', getCourse);
  * @access public
  */
 router.get('/articles', getArticleBySlug);
+
+/**
+ * @route GET /learningProgress
+ * @description Get course progress
+ * @access public
+ */
+router.get('/learningProgress', getLearningProgress);
 
 export default router;
