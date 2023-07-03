@@ -30,7 +30,7 @@ const AllCourses = () => {
             `http://localhost:4000/searchAutoComplete?text=${searchTerm}`
           );
           const searchAutoComplete: any = await response.json();
-          setAutoComplete(() => searchAutoComplete); //here
+          setAutoComplete(searchAutoComplete);
         } catch (e: any) {
           console.error(e);
         }
