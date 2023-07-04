@@ -28,7 +28,7 @@ const UnitCard = ({ unit, courseSlug, total, completed }: UnitCradProps) => {
         <Heading size="md"> {unit.name}</Heading>
       </CardHeader>
       <Progress
-        value={(completed * 100) / total}
+        value={completed === 0 ? 1 : (completed * 100) / total}
         ml={5}
         w="80%"
         hasStripe
