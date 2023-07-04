@@ -50,6 +50,9 @@ const DashboardPage = () => {
   };
 
   const getCourses = async () => {
+    if (!userId) {
+      return;
+    }
     try {
       /* set users courses*/
       const userCoursesResponse: Response = await fetch(
