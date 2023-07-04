@@ -27,10 +27,7 @@ const Sidebar = ({
             selectedCourse={selectedCourse}
             setSelectedCourse={setSelectedCourse}
           />
-          <Divider
-            className={styles.divider}
-            width="88%"
-          />
+          <hr className={styles.divider} />
         </>
       )}
 

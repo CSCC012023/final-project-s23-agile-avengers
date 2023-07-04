@@ -4,11 +4,12 @@ import {
   CardHeader,
   Heading,
   CardBody,
-  HStack,
+  VStack,
   StackDivider,
   Stack,
-  Divider,
+  HStack,
   Icon,
+  Center,
 } from '@chakra-ui/react';
 import styles from '../../styles/components/sidebar.module.scss';
 import { Course } from '@/types/learning';
@@ -43,13 +44,10 @@ const DisplayCourses = ({
       <CardHeader>
         <Heading size="md">{headerString}</Heading>
       </CardHeader>
-      <Divider
-        className={styles.divider}
-        width="88%"
-      />
+      <hr className={styles.divider} />
       <CardBody>
         <Stack
-          divider={<StackDivider color="brand.black" />}
+          divider={<StackDivider borderColor="brand.white" />}
           spacing="4">
           {courses.map((course) => (
             <HStack

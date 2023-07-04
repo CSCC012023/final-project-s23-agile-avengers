@@ -12,7 +12,6 @@ import {
   Unit,
 } from '@/types/components/Dashboard-Learning/types';
 import styles from '../../styles/pages/Dashboard.module.scss';
-import { progress } from 'framer-motion';
 
 const DashboardPage = () => {
   const { user } = useUser();
