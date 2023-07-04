@@ -1,25 +1,25 @@
 'use client';
 
-import { SimpleGrid } from '@chakra-ui/react';
 import { Unit } from '@/types/components/Dashboard-Learning/types';
+import { SimpleGrid } from '@chakra-ui/react';
 import UnitCard from './UnitCard';
 
 type UnitGridParams = {
   units: Unit[];
-  courseSlug: String;
+  courseSlug: string;
 };
 const UnitGrid = ({ units, courseSlug }: UnitGridParams) => {
   return (
     <SimpleGrid
-      spacing={4}
+      boxShadow="m"
       columns={{ sm: 1, md: 2, lg: 3 }}
       m={3}
-      boxShadow="m">
+      spacing={4}>
       {units.map((unit) => (
         <UnitCard
+          courseSlug={courseSlug}
           key={unit.slug}
           unit={unit}
-          courseSlug={courseSlug}
         />
       ))}
     </SimpleGrid>

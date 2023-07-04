@@ -1,36 +1,33 @@
 {
   "env": {
-    "browser": true,
-    "commonjs": true,
     "es2021": true,
     "node": true
   },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "next/core-web-vitals",
+    "google",
     "prettier"
   ],
-  "plugins": ["react"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "rules": {
     // Best practices
     "curly": ["error", "multi"],
     "default-param-last": "error",
     "dot-notation": "error",
-    "new-cap": "error",
+    "new-cap": [
+      "error",
+      {
+        "capIsNewExceptionPattern": "Router"
+      }
+    ],
     "no-console": ["error", { "allow": ["warn", "error", "info"] }],
     "no-duplicate-imports": "error",
-    "no-else-return": "error",
-    "no-self-compare": "error",
     "no-self-assign": "error",
+    "no-self-compare": "error",
+    "no-else-return": "error",
     "no-template-curly-in-string": "error",
     "no-var": "error",
     // Stylistic
@@ -44,34 +41,31 @@
       { "overrides": { "?": "before", ":": "before" } }
     ],
     // ES6
-    "array-callback-return": "off",
     "prefer-arrow-callback": "warn",
-    "prefer-const": "error",
+    "prefer-const": "warn",
     "prefer-destructuring": "warn",
     "require-await": "error",
+    // "valid-jsdoc": "warn",
+    "require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": false,
+          "ClassDeclaration": false,
+          "ArrowFunctionExpression": true,
+          "FunctionExpression": false
+        }
+      }
+    ],
     "yoda": ["error", "never", { "onlyEquality": true }],
-    // Imports
-    "import/prefer-default-export": "off",
-    "no-prototype-builtins": "off",
-    "no-unused-expressions": "off",
-    // REACT
-    "react/display-name": "warn",
-    "react/no-deprecated": "error",
-    "react/no-unsafe": [
+    "@typescript-eslint/ban-types": [
       "error",
       {
-        "checkAliases": true
+        "types": {
+          "String": false
+        }
       }
-    ],
-    "react/jsx-uses-react": "off",
-    "react/jsx-sort-props": [
-      "error",
-      {
-        "ignoreCase": true
-      }
-    ],
-    "react/react-in-jsx-scope": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    ]
   }
 }

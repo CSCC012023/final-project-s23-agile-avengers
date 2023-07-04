@@ -1,9 +1,6 @@
-# See https://prettier.io/docs/en/ignore.html for more about ignoring files.
-
 ## Shared
 
 # Dependencies
-package-lock.json
 node_modules/
 
 # Logs
@@ -30,11 +27,31 @@ npm-debug.log*
 ## Client
 
 # next.js
-.next
-.build
+client/.next/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
 
 # vercel
 .vercel
 
 # typescript
 next-env.d.ts
+
+## Server
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# node-waf configuration
+.lock-wscript
+
+# Typescript Build
+build
