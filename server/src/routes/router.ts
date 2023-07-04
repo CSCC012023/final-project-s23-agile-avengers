@@ -11,6 +11,8 @@ import { getStatus } from '../controllers/status';
 import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
 import { getVideoBySlug } from '../controllers/video';
+import { getUnitProgress, putUnitProgress } from '../controllers/unitProgress';
+
 const router = Router();
 
 /**
@@ -27,7 +29,7 @@ router.get('/status', getStatus);
  */
 router.post('/user', createNewUser);
 
-/*
+/**
  * @route GET /user
  * @description Get all users in the database
  * @access public
@@ -89,5 +91,19 @@ router.get('/searchAutoComplete', getAutoCompleteResults);
  * @access public
  */
 router.get('/learningProgress', getLearningProgress);
+
+/**
+ * @route GET /progress
+ * @description Get unit progress of a user
+ * @access public
+ */
+router.get('/progress', getUnitProgress);
+
+/**
+ * @route PUT /progress
+ * @description Update unit progress of a user
+ * @access public
+ */
+router.get('/progress', putUnitProgress);
 
 export default router;
