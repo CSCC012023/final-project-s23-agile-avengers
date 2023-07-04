@@ -4,7 +4,6 @@ import { getArticleBySlug } from '../controllers/article';
 import { getAllCourses } from '../controllers/courses';
 import { getLearningProgress } from '../controllers/learningProgress';
 import { getStatus } from '../controllers/status';
-import { tempInsert } from '../controllers/tempInsert';
 import { getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
 import { getVideoBySlug } from '../controllers/video';
@@ -65,12 +64,5 @@ router.get('/video', getVideoBySlug);
  * @access public
  */
 router.get('/learningProgress', getLearningProgress);
-
-/**
- * @route GET /learningProgress
- * @description Get course progress
- * @access public
- */
-router.get('/temp', tempInsert);
 
 export default router;
