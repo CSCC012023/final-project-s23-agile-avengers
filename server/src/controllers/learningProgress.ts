@@ -8,9 +8,10 @@ import { modelProgress } from '../models/Learning/progress';
 /**
  * Endpoint to get a user's learning progress from their userId
  *
- * @param {ObjectId} userIdId  - clerk userId of user
+ *  @param {Request} req - Request Object with user's clerk userId as querryParam
+ *  @param {Response} res - Response Object
  *
- * @return {Promise} LearningProgress with courses and units populated
+ * @return {Response} LearningProgress with courses and units populated
  */
 export const getLearningProgress = async (req: Request, res: Response) => {
   if (!req.query.userID)
