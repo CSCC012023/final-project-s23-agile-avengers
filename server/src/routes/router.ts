@@ -1,13 +1,13 @@
 import { Router } from 'express';
 
-import { getStatus } from '../controllers/status';
-import getContentVideo from '../controllers/videos';
-import { getCourse } from '../controllers/units';
-import { getAllUsers, createNewUser } from '../controllers/user';
+import { getArticleBySlug } from '../controllers/article';
 import { getAllCourses } from '../controllers/courses';
-import getArticleBySlug from '../controllers/article';
 import { getLearningProgress } from '../controllers/learningProgress';
+import { getStatus } from '../controllers/status';
 import { tempInsert } from '../controllers/tempInsert';
+import { getAllUnitsBySlug } from '../controllers/units';
+import { createNewUser, getAllUsers } from '../controllers/user';
+import { getVideoBySlug } from '../controllers/video';
 const router = Router();
 
 /**
@@ -32,13 +32,6 @@ router.post('/user', createNewUser);
 router.get('/user', getAllUsers);
 
 /**
- * @route GET /video
- * @description Get all videos in the database
- * @access public
- */
-router.get('/video', getContentVideo);
-
-/**
  * @route GET /courses
  * @description Get all the courses
  * @access public
@@ -50,14 +43,21 @@ router.get('/courses', getAllCourses);
  * @description Get a specific course by ID
  * @access public
  */
-router.get('/units', getCourse);
+router.get('/units', getAllUnitsBySlug);
 
 /**
  * @route GET /article
  * @description Get all the articles
  * @access public
  */
-router.get('/articles', getArticleBySlug);
+router.get('/article', getArticleBySlug);
+
+/**
+ * @route GET /video
+ * @description Get all videos in the database
+ * @access public
+ */
+router.get('/video', getVideoBySlug);
 
 /**
  * @route GET /learningProgress

@@ -1,18 +1,18 @@
-import {
-  Card,
-  CardHeader,
-  Text,
-  Heading,
-  CardBody,
-  Button,
-  Progress,
-  Icon,
-  Box,
-} from '@chakra-ui/react';
-import Link from 'next/link';
 import { Unit } from '@/types/components/Dashboard-Learning/types';
-import { AiOutlineVideoCamera } from '@react-icons/all-files/ai/AiOutlineVideoCamera';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Icon,
+  Progress,
+  Text,
+} from '@chakra-ui/react';
 import { AiOutlineFileText } from '@react-icons/all-files/ai/AiOutlineFileText';
+import { AiOutlineVideoCamera } from '@react-icons/all-files/ai/AiOutlineVideoCamera';
+import Link from 'next/link';
 import styles from '../../styles/components/Dashboard.UnitCard.module.scss';
 
 type UnitCradProps = {
@@ -31,8 +31,6 @@ const UnitCard = ({ unit, courseSlug, total, completed }: UnitCradProps) => {
         value={completed === 0 ? 1 : (completed * 100) / total}
         ml={5}
         w="80%"
-        hasStripe
-        color="brand.gray"
       />
       <CardBody className={styles.cardContainer}>
         <Text>
@@ -53,9 +51,9 @@ const UnitCard = ({ unit, courseSlug, total, completed }: UnitCradProps) => {
         </Box>
         <Link href={`/learning/${courseSlug}`}>
           <Button
-            w={'100%'}
+            fontSize={['xs', null, null, 'md']}
             mt={3}
-            fontSize={['xs', null, null, 'md']}>
+            w={'100%'}>
             Begin Learning
           </Button>
         </Link>

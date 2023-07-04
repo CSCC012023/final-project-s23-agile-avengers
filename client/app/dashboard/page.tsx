@@ -1,20 +1,18 @@
 'use client';
-import React from 'react';
 import { Grid, GridItem, Spinner } from '@chakra-ui/react';
 
 import UnitGrid from '@/components/Dashboard-Learning/UnitGrid';
-import Sidebar from '../../components/Dashboard-Learning/Sidebar';
-import { useUser, useAuth } from '@clerk/nextjs';
-import { useState, useEffect } from 'react';
-import { Course, UnitWithProgress } from '@/types/learning';
 import {
   CourseWithUnits,
   Unit,
 } from '@/types/components/Dashboard-Learning/types';
+import { Course, UnitWithProgress } from '@/types/learning';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
+import Sidebar from '../../components/Dashboard-Learning/Sidebar';
 import styles from '../../styles/pages/Dashboard.module.scss';
 
 const DashboardPage = () => {
-  const { user } = useUser();
   const { isLoaded, userId } = useAuth();
   const [exploreCourses, setExploreCourses] = useState<Array<Course>>([]);
   const [userCourses, setUserCourses] = useState<Array<Course>>([]);
@@ -37,9 +35,8 @@ const DashboardPage = () => {
     return false;
   };
   const getUnits = async () => {
-    if (!selectedCourse) {
-      return;
-    }
+    if (!selectedCourse) return;
+
     try {
       const url = `http://localhost:4000/units?courseSlug=${selectedCourse?.slug}`;
       const response = await fetch(url);
@@ -51,6 +48,7 @@ const DashboardPage = () => {
       console.error((error as Error).message);
     }
   };
+
   const getCourses = async () => {
     try {
       /* set users courses*/
@@ -85,8 +83,8 @@ const DashboardPage = () => {
         ? setSeletctedCourse(loadedUserCourses[0])
         : setSeletctedCourse(filteredCourses[0]);
       setIsSideBarReady(true);
-    } catch (e: any) {
-      console.error(e.message);
+    } catch (error) {
+      console.error((error as Error).message);
     }
   };
   /* Without a dependency array the call to get all courses is only made once */
@@ -98,29 +96,28 @@ const DashboardPage = () => {
     getUnits();
   }, [selectedCourse]);
 
-  if (!isLoaded || !userId || !isSideBarReady) {
+  if (!isLoaded || !userId || !isSideBarReady)
     // need to check for userId as well as its a protected route {
     return (
       <div className={styles.center}>
         <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
           color="blue.500"
-          size="xl"
+          emptyColor="gray.200"
           m={'auto'}
+          size="xl"
+          speed="0.65s"
+          thickness="4px"
         />
       </div>
     );
-  }
 
   return (
     <>
       <Grid
-        h="800px"
-        templateColumns="repeat(3, 1fr)"
         gap={4}
-        m={3}>
+        h="800px"
+        m={3}
+        templateColumns="repeat(3, 1fr)">
         <GridItem colSpan={1}>
           <Sidebar
             exploreCourses={exploreCourses}
