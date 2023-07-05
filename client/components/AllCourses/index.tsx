@@ -3,13 +3,26 @@
 import { useEffect, useState } from 'react';
 import {
   Box,
+  Center,
   Flex,
   Text,
+  Button,
   Spinner,
+  HStack,
+  Tag,
+  Spacer,
   Link,
   Input,
   InputGroup,
   InputLeftElement,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure
 } from '@chakra-ui/react';
 
 import { SearchIcon } from '@chakra-ui/icons';
@@ -21,6 +34,7 @@ const AllCourses = () => {
   const [courses, setCourses] = useState<Array<Course>>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [autoComplete, setAutoComplete] = useState<Array<any>>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const getAutoCompleteList = async () => {
@@ -44,7 +58,7 @@ const AllCourses = () => {
 
   const handleSubmitSearch = async (e: any) => {
     e.preventDefault(); // prevents default behavior of submitting form and refreshing the page
-
+    
     try {
       if (!searchTerm.length) {
         getCourses();
@@ -56,6 +70,7 @@ const AllCourses = () => {
         if (Object.keys(jsonData).length !== 0) {
           setCourses(jsonData);
         }
+        console.log(jsonData);
       }
       setSearchTerm('');
     } catch (e: any) {
@@ -82,43 +97,20 @@ const AllCourses = () => {
 
   return (
     <>
-      <Flex>
+      <Flex m={10} flexDirection={'column'}>
         <Text fontSize="5xl">Courses</Text>
         <Box margin={'50px'}>
-          <form onSubmit={handleSubmitSearch}>
-            <InputGroup>
+          <Center>
+          <InputGroup width={'50%'}>
               <InputLeftElement pointerEvents="none">
                 <SearchIcon color="gray.900" />
               </InputLeftElement>
               <Input
                 placeholder="Explore learning..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onClick={onOpen}
               />
             </InputGroup>
-          </form>
-          {autoComplete.length > 0 && (
-            <ul>
-              {autoComplete.map((item) => {
-                if (item.source === 'course') {
-                  return (
-                    <Link
-                      key={item._id}
-                      href={`/learning/${item.slug}`}>
-                      {item.name} : {item.source}
-                    </Link>
-                  );
-                } else {
-                  // need to add href to Units page once @Aditya finishes Units Page
-                  return (
-                    <Link key={item._id}>
-                      {item.name} : {item.source}
-                    </Link>
-                  );
-                }
-              })}
-            </ul>
-          )}
+          </Center>
         </Box>
       </Flex>
       <Flex
@@ -148,6 +140,64 @@ const AllCourses = () => {
           })
         )}
       </Flex>
+
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader> 
+            <form onSubmit={handleSubmitSearch}>
+            <InputGroup width={'100%'}>
+              <InputLeftElement pointerEvents="none">
+                <SearchIcon color="gray.900" />
+              </InputLeftElement>
+              <Input
+                placeholder="Explore learning..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </InputGroup>
+          </form>
+          </ModalHeader>
+          <ModalBody>
+          {autoComplete.length > 0 && (
+            <Flex flexDirection={'column'} alignItems={'center'} justifyContent={'space-around'}>
+              {autoComplete.map((item) => {
+                if (item.source === 'course') {
+                  return ( 
+                    <Link key={item._id} width={'100%'}
+                    href={`/learning/${item.slug}`}>
+                    <Box width={'100%'} p={5} borderRadius={10} backgroundColor={'gray.200'} boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}>
+                    <HStack>
+                      <Text>{item.name}</Text>
+                      <Spacer />
+                      <Tag variant='outline' colorScheme='blue'>{item.source}</Tag>
+                    </HStack>
+                    </Box>
+                    </Link>
+                  );
+                } else {
+                  // need to add href to Units page once @Aditya finishes Units Page
+                  return (
+                    <Link key={item._id} width={'100%'}>
+                    <Box width={'100%'} p={5} borderRadius={10} backgroundColor={'gray.200'} boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}>
+                    <HStack>
+                      <Text>{item.name}</Text>
+                      <Spacer />
+                      <Tag variant='outline' colorScheme='teal'>{item.source}</Tag>
+                    </HStack>
+                    </Box>
+                    </Link>
+                  );
+                }
+              })}
+            </Flex>
+          )}
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
