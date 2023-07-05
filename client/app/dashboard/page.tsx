@@ -17,7 +17,7 @@ const DashboardPage = () => {
   const [exploreCourses, setExploreCourses] = useState<Array<Course>>([]);
   const [userCourses, setUserCourses] = useState<Array<Course>>([]);
   const [isSideBarReady, setIsSideBarReady] = useState(false);
-  const [selectedCourse, setSeletctedCourse] = useState<Course>();
+  const [selectedCourse, setSelectedCourse] = useState<Course>();
   const [units, setUnits] = useState<Array<Unit>>();
   const [isUnitGridReady, setIsUnitGridReady] = useState(false);
   const [userUnits, setUserUnits] = useState<Array<UnitWithProgress>>([]);
@@ -26,12 +26,8 @@ const DashboardPage = () => {
     return Object.keys(objectName).length === 0;
   };
 
-  const isCourseInList = (courses: Course[], slug: String): Boolean => {
-    for (const course of courses) {
-      if (course.slug === slug) {
-        return true;
-      }
-    }
+  const isCourseInList = (courses: Course[], slug: string): boolean => {
+    for (const course of courses) if (course.slug === slug) return true;
     return false;
   };
   const getUnits = async () => {
@@ -50,9 +46,7 @@ const DashboardPage = () => {
   };
 
   const getCourses = async () => {
-    if (!userId) {
-      return;
-    }
+    if (!userId) return;
     try {
       /* set users courses*/
       const userCoursesResponse: Response = await fetch(
@@ -83,8 +77,8 @@ const DashboardPage = () => {
 
       /* set default selected course*/
       loadedUserCourses.length > 0
-        ? setSeletctedCourse(loadedUserCourses[0])
-        : setSeletctedCourse(filteredCourses[0]);
+        ? setSelectedCourse(loadedUserCourses[0])
+        : setSelectedCourse(filteredCourses[0]);
       setIsSideBarReady(true);
     } catch (error) {
       console.error((error as Error).message);
@@ -124,17 +118,17 @@ const DashboardPage = () => {
         <GridItem colSpan={1}>
           <Sidebar
             exploreCourses={exploreCourses}
-            userCourses={userCourses}
             selectedCourse={selectedCourse}
-            setSelectedCourse={setSeletctedCourse}
+            setSelectedCourse={setSelectedCourse}
+            userCourses={userCourses}
           />
         </GridItem>
         <GridItem colSpan={2}>
           {isUnitGridReady && units && selectedCourse ? (
             <UnitGrid
+              courseSlug={selectedCourse.slug}
               units={units}
               userUnits={userUnits}
-              courseSlug={selectedCourse.slug}
             />
           ) : (
             <div className={styles.center}>

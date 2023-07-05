@@ -1,23 +1,21 @@
 'use client';
 
-import {
-  CardHeader,
-  Heading,
-  CardBody,
-  VStack,
-  StackDivider,
-  Stack,
-  HStack,
-  Icon,
-  Center,
-} from '@chakra-ui/react';
-import styles from '../../styles/components/sidebar.module.scss';
 import { Course } from '@/types/learning';
+import {
+  CardBody,
+  CardHeader,
+  HStack,
+  Heading,
+  Icon,
+  Stack,
+  StackDivider,
+} from '@chakra-ui/react';
 import { AiFillCaretRight } from '@react-icons/all-files/ai/AiFillCaretRight';
+import styles from '../../styles/components/sidebar.module.scss';
 
 type DisplayCoursesProps = {
   courses: Course[];
-  headerString: String;
+  headerString: string;
   selectedCourse: Course | undefined;
   setSelectedCourse: React.Dispatch<React.SetStateAction<Course | undefined>>;
 };
@@ -29,11 +27,9 @@ const DisplayCourses = ({
   setSelectedCourse,
 }: DisplayCoursesProps) => {
   const findCourseByName = (name: string) => {
-    for (let i = 0; i < courses.length; i++) {
-      if (courses[i].name == name) {
-        return courses[i];
-      }
-    }
+    for (let i = 0; i < courses.length; i++)
+      if (courses[i].name == name) return courses[i];
+
     courses[0];
   };
   const handleClick = (e: any) => {
@@ -51,8 +47,8 @@ const DisplayCourses = ({
           spacing="4">
           {courses.map((course) => (
             <HStack
-              key={course.name.toString()}
               id={course.name.toString()}
+              key={course.name.toString()}
               onClick={handleClick}
               textColor={
                 selectedCourse && selectedCourse.name == course.name
@@ -60,16 +56,16 @@ const DisplayCourses = ({
                   : 'brand.black'
               }>
               <Heading
-                size="xs"
                 display={'inline'}
+                size="xs"
                 textTransform="uppercase">
                 {course.name}
               </Heading>
               {selectedCourse && selectedCourse.name == course.name && (
                 <Icon
                   as={AiFillCaretRight}
-                  ml={2}
                   boxSize={'m'}
+                  ml={2}
                 />
               )}
             </HStack>

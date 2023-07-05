@@ -43,5 +43,5 @@ export interface Video {
 }
 export interface UnitWithProgress {
   unit: Unit;
-  progress: Number;
+  progress: number;
 }

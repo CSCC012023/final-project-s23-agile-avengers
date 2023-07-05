@@ -7,19 +7,18 @@ import UnitCard from './UnitCard';
 
 type UnitGridParams = {
   units: Unit[];
-  courseSlug: String;
+  courseSlug: string;
   userUnits: UnitWithProgress[];
 };
 const UnitGrid = ({ units, courseSlug, userUnits }: UnitGridParams) => {
   const findUnitProgress = (
     completedUnits: UnitWithProgress[],
-    unitSlug: String
+    unitSlug: string
   ): number => {
-    for (const unitWithProgress of completedUnits) {
-      if (unitWithProgress.unit.slug === unitSlug) {
-        return unitWithProgress.progress.valueOf();
-      }
-    }
+    for (const unitWithProgress of completedUnits)
+      if (unitWithProgress.unit.slug === unitSlug)
+        return unitWithProgress.progress;
+
     return 0;
   };
   return (
@@ -30,11 +29,11 @@ const UnitGrid = ({ units, courseSlug, userUnits }: UnitGridParams) => {
       spacing={4}>
       {units.map((unit) => (
         <UnitCard
+          completed={findUnitProgress(userUnits, unit.slug)}
           courseSlug={courseSlug}
           key={unit.slug}
-          unit={unit}
           total={unit.contents.length}
-          completed={findUnitProgress(userUnits, unit.slug)}
+          unit={unit}
         />
       ))}
     </SimpleGrid>

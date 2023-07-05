@@ -1,7 +1,7 @@
 'use client';
-import { Card, Divider } from '@chakra-ui/react';
-import styles from '../../styles/components/sidebar.module.scss';
 import { Course } from '@/types/learning';
+import { Card } from '@chakra-ui/react';
+import styles from '../../styles/components/sidebar.module.scss';
 import DisplayCourses from './DisplayCourses';
 
 type SideBarProps = {
