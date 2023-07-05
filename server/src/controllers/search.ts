@@ -19,7 +19,6 @@ export const getSearchResults = async (req: Request, res: Response) => {
       },
     ];
     const result = await modelCourse.aggregate(pipeline);
-    // console.log(result);
     res.status(200).send(result);
   } catch (e: any) {
     res.status(500).json({ error: 'Internal server error' });
