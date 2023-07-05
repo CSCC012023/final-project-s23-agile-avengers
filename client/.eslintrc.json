@@ -38,11 +38,6 @@
     "computed-property-spacing": ["error", "never"],
     "no-lonely-if": "error",
     "no-unneeded-ternary": "error",
-    "operator-linebreak": [
-      "error",
-      "none",
-      { "overrides": { "?": "before", ":": "before" } }
-    ],
     // ES6
     "array-callback-return": "off",
     "prefer-arrow-callback": "warn",
