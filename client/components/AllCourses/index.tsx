@@ -186,7 +186,7 @@ const AllCourses = () => {
                           backgroundColor={'gray.200'}
                           boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}>
                           <HStack>
-                            <Text>{item.name}</Text>
+                            <Text fontWeight={'semibold'}>{item.name}</Text>
                             <Spacer />
                             <Tag
                               variant="outline"
@@ -210,7 +210,7 @@ const AllCourses = () => {
                           backgroundColor={'gray.200'}
                           boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}>
                           <HStack>
-                            <Text>{item.name}</Text>
+                            <Text fontWeight={'semibold'}>{item.name}</Text>
                             <Spacer />
                             <Tag
                               variant="outline"
