@@ -1,5 +1,6 @@
 'use client';
 
+import { Flex, Spinner, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import {
   Box,
@@ -81,11 +82,11 @@ const AllCourses = () => {
     try {
       // update to better promise handling
       const response: Response = await fetch('http://localhost:4000/courses');
-      const jsonData: any = await response.json();
+      const jsonData: Course[] = await response.json();
 
       setCourses(jsonData);
-    } catch (e: any) {
-      console.error(e.message);
+    } catch (error) {
+      console.error((error as Error).message);
     }
   };
 
@@ -116,27 +117,27 @@ const AllCourses = () => {
         </Box>
       </Flex>
       <Flex
-        gap="2"
-        direction={'row'}
-        margin={'5%'}
         alignItems={'center'}
-        justifyContent={'space-around'}>
+        direction={'row'}
+        gap="2"
+        justifyContent={'space-around'}
+        margin={'5%'}>
         {courses == undefined ? (
           <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
             color="blue.500"
+            emptyColor="gray.200"
             size="xl"
+            speed="0.65s"
+            thickness="4px"
           />
         ) : (
           courses.map(({ name, slug, icon }, index) => {
             return (
               <CourseCard
-                name={name}
-                slug={slug}
                 icon={icon}
                 key={index}
+                name={name}
+                slug={slug}
               />
             );
           })

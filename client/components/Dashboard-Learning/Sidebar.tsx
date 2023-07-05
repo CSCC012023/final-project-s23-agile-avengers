@@ -1,19 +1,19 @@
 'use client';
 
+import { Course } from '@/types/learning';
 import {
   Card,
-  CardHeader,
-  Heading,
   CardBody,
-  HStack,
-  StackDivider,
-  Stack,
+  CardHeader,
   Divider,
+  HStack,
+  Heading,
   Icon,
+  Stack,
+  StackDivider,
 } from '@chakra-ui/react';
-import styles from '../../styles/components/sidebar.module.scss';
-import { Course } from '@/types/learning';
 import { AiFillCaretRight } from '@react-icons/all-files/ai/AiFillCaretRight';
+import styles from '../../styles/components/sidebar.module.scss';
 
 type SideBarProps = {
   courses: Course[];
@@ -27,11 +27,9 @@ const Sidebar = ({
   setSelectedCourse,
 }: SideBarProps) => {
   const findCourseByName = (name: string) => {
-    for (let i = 0; i < courses.length; i++) {
-      if (courses[i].name == name) {
-        return courses[i];
-      }
-    }
+    for (let i = 0; i < courses.length; i++)
+      if (courses[i].name == name) return courses[i];
+
     return courses[0];
   };
   const handleClick = (e: any) => {
@@ -49,8 +47,8 @@ const Sidebar = ({
           spacing="4">
           {courses.map((course) => (
             <HStack
-              key={course.name.toString()}
               id={course.name.toString()}
+              key={course.name.toString()}
               onClick={handleClick}
               textColor={
                 selectedCourse && selectedCourse.name == course.name
@@ -58,16 +56,16 @@ const Sidebar = ({
                   : 'brand.black'
               }>
               <Heading
-                size="xs"
                 display={'inline'}
+                size="xs"
                 textTransform="uppercase">
                 {course.name}
               </Heading>
               {selectedCourse && selectedCourse.name == course.name && (
                 <Icon
                   as={AiFillCaretRight}
-                  ml={2}
                   boxSize={'m'}
+                  ml={2}
                 />
               )}
             </HStack>

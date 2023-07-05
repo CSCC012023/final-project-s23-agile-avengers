@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 
-import modelCourse from '../models/Learning/course';
 import modelArticle from '../models/Learning/article';
-import modelVideo from '../models/Learning/video';
+import modelCourse from '../models/Learning/course';
 import modelUnit from '../models/Learning/unit';
+import modelVideo from '../models/Learning/video';
 
-import { Course, Unit, Article, Video } from '../types/learning';
+import { Article, Course, Unit, Video } from '../types/learning';
 
 type PopulatedUnit = {
   name: String;
@@ -14,7 +14,13 @@ type PopulatedUnit = {
   contents: Array<Article | Video | null>;
 };
 
-/*Retrieves an Article or Video based on the given content ID*/
+/**
+ * Retrieves an Article/Video
+ *
+ * @param {ObjectId} contentId  - ID of Article/Video Object
+ *
+ * @return {Promise} Video/Article or null
+ */
 const populateContent = async (
   contentId: Types.ObjectId
 ): Promise<Article | Video | null> => {
@@ -28,41 +34,35 @@ const populateContent = async (
   return video ? video : article;
 };
 
-/*Retrieves a course with the specified slug, populates its units with contents (Articles or Videos),
-and returns the course information*/
-export const getCourse = async (req: Request, res: Response) => {
-  // Checks if the field `courseSlug` is included in the query
-  if (!req.query.hasOwnProperty('courseSlug'))
-    return res
-      .send(400)
-      .json({ message: 'Invalid Request: Missing field "courseSlug".' });
+/**
+ * Retrives all Units related to a course
+ *
+ * @param {Request} req - Must contain `courseSlug` in query
+ * @param {Response} res - Response Object
+ *
+ * @return {Response}  Response Object with an Error or All Units
+ */
+export const getAllUnitsBySlug = async (req: Request, res: Response) => {
+  // Checks if courseSlug is part of the query
+  if (!req.query.courseSlug)
+    return res.status(400).send({ message: 'Missing courseSlug.' });
 
   const courseSlug = req.query.courseSlug as string;
-
-  // Check if slug parameter is missing
-  if (!courseSlug)
-    return res
-      .status(400)
-      .send({ message: 'Invalid Request: Missing parameter "courseSlug".' });
 
   // Verify slug using Regex (lowercase letters followed by a hyphen)
   const slugRegex = /^[a-z0-9-]+$/;
   if (!slugRegex.test(courseSlug))
-    return res
-      .status(400)
-      .send({ message: 'Invalid Request: Invalid "courseSlug".' });
+    return res.status(400).send({ message: 'Invalid courseSlug.' });
 
   // Find course with the specified slug
   const course = await modelCourse.findOne<Course>({ slug: courseSlug });
 
   // Check if course exists
   if (!course)
-    return res
-      .status(404)
-      .send({ message: 'Not Found: Course does not exist.' });
+    return res.status(404).send({ message: 'Course does not exist.' });
 
   const unitID: Array<Types.ObjectId> = course.units;
-  let units: Array<PopulatedUnit> = [];
+  const units: Array<PopulatedUnit> = [];
 
   // Populate each unit with its contents
   for (let i = 0; i < unitID.length; i++) {
