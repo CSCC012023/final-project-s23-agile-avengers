@@ -33,6 +33,8 @@ const AllCourses = () => {
   const [courses, setCourses] = useState<Array<Course>>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [autoComplete, setAutoComplete] = useState<Array<any>>([]);
+  const [courseSlugByUnit, setCourseSlugByUnit] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -93,6 +95,23 @@ const AllCourses = () => {
   useEffect(() => {
     getCourses();
   }, []);
+
+  const handleUnitClick = async (unitID: string) => {
+    setIsLoading(true);
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/course?id=${unitID}`
+      );
+      const jsonData: any = await response.json();
+
+      setCourseSlugByUnit(jsonData[0].slug);
+      console.log('courseSlugByUnit', courseSlugByUnit);
+    } catch (e: any) {
+      console.error(e.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -178,6 +197,7 @@ const AllCourses = () => {
                       <Link
                         key={item._id}
                         width={'100%'}
+                        margin={'10px'}
                         href={`/learning/${item.slug}`}>
                         <Box
                           width={'100%'}
@@ -202,7 +222,10 @@ const AllCourses = () => {
                     return (
                       <Link
                         key={item._id}
-                        width={'100%'}>
+                        // href={`/learning/${courseByUnit?.slug}/${item.slug}`}
+                        width={'100%'}
+                        margin={'10px'}
+                        onClick={() => handleUnitClick(item._id)}>
                         <Box
                           width={'100%'}
                           p={5}
