@@ -40,9 +40,8 @@
     "prefer-const": "warn",
     "prefer-destructuring": "warn",
     "require-await": "error",
-    // "valid-jsdoc": "warn",
     "require-jsdoc": [
-      "error",
+      "warn",
       {
         "require": {
           "FunctionDeclaration": true,
