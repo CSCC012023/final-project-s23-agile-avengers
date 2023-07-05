@@ -63,6 +63,8 @@
       "error",
       {
         "types": {
+          "Boolean": false,
+          "Number": false,
           "String": false
         }
       }
