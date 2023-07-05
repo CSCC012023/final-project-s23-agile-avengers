@@ -1,29 +1,28 @@
 'use client';
 
-import { Flex, Spinner, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 import {
   Box,
+  Button,
   Center,
   Flex,
-  Text,
-  Button,
-  Spinner,
   HStack,
-  Tag,
-  Spacer,
-  Link,
   Input,
   InputGroup,
   InputLeftElement,
+  Link,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Spacer,
+  Spinner,
+  Tag,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 import { SearchIcon } from '@chakra-ui/icons';
 
