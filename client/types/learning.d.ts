@@ -45,3 +45,31 @@ export interface UnitWithProgress {
   unit: Unit;
   progress: number;
 }
+
+export interface LearningProgressResponse {
+  userId: string;
+  courses: [
+    {
+      courseID: Course;
+      progress: number;
+    }
+  ];
+  units: [
+    {
+      unitID: Unit;
+      progress: number;
+    }
+  ];
+  videos: [
+    {
+      videoID: string;
+      progressPercent: number;
+    }
+  ];
+  article: [
+    {
+      articleID: string;
+      progressPercent: number;
+    }
+  ];
+}

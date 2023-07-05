@@ -44,6 +44,6 @@ export const getLearningProgress = async (req: Request, res: Response) => {
     })
     .exec();
 
-  if (!learningProgress) return res.send({});
+  if (!learningProgress) return res.status(404).send({});
   res.send(learningProgress);
 };

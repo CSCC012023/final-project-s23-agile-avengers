@@ -6,7 +6,11 @@ import {
   CourseWithUnits,
   Unit,
 } from '@/types/components/Dashboard-Learning/types';
-import { Course, UnitWithProgress } from '@/types/learning';
+import {
+  Course,
+  LearningProgressResponse,
+  UnitWithProgress,
+} from '@/types/learning';
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import Sidebar from '../../components/Dashboard-Learning/Sidebar';
@@ -22,27 +26,13 @@ const DashboardPage = () => {
   const [isUnitGridReady, setIsUnitGridReady] = useState(false);
   const [userUnits, setUserUnits] = useState<Array<UnitWithProgress>>([]);
 
-  const isObjectEmpty = (objectName: any) => {
+  const isObjectEmpty = (objectName: object) => {
     return Object.keys(objectName).length === 0;
   };
 
   const isCourseInList = (courses: Course[], slug: string): boolean => {
     for (const course of courses) if (course.slug === slug) return true;
     return false;
-  };
-  const getUnits = async () => {
-    if (!selectedCourse) return;
-
-    try {
-      const url = `http://localhost:4000/units?courseSlug=${selectedCourse?.slug}`;
-      const response = await fetch(url);
-      const data: CourseWithUnits = await response.json();
-      setUnits(data.units);
-      setIsUnitGridReady(true);
-    } catch (error) {
-      setUnits(undefined);
-      console.error((error as Error).message);
-    }
   };
 
   const getCourses = async () => {
@@ -52,14 +42,15 @@ const DashboardPage = () => {
       const userCoursesResponse: Response = await fetch(
         `http://localhost:4000/learningProgress?userID=${userId}`
       );
-      const userCoursesData = await userCoursesResponse.json();
+      const userCoursesData: LearningProgressResponse =
+        await userCoursesResponse.json();
       const loadedUserCourses: Course[] = isObjectEmpty(userCoursesData)
         ? []
-        : userCoursesData.courses.map((elem: any) => elem.courseID);
+        : userCoursesData.courses.map((elem) => elem.courseID);
       setUserCourses(loadedUserCourses);
       const loadedUserUnits: UnitWithProgress[] = isObjectEmpty(userCoursesData)
         ? []
-        : userCoursesData.units.map((elem: any) => {
+        : userCoursesData.units.map((elem) => {
             return { unit: elem.unitID, progress: elem.progress };
           });
       setUserUnits(loadedUserUnits);
@@ -84,10 +75,25 @@ const DashboardPage = () => {
       console.error((error as Error).message);
     }
   };
-  /* Without a dependency array the call to get all courses is only made once */
   useEffect(() => {
     getCourses();
   }, [userId]);
+  /* Without a dependency array the call to get all courses is only made once */
+
+  const getUnits = async () => {
+    if (!selectedCourse) return;
+
+    try {
+      const url = `http://localhost:4000/units?courseSlug=${selectedCourse?.slug}`;
+      const response = await fetch(url);
+      const data: CourseWithUnits = await response.json();
+      setUnits(data.units);
+      setIsUnitGridReady(true);
+    } catch (error) {
+      setUnits(undefined);
+      console.error((error as Error).message);
+    }
+  };
   useEffect(() => {
     setIsUnitGridReady(false);
     getUnits();
