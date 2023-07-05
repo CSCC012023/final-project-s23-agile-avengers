@@ -86,7 +86,30 @@ export const getAutoCompleteResults = async (req: Request, res: Response) => {
     ];
 
     const result = await modelCourse.aggregate(pipeline);
-    res.status(200).send(result);
+    let data = [];
+
+    if (result) {
+      for (const item of result) {
+        if (item.source === 'course') {
+          data.push({
+            name: item.name,
+            source: item.source,
+            href: `/learning/${item.slug}`,
+          });
+        } else if (item.source === 'unit') {
+          const course = await modelCourse.findOne({
+            units: { $eq: item._id },
+          });
+          data.push({
+            name: item.name,
+            source: item.source,
+            href: `/learning/${course?.slug}/${item.slug}`,
+          });
+        }
+      }
+    }
+
+    res.status(200).send(data);
   } catch (e: any) {
     res.status(500).json({ error: 'Internal server error' });
   }

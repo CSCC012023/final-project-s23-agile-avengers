@@ -8,7 +8,6 @@ import { getAllCourses } from '../controllers/courses';
 import getArticleBySlug from '../controllers/article';
 import { getSearchResults } from '../controllers/search';
 import { getAutoCompleteResults } from '../controllers/search';
-import { getCourseByUnit } from '../controllers/courses';
 
 const router = Router();
 
@@ -47,12 +46,6 @@ router.get('/video', getContentVideo);
  */
 router.get('/courses', getAllCourses);
 
-/**
- * @route GET /course
- * @description Get a particular course by its corresponding unit
- * @access public
- */
-router.get('/course', getCourseByUnit);
 
 /**
  * @route GET /units

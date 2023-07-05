@@ -33,8 +33,6 @@ const AllCourses = () => {
   const [courses, setCourses] = useState<Array<Course>>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [autoComplete, setAutoComplete] = useState<Array<any>>([]);
-  const [courseSlugByUnit, setCourseSlugByUnit] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -95,23 +93,6 @@ const AllCourses = () => {
   useEffect(() => {
     getCourses();
   }, []);
-
-  const handleUnitClick = async (unitID: string) => {
-    setIsLoading(true);
-    try {
-      const response: Response = await fetch(
-        `http://localhost:4000/course?id=${unitID}`
-      );
-      const jsonData: any = await response.json();
-
-      setCourseSlugByUnit(jsonData[0].slug);
-      console.log('courseSlugByUnit', courseSlugByUnit);
-    } catch (e: any) {
-      console.error(e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <>
@@ -191,60 +172,33 @@ const AllCourses = () => {
                 flexDirection={'column'}
                 alignItems={'center'}
                 justifyContent={'space-around'}>
-                {autoComplete.map((item) => {
-                  if (item.source === 'course') {
-                    return (
-                      <Link
-                        key={item._id}
+                {autoComplete.map((item, idx) => {
+                  return (
+                    <Link
+                      key={idx}
+                      width={'100%'}
+                      margin={'10px'}
+                      href={item.href}>
+                      <Box
                         width={'100%'}
-                        margin={'10px'}
-                        href={`/learning/${item.slug}`}>
-                        <Box
-                          width={'100%'}
-                          p={5}
-                          borderRadius={10}
-                          backgroundColor={'gray.200'}
-                          boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}>
-                          <HStack>
-                            <Text fontWeight={'semibold'}>{item.name}</Text>
-                            <Spacer />
-                            <Tag
-                              variant="outline"
-                              colorScheme="blue">
-                              {item.source.toString().toUpperCase()}
-                            </Tag>
-                          </HStack>
-                        </Box>
-                      </Link>
-                    );
-                  } else {
-                    // need to add href to Units page once @Aditya finishes Units Page
-                    return (
-                      <Link
-                        key={item._id}
-                        // href={`/learning/${courseByUnit?.slug}/${item.slug}`}
-                        width={'100%'}
-                        margin={'10px'}
-                        onClick={() => handleUnitClick(item._id)}>
-                        <Box
-                          width={'100%'}
-                          p={5}
-                          borderRadius={10}
-                          backgroundColor={'gray.200'}
-                          boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}>
-                          <HStack>
-                            <Text fontWeight={'semibold'}>{item.name}</Text>
-                            <Spacer />
-                            <Tag
-                              variant="outline"
-                              colorScheme="teal">
-                              {item.source.toString().toUpperCase()}
-                            </Tag>
-                          </HStack>
-                        </Box>
-                      </Link>
-                    );
-                  }
+                        p={5}
+                        borderRadius={10}
+                        backgroundColor={'gray.200'}
+                        boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}>
+                        <HStack>
+                          <Text fontWeight={'semibold'}>{item.name}</Text>
+                          <Spacer />
+                          <Tag
+                            variant="outline"
+                            colorScheme={
+                              item.source === 'course' ? 'blue' : 'teal'
+                            }>
+                            {item.source.toString().toUpperCase()}
+                          </Tag>
+                        </HStack>
+                      </Box>
+                    </Link>
+                  );
                 })}
               </Flex>
             )}
