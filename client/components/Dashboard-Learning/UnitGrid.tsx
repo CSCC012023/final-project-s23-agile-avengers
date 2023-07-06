@@ -13,7 +13,7 @@ type UnitGridParams = {
 const UnitGrid = ({ units, courseSlug, userUnits }: UnitGridParams) => {
   const findUnitProgress = (
     completedUnits: UnitWithProgress[],
-    unitSlug: string
+    unitSlug: string,
   ): number => {
     for (const unitWithProgress of completedUnits)
       if (unitWithProgress.unit.slug === unitSlug)

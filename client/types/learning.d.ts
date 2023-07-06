@@ -52,24 +52,24 @@ export interface LearningProgressResponse {
     {
       courseID: Course;
       progress: number;
-    }
+    },
   ];
   units: [
     {
       unitID: Unit;
       progress: number;
-    }
+    },
   ];
   videos: [
     {
       videoID: string;
       progressPercent: number;
-    }
+    },
   ];
   article: [
     {
       articleID: string;
       progressPercent: number;
-    }
+    },
   ];
 }
