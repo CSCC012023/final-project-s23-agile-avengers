@@ -12,6 +12,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
+import { useAuth } from '@clerk/nextjs';
 import { IoNewspaperOutline } from '@react-icons/all-files/io5/IoNewspaperOutline';
 import { IoVideocamOutline } from '@react-icons/all-files/io5/IoVideocamOutline';
 import { useEffect, useState } from 'react';
@@ -26,7 +27,7 @@ type CourseProps = {
   };
 };
 
-export type Course = {
+type Course = {
   name: string;
   units: [
     {
@@ -43,6 +44,11 @@ export type Course = {
   ];
 };
 
+type UnitProgressData = {
+  slug: string;
+  progress: number;
+};
+
 export default function UnitPage({ params }: CourseProps) {
   const {
     center,
@@ -56,9 +62,14 @@ export default function UnitPage({ params }: CourseProps) {
   } = styles;
 
   const [course, setCourse] = useState<CourseWithUnits>();
+  const [allUnitsProgress, setAllUnitsProgress] =
+    useState<UnitProgressData[]>();
+
   const [selectedUnit, setSelectedUnit] = useState<string>(
-    params?.unitSlug as string,
+    decodeURIComponent(params?.unitSlug as string),
   );
+
+  const { userId } = useAuth();
 
   const getCourse = async () => {
     try {
@@ -73,8 +84,22 @@ export default function UnitPage({ params }: CourseProps) {
     }
   };
 
+  const getAllUnitsProgress = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/unitsProgess?userID=${userId}`,
+      );
+      const data: UnitProgressData[] = await response.json();
+      setAllUnitsProgress(data);
+    } catch (error) {
+      setAllUnitsProgress(undefined);
+      console.error((error as Error).message);
+    }
+  };
+
   useEffect(() => {
     getCourse();
+    getAllUnitsProgress();
   }, [params]);
 
   if (!course)
@@ -91,8 +116,10 @@ export default function UnitPage({ params }: CourseProps) {
       </div>
     );
 
-  const unit = course.units.find(
-    ({ slug }) => slug === decodeURIComponent(selectedUnit),
+  const unit = course.units.find(({ slug }) => slug === selectedUnit);
+
+  const unitProgress = allUnitsProgress?.find(
+    ({ slug }) => slug === selectedUnit,
   );
 
   if (course && !unit)
@@ -112,9 +139,13 @@ export default function UnitPage({ params }: CourseProps) {
         <Progress
           className={progress}
           hasStripe
-          value={50}
+          max={unit?.contents.length}
+          min={0}
+          value={unitProgress?.progress || 0}
         />
-        <Text>1/{unit?.contents.length} points</Text>
+        <Text>
+          {unitProgress?.progress || 0}/{unit?.contents.length} points
+        </Text>
       </div>
       <div className={unitWrapper}>
         <Card variant="elevated">
@@ -136,7 +167,7 @@ export default function UnitPage({ params }: CourseProps) {
                 <Text
                   cursor={'pointer'}
                   key={unitKey}
-                  onClick={() => setSelectedUnit(slug)}
+                  onClick={() => setSelectedUnit(decodeURIComponent(slug))}
                   paddingBottom={3}
                   size="sm">
                   {name}
