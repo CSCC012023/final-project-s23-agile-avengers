@@ -39,7 +39,7 @@ const ArticleList = ({ params }: ArticleProps) => {
       const dataCourse: Course = await responseCourse.json();
       // update to better promise handling
       const response: Response = await fetch(
-        `http://localhost:4000/article?articleSlug=${params.articleSlug}`
+        `http://localhost:4000/article?articleSlug=${params.articleSlug}`,
       );
       setCourse(dataCourse);
       const jsonData: any = await response.json();
