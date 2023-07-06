@@ -7,9 +7,7 @@ type UnitListItemProps = {
 
 const UnitListItem = ({ name, href }: UnitListItemProps) => {
   return (
-    <Heading
-      size="lg"
-      textTransform="capitalize">
+    <Heading size="lg">
       <Link href={href}> {name}</Link>
     </Heading>
   );
