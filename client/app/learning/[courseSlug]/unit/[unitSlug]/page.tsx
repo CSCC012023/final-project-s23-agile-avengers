@@ -37,9 +37,9 @@ export type Course = {
           name: string;
           slug: string;
           contentType: 'video' | 'article';
-        }
+        },
       ];
-    }
+    },
   ];
 };
 
@@ -57,13 +57,13 @@ export default function UnitPage({ params }: CourseProps) {
 
   const [course, setCourse] = useState<CourseWithUnits>();
   const [selectedUnit, setSelectedUnit] = useState<string>(
-    params?.unitSlug as string
+    params?.unitSlug as string,
   );
 
   const getCourse = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`
+        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`,
       );
       const data: CourseWithUnits = await response.json();
       setCourse(data);
@@ -92,7 +92,7 @@ export default function UnitPage({ params }: CourseProps) {
     );
 
   const unit = course.units.find(
-    ({ slug }) => slug === decodeURIComponent(selectedUnit)
+    ({ slug }) => slug === decodeURIComponent(selectedUnit),
   );
 
   if (course && !unit)
@@ -134,8 +134,10 @@ export default function UnitPage({ params }: CourseProps) {
             {course?.units.map(({ name, slug }, unitKey) => {
               return (
                 <Text
+                  cursor={'pointer'}
                   key={unitKey}
                   onClick={() => setSelectedUnit(slug)}
+                  paddingBottom={3}
                   size="sm">
                   {name}
                 </Text>
