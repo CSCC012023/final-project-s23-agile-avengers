@@ -15,7 +15,11 @@ export const getLearningProgress = async (req: Request, res: Response) => {
     return res.status(400).json({
       message: 'Please provide userID',
     });
-
+  /*
+  const userIDRegex = /^user_[A-z0-9]+/;
+  if (!userIDRegex.test(req.query.userID.toString()))
+    return res.status(400).json({ message: 'Invalid userID' });
+*/
   const user = await modelUser.findOne({
     userID: req.query.userID,
   });
@@ -41,9 +45,7 @@ export const getLearningProgress = async (req: Request, res: Response) => {
         path: 'unitID',
         model: 'Unit',
       },
-    })
-    .exec();
+    });
 
-  if (!learningProgress) return res.status(404).send({});
-  res.send(learningProgress);
+  !learningProgress ? res.status(404).send({}) : res.send(learningProgress);
 };

@@ -17,7 +17,7 @@ import Sidebar from '../../components/Dashboard-Learning/Sidebar';
 import styles from '../../styles/pages/Dashboard.module.scss';
 
 const DashboardPage = () => {
-  const { isLoaded, userId } = useAuth();
+  const { userId } = useAuth();
   const [exploreCourses, setExploreCourses] = useState<Array<Course>>([]);
   const [userCourses, setUserCourses] = useState<Array<Course>>([]);
   const [isSideBarReady, setIsSideBarReady] = useState(false);
@@ -99,7 +99,7 @@ const DashboardPage = () => {
     getUnits();
   }, [selectedCourse]);
 
-  if (!isLoaded || !userId || !isSideBarReady)
+  if (!isSideBarReady)
     // need to check for userId as well as its a protected route {
     return (
       <div className={styles.center}>
