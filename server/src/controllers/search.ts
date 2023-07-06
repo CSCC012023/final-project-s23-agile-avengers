@@ -103,7 +103,7 @@ export const getAutoCompleteResults = async (req: Request, res: Response) => {
           data.push({
             name: item.name,
             source: item.source,
-            href: `/learning/${course?.slug}/${item.slug}`,
+            href: `/learning/${course?.slug}/unit/${item.slug}`,
           });
         }
       }
