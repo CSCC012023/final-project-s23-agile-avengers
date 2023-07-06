@@ -22,7 +22,7 @@ type PopulatedUnit = {
  * @return {Promise} Video/Article or null
  */
 const populateContent = async (
-  contentId: Types.ObjectId
+  contentId: Types.ObjectId,
 ): Promise<Article | Video | null> => {
   const requiredFields = 'name slug contentType -_id';
   const video: Video | null = await modelVideo
@@ -72,7 +72,7 @@ export const getAllUnitsBySlug = async (req: Request, res: Response) => {
         name: unit.name,
         slug: unit.slug,
         contents: await Promise.all(
-          unit.content.map(async (id) => await populateContent(id))
+          unit.content.map(async (id) => await populateContent(id)),
         ),
       });
   }
