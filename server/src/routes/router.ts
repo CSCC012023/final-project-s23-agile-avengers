@@ -3,6 +3,10 @@ import { Router } from 'express';
 import { getArticleBySlug } from '../controllers/article';
 import { getAllCourses } from '../controllers/courses';
 import { getLearningProgress } from '../controllers/learningProgress';
+import {
+  getAutoCompleteResults,
+  getSearchResults,
+} from '../controllers/search';
 import { getStatus } from '../controllers/status';
 import { getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
@@ -57,6 +61,20 @@ router.get('/article', getArticleBySlug);
  * @access public
  */
 router.get('/video', getVideoBySlug);
+
+/**
+ * @route GET /search
+ * @description Get all the search results
+ * @access public
+ */
+router.get('/search', getSearchResults);
+
+/**
+ * @route GET /searchAutoComplete
+ * @description Get all the autocomplete results
+ * @access public
+ */
+router.get('/searchAutoComplete', getAutoCompleteResults);
 
 /**
  * @route GET /learningProgress
