@@ -43,22 +43,22 @@ export interface Course {
 
 export interface CourseProgress {
   courseID: Types.ObjectId;
-  progress: Number;
+  progress: number;
 }
 
 export interface UnitProgress {
   unitID: Types.ObjectId;
-  progress: Number;
+  progress: number;
 }
 
 export interface ArticleProgress {
   articleID: Types.ObjectId;
-  progressPercent: Number;
+  progressPercent: number;
 }
 
 export interface VideoProgress {
   videoID: Types.ObjectId;
-  progressPercent: Number;
+  progressPercent: number;
 }
 
 export interface LearningProgress {

@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 import { LearningProgress } from '../../types/learning';
 
-const ProgressSchema = new Schema<LearningProgress>({
+export const ProgressSchema = new Schema<LearningProgress>({
   userID: {
     type: Schema.Types.ObjectId,
     ref: 'User',
