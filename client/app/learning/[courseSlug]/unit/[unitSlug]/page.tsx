@@ -118,9 +118,11 @@ export default function UnitPage({ params }: CourseProps) {
 
   const unit = course.units.find(({ slug }) => slug === selectedUnit);
 
-  const unitProgress = allUnitsProgress?.find(
-    ({ slug }) => slug === selectedUnit,
-  );
+  const unitProgress = () => {
+    if (JSON.stringify(allUnitsProgress) === '{}') return 0;
+    const data = allUnitsProgress?.find(({ slug }) => slug === selectedUnit);
+    return data?.progress || 0;
+  };
 
   if (course && !unit)
     return (
@@ -141,10 +143,10 @@ export default function UnitPage({ params }: CourseProps) {
           hasStripe
           max={unit?.contents.length}
           min={0}
-          value={unitProgress?.progress || 0}
+          value={unitProgress()}
         />
         <Text>
-          {unitProgress?.progress || 0}/{unit?.contents.length} points
+          {unitProgress()}/{unit?.contents.length} points
         </Text>
       </div>
       <div className={unitWrapper}>
