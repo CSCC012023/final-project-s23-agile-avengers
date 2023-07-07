@@ -1,18 +1,23 @@
-import { Heading, Progress, Text } from '@chakra-ui/react';
+import { Heading, Link, Progress, Text } from '@chakra-ui/react';
 
 type UnitListItemProps = {
   name: string;
+  href: string;
   doneValue: number;
   totalValue: number;
 };
 
-const UnitListItem = ({ name, doneValue, totalValue }: UnitListItemProps) => {
+const UnitListItem = ({
+  name,
+  href,
+  doneValue,
+  totalValue,
+}: UnitListItemProps) => {
   return (
     <Heading
       size="lg"
-      textTransform="capitalize"
       w="100%">
-      {name}
+      <Link href={href}> {name}</Link>
       <Progress
         className={'progressBar'}
         hasStripe

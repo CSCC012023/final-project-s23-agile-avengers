@@ -28,20 +28,18 @@ export type Course = {
           name: string;
           slug: string;
           contentType: 'video' | 'article';
-        },
+        }
       ];
-    },
+    }
   ];
 };
 
 const getIndexFromSlug = (
   slug: string,
-  progressData: ProgressData[],
+  progressData: ProgressData[]
 ): number => {
-  for (let i = 0; i < progressData.length; i++)
-    if (progressData[i].unitID.slug === slug) return i;
-
-  return -1;
+  slug;
+  return progressData.findIndex(({ unitID }) => unitID.slug === slug);
 };
 
 export default function CoursePage({ params }: CourseProps) {
@@ -50,7 +48,7 @@ export default function CoursePage({ params }: CourseProps) {
   const [course, setCourse] = useState<CourseWithUnits>();
   const [progress, setProgress] = useState<ProgressData[]>([]);
 
-  const { isLoaded, userId } = useAuth();
+  const { userId } = useAuth();
 
   const getProgress = async () => {
     try {
@@ -82,11 +80,8 @@ export default function CoursePage({ params }: CourseProps) {
 
   useEffect(() => {
     getCourse();
+    getProgress();
   }, [params]);
-
-  useEffect(() => {
-    if (isLoaded) getProgress();
-  }, [isLoaded]);
 
   if (!course)
     return (
@@ -114,6 +109,7 @@ export default function CoursePage({ params }: CourseProps) {
                   ? 0
                   : progress[getIndexFromSlug(slug, progress)].progress
               }
+              href={`/learning/${params?.courseSlug}/unit/${slug}`}
               key={unitKey}
               name={name}
               totalValue={contents.length}

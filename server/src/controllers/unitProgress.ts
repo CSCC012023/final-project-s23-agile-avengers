@@ -13,20 +13,23 @@ import { modelProgress } from '../models/Learning/progress';
 export const getUnitProgress = async (req: Request, res: Response) => {
   // Checks if userID is part of the query
   if (!req.query.userID)
-    return res.status(400).send({ message: 'Missing UserAuthID' });
+    return res.status(400).json({ message: 'Missing userID' });
 
-  const userAuthID = req.query.userID as string;
+  const userIDRegex = /^user_[A-z0-9]+/;
+  if (!userIDRegex.test(req.query.userID as string))
+    return res.status(400).json({ message: 'Invalid userID' });
 
-  const userDbID = await modelUser
-    .findOne({ userID: userAuthID })
-    .select('_id');
-  if (!userDbID)
-    return res.status(400).json({ message: 'userDatabaseID does not exist' });
+  const user = await modelUser.findOne({
+    userID: req.query.userID,
+  });
 
-  const userIdAsString = userDbID ? userDbID._id.toString() : null;
+  if (!user)
+    return res.status(400).json({
+      message: 'User not found with the given userID',
+    });
 
   const progress = await modelProgress
-    .findOne({ userID: userIdAsString })
+    .findOne({ userID: user._id })
     .populate({
       path: 'units',
       populate: {
@@ -34,12 +37,13 @@ export const getUnitProgress = async (req: Request, res: Response) => {
         model: 'Unit',
       },
     })
-    .exec();
+    .select('units -_id');
+
   if (!progress) return res.status(404).json({ message: 'Progress not found' });
 
   const unitProgress = progress.units;
-  if (!unitProgress)
-    return res.status(404).json({ message: 'Unit progress not found' });
 
-  return res.status(200).json(unitProgress);
+  return unitProgress
+    ? res.status(200).json(unitProgress)
+    : res.status(404).json({ message: 'Unit progress not found' });
 };
