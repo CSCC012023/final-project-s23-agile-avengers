@@ -2,8 +2,18 @@
 
 ## Iteration 01 - Review & Retrospect
 
-- When: 10/06/2023
+- When: 20/06/2023
 - Where: Zoom
+
+## Participants
+
+- Shawn Santhoshgeorge
+- Adam Badar
+- Aditya Kulkarni
+- Shashwat Doshi
+- Rahul Sharma
+- Balraj Kharol
+- Aryan Thakur
 
 ## Process - Reflection
 
@@ -20,25 +30,25 @@
 
 ### Decisions that did not turn out as well as we hoped
 
-- Last min
+- Last minute changes: A bunch of commits happened at the last moment which
+indicates poor estimation of individual members' work.
+- Lack of documentation depth for testing: Need more robust postman testing
+for created endpoints.
+- UI Responsiveness: Need to improve on the overall UI experience and
+responsiveness.
 
 ### Planned changes
 
-- Add a conventional commit linting tool so that team members can focus on actual review while commiting their code.
-- Add a reminder in the PR template for the squash merge so that team members will most likely follow the guidelines.
+- Find a convention for WebDev along with Error Messages in Backend
+- Improve SubDocument Querying
 
 ## Product - Review
 
-### Goals and/or tasks that were met/completed:
+### Goals and/or tasks that were met/completed
 
-- Created the UI for the application.
-- Conducted in-depth competitor analysis and user persona analysis.
-- Set-up the project, repositories, and integrations across Atlassian and GitHub.
-- Created a team agreement and a team information document.
-- Created a consistent zoom link and schedule to meet.
-- Created the entire product backlog in JIRA and refined the tickets.
+- Implemented the Dashboard, all courses, units, and
 
-### Goals and/or tasks that were planned but not met/completed:
+### Goals and/or tasks that were planned but not met/completed
 
 - All planned tasks were completed.
 
