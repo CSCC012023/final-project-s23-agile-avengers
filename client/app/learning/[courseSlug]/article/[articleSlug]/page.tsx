@@ -3,7 +3,7 @@
 import ArticleImage from '@/components/ContentArticle/ArticleImage';
 import BlogAuthor from '@/components/ContentArticle/BlogAuthor';
 import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
-import styles from '@/styles/pages/Course.module.scss';
+import styles from '@/styles/pages/Article.module.scss';
 import { Article } from '@/types/learning';
 import {
   Accordion,
