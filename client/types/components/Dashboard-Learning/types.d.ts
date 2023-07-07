@@ -13,3 +13,8 @@ export type Unit = {
     },
   ];
 };
+export type ProgressData = {
+  unitID: Unit;
+  progress: number;
+  _id: string;
+};
