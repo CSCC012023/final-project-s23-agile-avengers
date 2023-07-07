@@ -1,12 +1,14 @@
 import { Router } from 'express';
 
-import { getStatus } from '../controllers/status';
-import { getAllUsers, createNewUser } from '../controllers/user';
-import { getAllCourses } from '../controllers/courses';
-import { getSearchResults } from '../controllers/search';
-import { getAutoCompleteResults } from '../controllers/search';
-import { getAllUnitsBySlug } from '../controllers/units';
 import { getArticleBySlug } from '../controllers/article';
+import { getAllCourses } from '../controllers/courses';
+import {
+  getAutoCompleteResults,
+  getSearchResults,
+} from '../controllers/search';
+import { getStatus } from '../controllers/status';
+import { getAllUnitsBySlug } from '../controllers/units';
+import { createNewUser, getAllUsers } from '../controllers/user';
 import { getVideoBySlug } from '../controllers/video';
 
 const router = Router();
@@ -38,7 +40,6 @@ router.get('/user', getAllUsers);
  * @access public
  */
 router.get('/courses', getAllCourses);
-
 
 /**
  * @route GET /units
