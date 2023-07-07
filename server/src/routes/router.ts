@@ -2,15 +2,12 @@ import { Router } from 'express';
 
 import { getArticleBySlug } from '../controllers/article';
 import { getAllCourses } from '../controllers/courses';
-import {
-  getAutoCompleteResults,
-  getSearchResults,
-} from '../controllers/search';
+import { getLearningProgress } from '../controllers/learningProgress';
+import { getSearchResults } from '../controllers/search';
 import { getStatus } from '../controllers/status';
 import { getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
 import { getVideoBySlug } from '../controllers/video';
-
 const router = Router();
 
 /**
@@ -74,6 +71,13 @@ router.get('/search', getSearchResults);
  * @description Get all the autocomplete results
  * @access public
  */
+
+/**
 router.get('/searchAutoComplete', getAutoCompleteResults);
+ * @route GET /learningProgress
+ * @description Get course progress
+ * @access public
+ */
+router.get('/learningProgress', getLearningProgress);
 
 export default router;
