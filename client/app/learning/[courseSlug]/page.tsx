@@ -70,9 +70,10 @@ export default function CoursePage({ params }: CourseProps) {
     <div className={container}>
       <h1 className={title}>{course?.name}</h1>
       <div className={unitLists}>
-        {course?.units.map(({ name }, unitKey) => {
+        {course?.units.map(({ name, slug }, unitKey) => {
           return (
             <UnitListItem
+              href={`/learning/${params?.courseSlug}/unit/${slug}`}
               key={unitKey}
               name={name}
             />

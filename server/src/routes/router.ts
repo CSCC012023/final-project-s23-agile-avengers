@@ -8,7 +8,7 @@ import {
   getSearchResults,
 } from '../controllers/search';
 import { getStatus } from '../controllers/status';
-import { getAllUnitsBySlug } from '../controllers/units';
+import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
 import { getVideoBySlug } from '../controllers/video';
 const router = Router();
@@ -47,6 +47,13 @@ router.get('/courses', getAllCourses);
  * @access public
  */
 router.get('/units', getAllUnitsBySlug);
+
+/**
+ * @route GET /unitsProgess
+ * @description Get a specific course by ID
+ * @access public
+ */
+router.get('/unitsProgess', getAllUnitProgress);
 
 /**
  * @route GET /article
