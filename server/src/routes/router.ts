@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
-import { getStatus } from '../controllers/status';
-import { getAllUsers, createNewUser } from '../controllers/user';
-import { getAllCourses } from '../controllers/courses';
-import { getAllUnitsBySlug } from '../controllers/units';
 import { getArticleBySlug } from '../controllers/article';
-import { getVideoBySlug } from '../controllers/video';
-
+import { getAllCourses } from '../controllers/courses';
+import { getStatus } from '../controllers/status';
+import { getAllUnitsBySlug } from '../controllers/units';
+import { createNewUser, getAllUsers } from '../controllers/user';
+import { getVideoBySlug, getVideoProgress, updateVideoProgress } from '../controllers/video';
+import { tempInsert } from '../controllers/tempInsert';
 const router = Router();
 
 /**
@@ -57,5 +57,28 @@ router.get('/article', getArticleBySlug);
  * @access public
  */
 router.get('/video', getVideoBySlug);
+
+/**
+ * @route PATCH /videoProgress
+ * @description Get all progress of a video for a user
+ * @access public
+ */
+router.patch('/videoProgress', updateVideoProgress);
+
+/**
+ * @route GET /videoProgress
+ * @description Get all progress of a video for a user
+ * @access public
+ */
+router.get('/videoProgress', getVideoProgress);
+
+/**
+ * @route GET /learningProgress
+ * @description Get course progress
+ * @access public
+ */
+router.get('/temp', tempInsert);
+
+
 
 export default router;

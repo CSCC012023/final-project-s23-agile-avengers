@@ -1,38 +1,25 @@
-import React, { useEffect, useRef } from 'react';
-
-declare global {
-  interface Window {
-    YT: any;
-    onYouTubeIframeAPIReady: () => void;
-  }
-}
+import YouTube, { YouTubeProps } from 'react-youtube';
 
 interface YoutubePlayerProps {
   videoId: string;
 }
 
-const YoutubePlayer: React.FC<YoutubePlayerProps> = ({ videoId }) => {
-  const playerRef = useRef<HTMLDivElement>(null);
+const YoutubePlayer = ( { videoId } : YoutubePlayerProps) => {
+  const _onPlay: YouTubeProps['onStateChange'] = async (event) => {
+    const current = await event.target.getCurrentTime()
+    const duration = await event.target.getDuration()
+    console.log(current/duration * 100);
+  }
 
-  useEffect(() => {
-    const youtubePlayerContainer = playerRef.current;
+  const opts: YouTubeProps['opts'] = {
+    height: '100%',
+    width: '100%',
+    playerVars: {
+      autoplay: 0,
+    },
+  };
 
-    // Load the YouTube IFrame API script
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.body.appendChild(tag);
-
-    // Create the YouTube player when the API is ready
-    window.onYouTubeIframeAPIReady = () => {
-      new window.YT.Player(youtubePlayerContainer, {
-        height: '100%',
-        width: '100%',
-        videoId: videoId,
-      });
-    };
-  }, [videoId]);
-
-  return <div ref={playerRef} />;
-};
+  return <YouTube onStateChange={_onPlay} opts={opts} videoId={videoId} />;
+}
 
 export default YoutubePlayer;
