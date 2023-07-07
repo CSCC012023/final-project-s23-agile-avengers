@@ -46,7 +46,9 @@ responsiveness.
 
 ### Goals and/or tasks that were met/completed
 
-- Implemented the Dashboard, all courses, units, and
+- Implemented the Dashboard, all courses, units, videos, and artcile pages.
+- Implemented account management using clerk api.
+- Implemented basic repository enhancement features.
 
 ### Goals and/or tasks that were planned but not met/completed
 
