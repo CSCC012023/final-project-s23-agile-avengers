@@ -40,7 +40,7 @@ const DashboardPage = () => {
     try {
       /* set users courses*/
       const userCoursesResponse: Response = await fetch(
-        `http://localhost:4000/learningProgress?userID=${userId}`,
+        `http://localhost:4000/learningProgress?userID=${userId}`
       );
       const userCoursesData: LearningProgressResponse =
         await userCoursesResponse.json();
@@ -57,11 +57,11 @@ const DashboardPage = () => {
 
       /* set explore courses*/
       const exploreCoursesResponse: Response = await fetch(
-        'http://localhost:4000/courses',
+        'http://localhost:4000/courses'
       );
       const exploreCoursesData: Course[] = await exploreCoursesResponse.json();
       const filteredCourses = exploreCoursesData.filter(
-        (elem) => !isCourseInList(loadedUserCourses, elem.slug),
+        (elem) => !isCourseInList(loadedUserCourses, elem.slug)
       );
 
       setExploreCourses(filteredCourses);
@@ -100,7 +100,7 @@ const DashboardPage = () => {
   }, [selectedCourse]);
 
   if (!isSideBarReady)
-    // need to check for userId as well as its a protected route {
+    // Is a clerk protected route so do not need to check isLoaded
     return (
       <div className={styles.center}>
         <Spinner

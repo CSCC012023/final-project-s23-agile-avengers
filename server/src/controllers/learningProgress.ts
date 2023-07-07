@@ -15,11 +15,11 @@ export const getLearningProgress = async (req: Request, res: Response) => {
     return res.status(400).json({
       message: 'Please provide userID',
     });
-  /*
+
   const userIDRegex = /^user_[A-z0-9]+/;
   if (!userIDRegex.test(req.query.userID.toString()))
     return res.status(400).json({ message: 'Invalid userID' });
-*/
+
   const user = await modelUser.findOne({
     userID: req.query.userID,
   });
