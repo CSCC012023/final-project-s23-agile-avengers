@@ -10,7 +10,7 @@ export type Unit = {
       name: string;
       slug: string;
       contentType: 'video' | 'article';
-    }
+    },
   ];
 };
 export type ProgressData = {

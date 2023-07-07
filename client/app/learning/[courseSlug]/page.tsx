@@ -28,15 +28,15 @@ export type Course = {
           name: string;
           slug: string;
           contentType: 'video' | 'article';
-        }
+        },
       ];
-    }
+    },
   ];
 };
 
 const getIndexFromSlug = (
   slug: string,
-  progressData: ProgressData[]
+  progressData: ProgressData[],
 ): number => {
   slug;
   return progressData.findIndex(({ unitID }) => unitID.slug === slug);
