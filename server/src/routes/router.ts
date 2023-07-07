@@ -8,11 +8,10 @@ import {
   getSearchResults,
 } from '../controllers/search';
 import { getStatus } from '../controllers/status';
-import { getUnitProgress, putUnitProgress } from '../controllers/unitProgress';
+import { getUnitProgress } from '../controllers/unitProgress';
 import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
 import { getVideoBySlug } from '../controllers/video';
-import { getUnitProgress } from '../controllers/unitProgress';
 
 const router = Router();
 
