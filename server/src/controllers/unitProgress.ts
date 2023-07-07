@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { modelProgress } from '../models/Learning/progress';
 import { modelUser } from '../models/Account/user';
+import { modelProgress } from '../models/Learning/progress';
 
 /**
  * Retrieves progress of all the units of a user
@@ -35,12 +35,11 @@ export const getUnitProgress = async (req: Request, res: Response) => {
       },
     })
     .exec();
-  if (!progress) {
-    return res.status(404).json({ message: 'Progress not found' });
-  }
+  if (!progress) return res.status(404).json({ message: 'Progress not found' });
+
   const unitProgress = progress.units;
-  if (!unitProgress) {
+  if (!unitProgress)
     return res.status(404).json({ message: 'Unit progress not found' });
-  }
+
   return res.status(200).json(unitProgress);
 };
