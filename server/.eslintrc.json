@@ -35,19 +35,13 @@
     "computed-property-spacing": ["error", "never"],
     "no-lonely-if": "error",
     "no-unneeded-ternary": "error",
-    "operator-linebreak": [
-      "error",
-      "none",
-      { "overrides": { "?": "before", ":": "before" } }
-    ],
     // ES6
     "prefer-arrow-callback": "warn",
     "prefer-const": "warn",
     "prefer-destructuring": "warn",
     "require-await": "error",
-    // "valid-jsdoc": "warn",
     "require-jsdoc": [
-      "error",
+      "warn",
       {
         "require": {
           "FunctionDeclaration": true,
@@ -63,9 +57,12 @@
       "error",
       {
         "types": {
+          "Boolean": false,
+          "Number": false,
           "String": false
         }
       }
-    ]
+    ],
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
