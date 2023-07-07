@@ -86,17 +86,17 @@ export const getAutoCompleteResults = async (req: Request, res: Response) => {
     ];
 
     const result = await modelCourse.aggregate(pipeline);
-    let data = [];
+    const data = [];
 
-    if (result) {
-      for (const item of result) {
-        if (item.source === 'course') {
+    if (result)
+      for (const item of result)
+        if (item.source === 'course')
           data.push({
             name: item.name,
             source: item.source,
             href: `/learning/${item.slug}`,
           });
-        } else if (item.source === 'unit') {
+        else if (item.source === 'unit') {
           const course = await modelCourse.findOne({
             units: { $eq: item._id },
           });
@@ -106,8 +106,6 @@ export const getAutoCompleteResults = async (req: Request, res: Response) => {
             href: `/learning/${course?.slug}/unit/${item.slug}`,
           });
         }
-      }
-    }
 
     res.status(200).send(data);
   } catch (e: any) {

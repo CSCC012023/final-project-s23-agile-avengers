@@ -37,19 +37,17 @@ const AllCourses = () => {
 
   useEffect(() => {
     const getAutoCompleteList = async () => {
-      if (searchTerm.length) {
+      if (searchTerm.length)
         try {
           const response: Response = await fetch(
-            `http://localhost:4000/searchAutoComplete?text=${searchTerm}`
+            `http://localhost:4000/searchAutoComplete?text=${searchTerm}`,
           );
           const searchAutoComplete: any = await response.json();
           setAutoComplete(searchAutoComplete);
         } catch (e: any) {
           console.error(e);
         }
-      } else {
-        setAutoComplete([]);
-      }
+      else setAutoComplete([]);
     };
 
     getAutoCompleteList();
@@ -59,17 +57,13 @@ const AllCourses = () => {
     e.preventDefault(); // prevents default behavior of submitting form and refreshing the page
 
     try {
-      if (!searchTerm.length) {
-        getCourses();
-      } else {
+      if (!searchTerm.length) getCourses();
+      else {
         const response: Response = await fetch(
-          `http://localhost:4000/search?text=${searchTerm}`
+          `http://localhost:4000/search?text=${searchTerm}`,
         );
         const jsonData: any = await response.json();
-        if (Object.keys(jsonData).length !== 0) {
-          setCourses(jsonData);
-        }
-        console.log(jsonData);
+        if (Object.keys(jsonData).length !== 0) setCourses(jsonData);
       }
       setSearchTerm('');
     } catch (e: any) {
@@ -97,8 +91,8 @@ const AllCourses = () => {
   return (
     <>
       <Flex
-        m={10}
-        flexDirection={'column'}>
+        flexDirection={'column'}
+        m={10}>
         <Text fontSize="5xl">Courses</Text>
         <Box margin={'50px'}>
           <Center>
@@ -107,9 +101,9 @@ const AllCourses = () => {
                 <SearchIcon color="gray.900" />
               </InputLeftElement>
               <Input
-                placeholder="Explore learning..."
-                onClick={onOpen}
                 isReadOnly
+                onClick={onOpen}
+                placeholder="Explore learning..."
               />
             </InputGroup>
           </Center>
@@ -144,12 +138,12 @@ const AllCourses = () => {
       </Flex>
 
       <Modal
+        isCentered
+        isOpen={isOpen}
         onClose={() => {
           setSearchTerm('');
           onClose();
-        }}
-        isOpen={isOpen}
-        isCentered>
+        }}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -159,9 +153,9 @@ const AllCourses = () => {
                   <SearchIcon color="gray.900" />
                 </InputLeftElement>
                 <Input
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Explore learning..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </InputGroup>
             </form>
@@ -169,30 +163,30 @@ const AllCourses = () => {
           <ModalBody>
             {autoComplete.length > 0 && (
               <Flex
-                flexDirection={'column'}
                 alignItems={'center'}
+                flexDirection={'column'}
                 justifyContent={'space-around'}>
                 {autoComplete.map((item, idx) => {
                   return (
                     <Link
+                      href={item.href}
                       key={idx}
-                      width={'100%'}
                       margin={'10px'}
-                      href={item.href}>
+                      width={'100%'}>
                       <Box
-                        width={'100%'}
-                        p={5}
-                        borderRadius={10}
                         backgroundColor={'gray.200'}
-                        boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}>
+                        borderRadius={10}
+                        boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'}
+                        p={5}
+                        width={'100%'}>
                         <HStack>
                           <Text fontWeight={'semibold'}>{item.name}</Text>
                           <Spacer />
                           <Tag
-                            variant="outline"
                             colorScheme={
                               item.source === 'course' ? 'blue' : 'teal'
-                            }>
+                            }
+                            variant="outline">
                             {item.source.toString().toUpperCase()}
                           </Tag>
                         </HStack>
