@@ -30,19 +30,3 @@ export const createNewUser = (req: Request, res: Response) => {
             .json({ message: 'Failed to add user', error: err.message });
     });
 };
-
-/**
- * Retrives all Users
- *
- * @param {Request} req - Request Object
- * @param {Response} res - Response Object
- *
- * @return {Response} Response Object with an Error or All Users
- */
-export const getAllUsers = async (req: Request, res: Response) => {
-  const users = await modelUser.find().select('-_id -__v');
-
-  return !users
-    ? res.status(500).json({ error: 'Internal server error' })
-    : res.status(200).json(users);
-};

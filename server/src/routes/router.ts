@@ -10,7 +10,7 @@ import {
 import { getStatus } from '../controllers/status';
 import { getUnitProgress } from '../controllers/unitProgress';
 import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
-import { createNewUser, getAllUsers } from '../controllers/user';
+import { createNewUser } from '../controllers/user';
 import { getVideoBySlug } from '../controllers/video';
 
 const router = Router();
@@ -28,13 +28,6 @@ router.get('/status', getStatus);
  * @access public
  */
 router.post('/user', createNewUser);
-
-/**
- * @route GET /user
- * @description Get all users in the database
- * @access public
- */
-router.get('/user', getAllUsers);
 
 /**
  * @route GET /courses
