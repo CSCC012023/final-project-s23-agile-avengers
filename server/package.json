@@ -6,6 +6,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "nodemon ./src/server.ts",
+    "webhook": "ssh -o ServerAliveInterval=60 -R finlearn.serveo.net:80:localhost:4000 serveo.net",
     "build": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
