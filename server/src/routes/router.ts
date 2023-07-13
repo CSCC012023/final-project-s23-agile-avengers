@@ -5,7 +5,11 @@ import { getAllCourses } from '../controllers/courses';
 import { getStatus } from '../controllers/status';
 import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
-import { getVideoBySlug, getVideoProgress, updateVideoProgress } from '../controllers/video';
+import {
+  getVideoBySlug,
+  getVideoProgress,
+  updateVideoProgress,
+} from '../controllers/video';
 
 import { getLearningProgress } from '../controllers/learningProgress';
 import {
@@ -87,6 +91,7 @@ router.patch('/videoProgress', updateVideoProgress);
  */
 router.get('/videoProgress', getVideoProgress);
 
+/*
  * @route GET /search
  * @description Get all the search results
  * @access public
@@ -99,7 +104,6 @@ router.get('/search', getSearchResults);
  * @access public
  */
 router.get('/searchAutoComplete', getAutoCompleteResults);
-
 
 router.get('/learningProgress', getLearningProgress);
 
