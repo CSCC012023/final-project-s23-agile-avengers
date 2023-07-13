@@ -1,17 +1,19 @@
 import { Router } from 'express';
 
-import { getArticleBySlug } from '../controllers/article';
-import { getAllCourses } from '../controllers/courses';
-import { getLearningProgress } from '../controllers/learningProgress';
 import {
+  getAllCourses,
+  getAllUnitProgress,
+  getAllUnitsBySlug,
+  getArticleBySlug,
   getAutoCompleteResults,
+  getLearningProgress,
   getSearchResults,
-} from '../controllers/search';
+  getUnitProgress,
+  getVideoBySlug,
+} from '../controllers/Learning';
+
+import { createNewUser } from '../controllers/Account/user';
 import { getStatus } from '../controllers/status';
-import { getUnitProgress } from '../controllers/unitProgress';
-import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
-import { createNewUser } from '../controllers/user';
-import { getVideoBySlug } from '../controllers/video';
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { Course } from '../types/learning';
+import { Course } from '../../types/learning';
 
-import modelCourse from '../models/Learning/course';
+import modelCourse from '../../models/Learning/course';
 
 /**
  * Retrieves all Courses

@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 
-import modelArticle from '../models/Learning/article';
-import modelCourse from '../models/Learning/course';
-import modelUnit from '../models/Learning/unit';
-import modelVideo from '../models/Learning/video';
+import modelArticle from '../../models/Learning/article';
+import modelCourse from '../../models/Learning/course';
+import modelUnit from '../../models/Learning/unit';
+import modelVideo from '../../models/Learning/video';
 
-import { modelUser } from '../models/Account/user';
-import { modelProgress } from '../models/Learning/progress';
-import { Article, Unit, Video } from '../types/learning';
+import { modelUser } from '../../models/Account/user';
+import { modelProgress } from '../../models/Learning/progress';
+import { Article, Unit, Video } from '../../types/learning';
 
 type PopulatedUnit = {
   name: String;
@@ -63,7 +63,7 @@ export const getAllUnitsBySlug = async (req: Request, res: Response) => {
               .findById(id)
               .select(requiredFields);
             return video ? video : article;
-          }),
+          })
         ),
       });
   }

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import modelArticle from '../models/Learning/article';
-import { Article } from '../types/learning';
+import modelArticle from '../../models/Learning/article';
+import { Article } from '../../types/learning';
 
 /**
  * Retrieves an Article with a matching `slug`

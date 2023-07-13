@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { modelUser } from '../models/Account/user';
-import { modelProgress } from '../models/Learning/progress';
+import { modelUser } from '../../models/Account/user';
+import { modelProgress } from '../../models/Learning/progress';
 
 /**
  * Retrieves progress of all the units of a user

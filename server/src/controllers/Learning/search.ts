@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import modelCourse from '../models/Learning/course';
+import modelCourse from '../../models/Learning/course';
 
 export const getSearchResults = async (req: Request, res: Response) => {
   try {
