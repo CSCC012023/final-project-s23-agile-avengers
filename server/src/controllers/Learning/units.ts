@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 
+import modelUser from '../../models/Account/user';
 import modelArticle from '../../models/Learning/article';
 import modelCourse from '../../models/Learning/course';
+import modelProgress from '../../models/Learning/progress';
 import modelUnit from '../../models/Learning/unit';
 import modelVideo from '../../models/Learning/video';
 
-import { modelUser } from '../../models/Account/user';
-import { modelProgress } from '../../models/Learning/progress';
 import { Article, Unit, Video } from '../../types/learning';
 
 type PopulatedUnit = {

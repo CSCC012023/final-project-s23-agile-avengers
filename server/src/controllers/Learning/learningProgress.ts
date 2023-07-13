@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { modelUser } from '../../models/Account/user';
-import { modelProgress } from '../../models/Learning/progress';
+
+import modelUser from '../../models/Account/user';
+import modelProgress from '../../models/Learning/progress';
 
 /**
  * Endpoint to get a user's learning progress from their userId

@@ -4,7 +4,7 @@ import { MongoServerError } from 'mongodb';
 
 import { WebhookEvent } from '@clerk/clerk-sdk-node';
 
-import { modelUser } from '../../models/Account/user';
+import modelUser from '../../models/Account/user';
 
 /**
  * Add User to Database

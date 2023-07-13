@@ -61,7 +61,8 @@ const ProgressSchema = new Schema<LearningProgress>(
   }
 );
 
-export const modelProgress = model<LearningProgress>(
+const modelProgress = model<LearningProgress>(
   'LearningProgress',
   ProgressSchema
 );
+export default modelProgress;
