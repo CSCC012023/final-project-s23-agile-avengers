@@ -49,6 +49,7 @@ for learning to manage money without the risk of incurring a financial loss.
 - [Typescript](https://www.typescriptlang.org/)
 - [Node](https://nodejs.org/en/)
 - [Figma](https://www.figma.com/)
+- [TradingView Widgets](https://www.tradingview.com/widget/)
 
 ## Setup Project
 
