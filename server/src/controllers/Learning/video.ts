@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { Video } from '../../types/learning';
 
 import modelVideo from '../../models/Learning/video';
+
+import { Video } from '../../types/learning';
 
 /**
  * Retrives a Video with a matching `slug`
