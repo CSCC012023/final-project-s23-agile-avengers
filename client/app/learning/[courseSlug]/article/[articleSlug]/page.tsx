@@ -3,7 +3,7 @@
 import ArticleImage from '@/components/ContentArticle/ArticleImage';
 import BlogAuthor from '@/components/ContentArticle/BlogAuthor';
 import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
-import styles from '@/styles/pages/Course.module.scss';
+import styles from '@/styles/pages/Article.module.scss';
 import { Article } from '@/types/learning';
 import {
   Accordion,
@@ -39,7 +39,7 @@ const ArticleList = ({ params }: ArticleProps) => {
       const dataCourse: Course = await responseCourse.json();
       // update to better promise handling
       const response: Response = await fetch(
-        `http://localhost:4000/article?articleSlug=${params.articleSlug}`
+        `http://localhost:4000/article?articleSlug=${params.articleSlug}`,
       );
       setCourse(dataCourse);
       const jsonData: any = await response.json();

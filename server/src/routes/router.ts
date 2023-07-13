@@ -3,10 +3,17 @@ import { Router } from 'express';
 import { getArticleBySlug } from '../controllers/article';
 import { getAllCourses } from '../controllers/courses';
 import { getStatus } from '../controllers/status';
-import { getAllUnitsBySlug } from '../controllers/units';
+import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
 import { getVideoBySlug, getVideoProgress, updateVideoProgress } from '../controllers/video';
-import { tempInsert } from '../controllers/tempInsert';
+
+import { getLearningProgress } from '../controllers/learningProgress';
+import {
+  getAutoCompleteResults,
+  getSearchResults,
+} from '../controllers/search';
+import { getUnitProgress } from '../controllers/unitProgress';
+
 const router = Router();
 
 /**
@@ -23,7 +30,7 @@ router.get('/status', getStatus);
  */
 router.post('/user', createNewUser);
 
-/*
+/**
  * @route GET /user
  * @description Get all users in the database
  * @access public
@@ -45,6 +52,13 @@ router.get('/courses', getAllCourses);
 router.get('/units', getAllUnitsBySlug);
 
 /**
+ * @route GET /unitsProgess
+ * @description Get a specific course by ID
+ * @access public
+ */
+router.get('/unitsProgess', getAllUnitProgress);
+
+/**
  * @route GET /article
  * @description Get all the articles
  * @access public
@@ -59,6 +73,7 @@ router.get('/article', getArticleBySlug);
 router.get('/video', getVideoBySlug);
 
 /**
+
  * @route PATCH /videoProgress
  * @description Get all progress of a video for a user
  * @access public
@@ -72,13 +87,27 @@ router.patch('/videoProgress', updateVideoProgress);
  */
 router.get('/videoProgress', getVideoProgress);
 
-/**
- * @route GET /learningProgress
- * @description Get course progress
+ * @route GET /search
+ * @description Get all the search results
  * @access public
  */
-router.get('/temp', tempInsert);
+router.get('/search', getSearchResults);
+
+/**
+ * @route GET /searchAutoComplete
+ * @description Get all the autocomplete results
+ * @access public
+ */
+router.get('/searchAutoComplete', getAutoCompleteResults);
 
 
+router.get('/learningProgress', getLearningProgress);
+
+/**
+ * @route GET /progress
+ * @description Get unit progress of a user
+ * @access public
+ */
+router.get('/progress', getUnitProgress);
 
 export default router;

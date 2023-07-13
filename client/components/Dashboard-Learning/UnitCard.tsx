@@ -18,22 +18,24 @@ import styles from '../../styles/components/Dashboard.UnitCard.module.scss';
 type UnitCradProps = {
   unit: Unit;
   courseSlug: string;
+  total: number;
+  completed: number;
 };
-const UnitCard = ({ unit, courseSlug }: UnitCradProps) => {
+const UnitCard = ({ unit, courseSlug, total, completed }: UnitCradProps) => {
   return (
     <Card bgColor="brand.white">
       <CardHeader>
         <Heading size="md"> {unit.name}</Heading>
       </CardHeader>
       <Progress
-        color="brand.gray"
-        hasStripe
         ml={5}
-        value={1}
+        value={completed === 0 ? 1 : (completed * 100) / total}
         w="80%"
       />
       <CardBody className={styles.cardContainer}>
-        <Text>0/{unit.contents.length} completed</Text>
+        <Text>
+          {completed.toString()}/{total.toString()} completed
+        </Text>
         <Box
           display={'inline-flex'}
           mt={5}>

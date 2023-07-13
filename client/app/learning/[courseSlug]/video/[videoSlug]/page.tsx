@@ -16,7 +16,7 @@ import {
 import { Course } from '../../page';
 
 import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
-import styles from '@/styles/pages/Course.module.scss';
+import styles from '@/styles/pages/Video.module.scss';
 
 type VideoProps = {
   params: {
