@@ -9,6 +9,9 @@ import modelVideo from '../../models/Learning/video';
 
 import { Article, Unit, Video } from '../../types/learning';
 
+import { createError } from '../../utils/error';
+import { validateInput } from '../../utils/validate';
+
 type PopulatedUnit = {
   name: String;
   slug: String;
@@ -24,55 +27,60 @@ type PopulatedUnit = {
  * @return {Response}  Response Object with an Error or All Units
  */
 export const getAllUnitsBySlug = async (req: Request, res: Response) => {
-  // Checks if courseSlug is part of the query
-  if (!req.query.courseSlug)
-    return res.status(400).send({ message: 'Missing courseSlug.' });
+  try {
+    const courseSlug = req.query.courseSlug as string;
+    const { status, error } = validateInput('slug', courseSlug, 'courseSlug');
 
-  const courseSlug = req.query.courseSlug as string;
+    if (!status) return res.status(400).json(error);
 
-  // Verify slug using Regex (lowercase letters followed by a hyphen)
-  const slugRegex = /^[a-z0-9-]+$/;
-  if (!slugRegex.test(courseSlug))
-    return res.status(400).send({ message: 'Invalid courseSlug.' });
+    let course = await modelCourse.findOne({ slug: courseSlug });
 
-  // Find course with the specified slug
-  let course = await modelCourse.findOne({ slug: courseSlug });
+    if (!course)
+      return res
+        .status(404)
+        .json(
+          createError(
+            'CourseDoesNotExist',
+            `Failed to find Course with slug: ${courseSlug}`
+          )
+        );
 
-  // Check if course exists
-  if (!course)
-    return res.status(404).send({ message: 'Course does not exist.' });
+    course = await course.populate('units');
 
-  course = await course.populate('units');
+    const units: PopulatedUnit[] = [];
 
-  const units: PopulatedUnit[] = [];
+    for (const unitID of course.units) {
+      const unit: Unit | null = await modelUnit.findById(unitID);
+      if (unit)
+        units.push({
+          name: unit.name,
+          slug: unit.slug,
+          contents: await Promise.all(
+            unit.content.map(async (id) => {
+              const requiredFields = 'name slug contentType';
+              const video: Video | null = await modelVideo
+                .findById(id)
+                .select(requiredFields);
+              const article: Article | null = await modelArticle
+                .findById(id)
+                .select(requiredFields);
+              return video ? video : article;
+            })
+          ),
+        });
+    }
 
-  // Populate each unit with its contents
-  for (const unitID of course.units) {
-    const unit: Unit | null = await modelUnit.findById(unitID);
-    if (unit)
-      units.push({
-        name: unit.name,
-        slug: unit.slug,
-        contents: await Promise.all(
-          unit.content.map(async (id) => {
-            const requiredFields = 'name slug contentType';
-            const video: Video | null = await modelVideo
-              .findById(id)
-              .select(requiredFields);
-            const article: Article | null = await modelArticle
-              .findById(id)
-              .select(requiredFields);
-            return video ? video : article;
-          })
-        ),
-      });
+    return res.status(200).json({ name: course?.name, units });
+  } catch (error) {
+    res
+      .status(500)
+      .json(
+        createError(
+          'InternalServerError',
+          'Failed to retrieve content for Course'
+        )
+      );
   }
-
-  // Return course information
-  return res.status(200).json({
-    name: course?.name,
-    units: units,
-  });
 };
 
 /**

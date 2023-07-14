@@ -3,6 +3,7 @@
 import UnitCard from '@/components/UnitCard';
 import UnitListItem from '@/components/UnitListItem';
 import styles from '@/styles/pages/Course.module.scss';
+import { ErrorResponse } from '@/types/base';
 import {
   CourseWithUnits,
   ProgressData,
@@ -17,26 +18,9 @@ type CourseProps = {
   };
 };
 
-export type Course = {
-  name: string;
-  units: [
-    {
-      name: string;
-      slug: string;
-      contents: [
-        {
-          name: string;
-          slug: string;
-          contentType: 'video' | 'article';
-        },
-      ];
-    },
-  ];
-};
-
 const getIndexFromSlug = (
   slug: string,
-  progressData: ProgressData[],
+  progressData: ProgressData[]
 ): number => {
   slug;
   return progressData.findIndex(({ unitID }) => unitID.slug === slug);
@@ -49,6 +33,23 @@ export default function CoursePage({ params }: CourseProps) {
   const [progress, setProgress] = useState<ProgressData[]>([]);
 
   const { userId } = useAuth();
+
+  const getCourseWithUnits = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`
+      );
+      if (response.ok) {
+        const data: CourseWithUnits = await response.json();
+        setCourse(data);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getProgress = async () => {
     try {
@@ -66,20 +67,8 @@ export default function CoursePage({ params }: CourseProps) {
     }
   };
 
-  const getCourse = async () => {
-    try {
-      const url = `http://localhost:4000/units?courseSlug=${params?.courseSlug}`;
-      const response = await fetch(url);
-      const data: CourseWithUnits = await response.json();
-      setCourse(data);
-    } catch (error) {
-      setCourse(undefined);
-      console.error((error as Error).message);
-    }
-  };
-
   useEffect(() => {
-    getCourse();
+    getCourseWithUnits();
     getProgress();
   }, [params]);
 
@@ -93,7 +82,7 @@ export default function CoursePage({ params }: CourseProps) {
           speed="0.65s"
           thickness="4px"
         />
-        <Text>Loading Course Information</Text>
+        <Text>Loading Course</Text>
       </div>
     );
 
