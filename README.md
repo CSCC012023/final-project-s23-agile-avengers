@@ -49,6 +49,7 @@ for learning to manage money without the risk of incurring a financial loss.
 - [Typescript](https://www.typescriptlang.org/)
 - [Node](https://nodejs.org/en/)
 - [Figma](https://www.figma.com/)
+- [Alpha Vantage](https://www.alphavantage.co/)
 - [TradingView Widgets](https://www.tradingview.com/widget/)
 
 ## Setup Project
@@ -87,6 +88,7 @@ both the `client` and `server` dependencies, for more information read [Install 
    ```bash
    PORT=4000
    MONGO_URI='Request Shashwat Piyush Doshi'
+   ALPHAVANTAGE_API_KEY='Register for Alpha Vantage Stocks API'
    ```
 
 5. Create a `.env` file inside the `client` folder and copy the following
@@ -103,6 +105,8 @@ both the `client` and `server` dependencies, for more information read [Install 
 
 6. To get access to the database register for a MongoDB Account and send
    [Shashwat Piyush Doshi](https://github.com/shashwat-doshi) your account email
+
+7. To get access to the Alpha Vantage Stock API register [here](https://www.alphavantage.co/support/#api-key)
 
 ### **Start Project**
 
