@@ -6,3 +6,8 @@ export type NavLinkProps = {
   href: string;
   name: string;
 };
+
+type ErrorResponse = {
+  type: string;
+  message: string;
+};
