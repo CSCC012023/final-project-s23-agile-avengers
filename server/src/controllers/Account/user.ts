@@ -5,6 +5,8 @@ import { MongoServerError } from 'mongodb';
 import { WebhookEvent } from '@clerk/clerk-sdk-node';
 
 import modelUser from '../../models/Account/user';
+import { createError } from '../../utils/error';
+import { validateUserID } from '../../utils/validate';
 
 /**
  * Add User to Database
@@ -19,20 +21,24 @@ export const createUser = async (req: Request, res: Response) => {
     const { type, data } = req.body as WebhookEvent;
 
     if (type === 'user.created') {
+      const { status, error } = validateUserID(data.id);
+      if (!status) return res.status(404).json(error);
+
       await modelUser.create({ userID: data.id });
       return res.status(201).json({ message: 'User created successfully!' });
     }
-    res.status(404).json({ error: 'UnknownEvent', message: 'Unknown Event' });
+    res
+      .status(404)
+      .json(createError('UnknownEvent', `${type} is unknown to this Endpoint`));
   } catch (error) {
+    // error code 11000 : duplicate entry
     if (error instanceof MongoServerError && error.code === 11000)
-      // error code 11000 : duplicate entry
-      res
+      return res
         .status(400)
-        .json({ error: 'DuplicateUserID', message: error.message });
-    else
-      res.status(500).json({
-        error: 'InternalServerError',
-        message: 'Failed to Add New User',
-      });
+        .json(createError('DuplicateUserID', error.message));
+
+    res
+      .status(500)
+      .json(createError('InternalServerError', 'Failed to Add New User'));
   }
 };
