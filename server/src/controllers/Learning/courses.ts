@@ -10,12 +10,22 @@ import { Course } from '../../types/learning';
  * @param {Request} req - Request Object
  * @param {Response} res - Response Object
  *
- * @return {Response} Response Object with an Error or All Courses
+ * @return {Promise} Response Object with an Error or All Courses
  */
 export const getAllCourses = async (req: Request, res: Response) => {
-  const courses = await modelCourse.find<Course[]>().select('-_id -__v -units');
+  try {
+    const courses = await modelCourse.find<Course[]>().select('-units');
 
-  return !courses
-    ? res.status(404).json({ message: 'Unable to pull Courses' })
-    : res.status(200).json(courses);
+    return !courses
+      ? res
+          .status(404)
+          .json(
+            createError('CoursesDoesNotExist', 'Failed to retrieve Courses')
+          )
+      : res.status(200).json(courses);
+  } catch (error) {
+    res
+      .status(500)
+      .json(createError('InternalServerError', 'Failed to retrieve Courses'));
+  }
 };
