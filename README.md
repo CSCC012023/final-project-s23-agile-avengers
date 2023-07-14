@@ -50,6 +50,7 @@ for learning to manage money without the risk of incurring a financial loss.
 - [Node](https://nodejs.org/en/)
 - [Figma](https://www.figma.com/)
 - [Alpha Vantage](https://www.alphavantage.co/)
+- [TradingView Widgets](https://www.tradingview.com/widget/)
 
 ## Setup Project
 
