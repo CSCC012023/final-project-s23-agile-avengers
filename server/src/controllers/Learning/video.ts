@@ -4,24 +4,43 @@ import modelVideo from '../../models/Learning/video';
 
 import { Video } from '../../types/learning';
 
+import { createError } from '../../utils/error';
+import { validateInput } from '../../utils/validate';
+
 /**
- * Retrives a Video with a matching `slug`
+ * Retrieves a Video with a matching `videoSlug`
  *
  * @param {Request} req - Must contain `videoSlug` in query
  * @param {Response} res - Response Object
  *
- * @return {Response}  Response Object with an Error or Video
+ * @return {Promise} Response Object with an Error or Video
  */
 export const getVideoBySlug = async (req: Request, res: Response) => {
-  // Checks if the field `videoSlug` is included in the query
-  if (!req.query.videoSlug)
-    return res
-      .status(400)
-      .json({ message: 'Invalid Request: Missing field "videoSlug".' });
+  try {
+    const videoSlug = req.query.videoSlug as string;
+    const { status, error } = validateInput('slug', videoSlug, 'videoSlug');
 
-  const video = await modelVideo.findOne<Video>({ slug: req.query.videoSlug });
+    if (!status) return res.status(400).json(error);
 
-  return !video
-    ? res.status(404).send({ message: 'Not Found: Video does not exist.' })
-    : res.status(200).json({ video: video });
+    const video = await modelVideo
+      .findOne<Video>({
+        slug: videoSlug,
+      })
+      .select('-slug -contentType');
+
+    if (video) return res.status(200).json(video);
+
+    res
+      .status(404)
+      .json(
+        createError(
+          'VideoDoesNotExist',
+          `Failed to find Video with slug: ${videoSlug}`
+        )
+      );
+  } catch (error) {
+    res
+      .status(500)
+      .json(createError('InternalServerError', 'Failed to Retrieve Video'));
+  }
 };
