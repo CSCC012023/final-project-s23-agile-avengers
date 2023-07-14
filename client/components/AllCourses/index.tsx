@@ -40,7 +40,7 @@ const AllCourses = () => {
       if (searchTerm.length)
         try {
           const response: Response = await fetch(
-            `http://localhost:4000/searchAutoComplete?text=${searchTerm}`,
+            `http://localhost:4000/searchAutoComplete?searchText=${searchTerm}`
           );
           const searchAutoComplete: any = await response.json();
           setAutoComplete(searchAutoComplete);
@@ -60,7 +60,7 @@ const AllCourses = () => {
       if (!searchTerm.length) getCourses();
       else {
         const response: Response = await fetch(
-          `http://localhost:4000/search?text=${searchTerm}`,
+          `http://localhost:4000/search?searchText=${searchTerm}`
         );
         const jsonData: any = await response.json();
         if (Object.keys(jsonData).length !== 0) setCourses(jsonData);
