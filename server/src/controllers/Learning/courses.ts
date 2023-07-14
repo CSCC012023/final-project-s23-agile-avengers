@@ -4,6 +4,8 @@ import modelCourse from '../../models/Learning/course';
 
 import { Course } from '../../types/learning';
 
+import { createError } from '../../utils/error';
+
 /**
  * Retrieves all Courses
  *
