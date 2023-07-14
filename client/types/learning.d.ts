@@ -25,8 +25,8 @@ export interface Unit {
 export type Article = {
   name: string;
   slug: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   image?: string;
   author: string;
   contentType: string;
