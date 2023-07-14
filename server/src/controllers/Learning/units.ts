@@ -10,7 +10,7 @@ import modelVideo from '../../models/Learning/video';
 import { Article, Unit, Video } from '../../types/learning';
 
 import { createError } from '../../utils/error';
-import { validateInput } from '../../utils/validate';
+import { validateInput, validateUserID } from '../../utils/validate';
 
 type PopulatedUnit = {
   name: String;
@@ -92,43 +92,62 @@ export const getAllUnitsBySlug = async (req: Request, res: Response) => {
  * @return {Response}  Response Object with an Empty
  */
 export const getAllUnitProgress = async (req: Request, res: Response) => {
-  if (!req.query.userID)
-    return res.status(400).json({ message: 'Missing userID' });
+  try {
+    const userID = req.query.userID as string;
+    const { status, error } = validateUserID(userID);
 
-  const userIDRegex = /^user_[A-z0-9]+/;
-  if (!userIDRegex.test(req.query.userID as string))
-    return res.status(400).json({ message: 'Invalid userID' });
+    if (!status) return res.status(400).json(error);
 
-  const user = await modelUser.findOne({
-    userID: req.query.userID,
-  });
+    const user = await modelUser.findOne({ userID });
 
-  if (!user)
-    return res.status(400).json({
-      message: 'User not found with the given userID',
-    });
+    if (!user)
+      return res
+        .status(404)
+        .json(
+          createError(
+            'UserDoesNotExist',
+            `User with ID: ${userID} does not exist`
+          )
+        );
 
-  const learningProgress = await modelProgress
-    .findOne({
-      userID: user._id,
-    })
-    .populate({
-      path: 'units',
-      populate: {
-        path: 'unitID',
-        model: 'Unit',
-      },
-    })
-    .select('units -_id');
+    const unitLearningProgress = await modelProgress
+      .findOne({
+        userID: user._id,
+      })
+      .populate({
+        path: 'units',
+        populate: {
+          path: 'unitID',
+          model: 'Unit',
+        },
+      })
+      .select('units');
 
-  if (!learningProgress) return res.status(404).send({});
+    if (!unitLearningProgress)
+      return res
+        .status(404)
+        .json(
+          createError(
+            'UserProgressDoesNotExist',
+            `No Unit Progress found for User with ID: ${userID}`
+          )
+        );
 
-  const progressData = learningProgress?.units.map((unit: any) => {
-    return {
-      slug: unit.unitID.slug,
-      progress: unit.progress,
-    };
-  });
+    const progressData = unitLearningProgress?.units.map(
+      ({ unitID, progress }: any) => {
+        return {
+          slug: unitID.slug,
+          progress: progress,
+        };
+      }
+    );
 
-  res.send(progressData);
+    res.status(200).json(progressData);
+  } catch (error) {
+    res
+      .status(500)
+      .json(
+        createError('InternalServerError', 'Failed to retrieve User Progress')
+      );
+  }
 };

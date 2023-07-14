@@ -8,7 +8,6 @@ import {
   getAutoCompleteResults,
   getLearningProgress,
   getSearchResults,
-  getUnitProgress,
   getVideoBySlug,
 } from '../controllers/Learning';
 
@@ -36,13 +35,6 @@ api.get('/courses', getAllCourses);
  * @access public
  */
 api.get('/units', getAllUnitsBySlug);
-
-/**
- * @route GET /unitsProgess
- * @description Get a specific course by ID
- * @access public
- */
-api.get('/unitsProgess', getAllUnitProgress);
 
 /**
  * @route GET /article
@@ -80,10 +72,10 @@ api.get('/searchAutoComplete', getAutoCompleteResults);
 api.get('/learningProgress', getLearningProgress);
 
 /**
- * @route GET /progress
- * @description Get unit progress of a user
+ * @route GET /unitsProgress
+ * @description Get a specific course by ID
  * @access public
  */
-api.get('/progress', getUnitProgress);
+api.get('/unitsProgress', getAllUnitProgress);
 
 export default api;

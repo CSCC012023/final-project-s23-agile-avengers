@@ -18,35 +18,16 @@ import { IoVideocamOutline } from '@react-icons/all-files/io5/IoVideocamOutline'
 import { useEffect, useState } from 'react';
 
 import styles from '@/styles/pages/Unit.module.scss';
-import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
+import {
+  CourseWithUnits,
+  UnitProgressData,
+} from '@/types/components/Dashboard-Learning/types';
 
 type CourseProps = {
   params: {
     courseSlug?: string;
     unitSlug?: string;
   };
-};
-
-type Course = {
-  name: string;
-  units: [
-    {
-      name: string;
-      slug: string;
-      contents: [
-        {
-          name: string;
-          slug: string;
-          contentType: 'video' | 'article';
-        },
-      ];
-    },
-  ];
-};
-
-type UnitProgressData = {
-  slug: string;
-  progress: number;
 };
 
 export default function UnitPage({ params }: CourseProps) {
@@ -66,7 +47,7 @@ export default function UnitPage({ params }: CourseProps) {
     useState<UnitProgressData[]>();
 
   const [selectedUnit, setSelectedUnit] = useState<string>(
-    decodeURIComponent(params?.unitSlug as string),
+    decodeURIComponent(params?.unitSlug as string)
   );
 
   const { userId } = useAuth();
@@ -74,7 +55,7 @@ export default function UnitPage({ params }: CourseProps) {
   const getCourse = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`,
+        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`
       );
       const data: CourseWithUnits = await response.json();
       setCourse(data);
@@ -87,7 +68,7 @@ export default function UnitPage({ params }: CourseProps) {
   const getAllUnitsProgress = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/unitsProgess?userID=${userId}`,
+        `http://localhost:4000/unitsProgress?userID=${userId}`
       );
       const data: UnitProgressData[] = await response.json();
       setAllUnitsProgress(data);

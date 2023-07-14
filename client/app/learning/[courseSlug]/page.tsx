@@ -1,16 +1,19 @@
 'use client';
 
-import UnitCard from '@/components/UnitCard';
-import UnitListItem from '@/components/UnitListItem';
-import styles from '@/styles/pages/Course.module.scss';
-import { ErrorResponse } from '@/types/base';
-import {
-  CourseWithUnits,
-  ProgressData,
-} from '@/types/components/Dashboard-Learning/types';
 import { Spinner, Text } from '@chakra-ui/react';
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
+
+import UnitCard from '@/components/UnitCard';
+import UnitListItem from '@/components/UnitListItem';
+
+import styles from '@/styles/pages/Course.module.scss';
+
+import { ErrorResponse } from '@/types/base';
+import {
+  CourseWithUnits,
+  UnitProgressData,
+} from '@/types/components/Dashboard-Learning/types';
 
 type CourseProps = {
   params: {
@@ -18,19 +21,13 @@ type CourseProps = {
   };
 };
 
-const getIndexFromSlug = (
-  slug: string,
-  progressData: ProgressData[]
-): number => {
-  slug;
-  return progressData.findIndex(({ unitID }) => unitID.slug === slug);
-};
-
 export default function CoursePage({ params }: CourseProps) {
   const { center, container, title, unitLists, unitsWrapper } = styles;
 
   const [course, setCourse] = useState<CourseWithUnits>();
-  const [progress, setProgress] = useState<ProgressData[]>([]);
+  const [allUnitsProgress, setAllUnitsProgress] = useState<UnitProgressData[]>(
+    []
+  );
 
   const { userId } = useAuth();
 
@@ -51,26 +48,33 @@ export default function CoursePage({ params }: CourseProps) {
     }
   };
 
-  const getProgress = async () => {
+  const getAllUnitsProgress = async () => {
     try {
-      const url = `http://localhost:4000/progress?userID=${userId}`;
-      const response = await fetch(url);
-      if (response.ok === false) {
-        setProgress([]);
-        return;
+      const response = await fetch(
+        `http://localhost:4000/unitsProgress?userID=${userId}`
+      );
+      if (response.ok) {
+        const data: UnitProgressData[] = await response.json();
+        setAllUnitsProgress(data);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
       }
-      const data: ProgressData[] = await response.json();
-      setProgress(data);
     } catch (error) {
-      setProgress([]);
-      console.error((error as Error).message);
+      console.error(error);
     }
   };
 
   useEffect(() => {
     getCourseWithUnits();
-    getProgress();
+    getAllUnitsProgress();
   }, [params]);
+
+  const unitProgress = (selectedUnit: string) => {
+    if (JSON.stringify(allUnitsProgress) === '[]') return 0;
+    const data = allUnitsProgress?.find(({ slug }) => slug === selectedUnit);
+    return data?.progress || 0;
+  };
 
   if (!course)
     return (
@@ -93,15 +97,11 @@ export default function CoursePage({ params }: CourseProps) {
         {course?.units.map(({ name, contents, slug }, unitKey) => {
           return (
             <UnitListItem
-              doneValue={
-                getIndexFromSlug(slug, progress) === -1
-                  ? 0
-                  : progress[getIndexFromSlug(slug, progress)].progress
-              }
               href={`/learning/${params?.courseSlug}/unit/${slug}`}
               key={unitKey}
+              max={contents.length}
               name={name}
-              totalValue={contents.length}
+              value={unitProgress(slug)}
             />
           );
         })}
