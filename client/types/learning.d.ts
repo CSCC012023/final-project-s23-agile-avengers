@@ -2,13 +2,7 @@
 Types needed for Learning models
 */
 
-export interface Course {
-  name: string;
-  slug: string;
-  icon: string;
-}
-
-export interface AllCourseProps {
+export type Course = {
   name: string;
   slug: string;
   icon: string;
