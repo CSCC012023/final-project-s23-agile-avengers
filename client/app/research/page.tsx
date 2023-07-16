@@ -1,10 +1,7 @@
 'use client';
 
-import {
-  CopyrightStyles,
-  MiniChart,
-  SingleTicker,
-} from 'react-ts-tradingview-widgets';
+import { Heading } from '@chakra-ui/react';
+import { CopyrightStyles, Screener } from 'react-ts-tradingview-widgets';
 
 export default function ResearchPage() {
   const styles: CopyrightStyles = {
@@ -14,14 +11,20 @@ export default function ResearchPage() {
   };
   return (
     <>
-      <MiniChart
-        colorTheme="dark"
+      <Heading
+        mb="1"
+        mt="3"
+        size="md"
+        w="100%">
+        STOCK SCREENER
+      </Heading>
+      <Screener
+        colorTheme="light"
         copyrightStyles={styles}
-        width="100%"></MiniChart>
-      <SingleTicker
-        colorTheme="dark"
-        copyrightStyles={styles}
-        width="100%"></SingleTicker>
+        defaultScreen="most_capitalized"
+        height={300}
+        market="america"
+        width="100%"></Screener>
     </>
   );
 }
