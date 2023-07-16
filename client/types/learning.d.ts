@@ -41,7 +41,6 @@ export interface UnitWithProgress {
 }
 
 export interface LearningProgressResponse {
-  userId: string;
   courses: [
     {
       courseID: Course;
