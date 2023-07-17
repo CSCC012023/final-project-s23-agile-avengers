@@ -34,12 +34,12 @@ const StockCard = (props: any) => {
   );
 };
 
-const StockSlider = (props: any) => {
+const StockSlider = ({ listStocks }: any) => {
   const { wrapper } = styles;
   return (
     <>
       <div className={wrapper}>
-        {props.listStocks.map((item: any, idx: any) => {
+        {listStocks.map((item: any, idx: any) => {
           return (
             <StockCard
               key={idx}
