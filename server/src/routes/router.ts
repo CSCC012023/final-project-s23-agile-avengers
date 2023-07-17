@@ -13,6 +13,8 @@ import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
 import { getVideoBySlug } from '../controllers/video';
 
+import { getSymbolAutoComplete } from '../controllers/research'
+
 const router = Router();
 
 /**
@@ -98,5 +100,12 @@ router.get('/learningProgress', getLearningProgress);
  * @access public
  */
 router.get('/progress', getUnitProgress);
+
+/**
+ * @route GET /symbolSearch
+ * @description Get best matches for symbol keywords
+ * @access public
+ */
+router.get('/symbolSearch', getSymbolAutoComplete)
 
 export default router;
