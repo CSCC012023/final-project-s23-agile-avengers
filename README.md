@@ -20,7 +20,7 @@
   - [Requirements](#requirements-for-serveo)
   - [Setup Serveo](#setup-serveo)
   - [Start Using Serveo](#start-using-serveo)
-- [Postman Testing](https://www.postman.com/agile-avengers-cscc01/workspace/agile-avengers/collection/14201720-ffadf271-0e18-49b6-a533-36e37ba981d0?action=share&creator=14201720)
+- [Postman Testing](https://www.postman.com/avionics-specialist-63321619/workspace/finlearn/collection/28563069-4f8a9d7f-f211-4250-a70a-d5af7fe5ffed)
 - [Contribution](#contribution)
   - [Contributors](#contributors)
 
