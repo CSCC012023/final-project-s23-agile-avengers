@@ -12,11 +12,19 @@ import { queryAlphaVantage } from '../utils/query';
  */
 export const getTop10Stocks = async (req: Request, res: Response) => {
   try {
-    const { top_gainers } = await queryAlphaVantage({
-      function: 'TOP_GAINERS_LOSERS',
-    });
+    const { top_gainers, top_losers, most_actively_traded } =
+      await queryAlphaVantage({
+        function: 'TOP_GAINERS_LOSERS',
+      });
+
+    const response = {
+      topGainers: top_gainers.slice(0, 10),
+      topLosers: top_losers.slice(0, 10),
+      mostActivelyTraded: most_actively_traded.slice(0, 10),
+    };
+
     return top_gainers
-      ? res.status(200).json(top_gainers.slice(0, 10))
+      ? res.status(200).json(response)
       : res.status(404).json({ message: 'Unable to pull Top 10 Stocks' });
   } catch (e: any) {
     console.log('error is this: ', e);
