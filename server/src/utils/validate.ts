@@ -24,7 +24,7 @@ export const validateUserID = (userID: string, isQuery = true) => {
         status: false,
         error: createError(
           'MissingQueryParams',
-          'The request params requires userID="user_ + alphanumeric"'
+          'The request params requires userID="user_ + alphanumeric"',
         ),
       };
     // Handles Missing Body Param
@@ -33,7 +33,7 @@ export const validateUserID = (userID: string, isQuery = true) => {
         status: false,
         error: createError(
           'MissingBodyParams',
-          'The request params requires userID="user_ + alphanumeric"'
+          'The request params requires userID="user_ + alphanumeric"',
         ),
       };
 
@@ -66,7 +66,7 @@ export const validateUserID = (userID: string, isQuery = true) => {
 export const validateInput = (
   type: InputTypes,
   input: string,
-  fieldName = 'field'
+  fieldName = 'field',
 ) => {
   // Handles Missing Query Param
   if (input === undefined)
@@ -74,7 +74,7 @@ export const validateInput = (
       status: false,
       error: createError(
         'MissingQueryParams',
-        `The request params requires ${fieldName}`
+        `The request params requires ${fieldName}`,
       ),
     };
 

@@ -58,11 +58,11 @@ const ProgressSchema = new Schema<LearningProgress>(
         return ret;
       },
     },
-  }
+  },
 );
 
 const modelProgress = model<LearningProgress>(
   'LearningProgress',
-  ProgressSchema
+  ProgressSchema,
 );
 export default modelProgress;

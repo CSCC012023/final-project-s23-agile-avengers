@@ -35,8 +35,8 @@ export const getVideoBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'VideoDoesNotExist',
-          `Failed to find Video with slug: ${videoSlug}`
-        )
+          `Failed to find Video with slug: ${videoSlug}`,
+        ),
       );
   } catch (error) {
     res

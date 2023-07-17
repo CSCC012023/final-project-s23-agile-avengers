@@ -39,7 +39,7 @@ const UnitSchema = new Schema<Unit>(
         return ret;
       },
     },
-  }
+  },
 );
 
 const modelUnit = model<Unit>('Unit', UnitSchema);

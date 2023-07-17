@@ -55,7 +55,7 @@ const VideoSchema = new Schema<Video>(
         return ret;
       },
     },
-  }
+  },
 );
 
 const modelVideo = model<Video>('Video', VideoSchema);

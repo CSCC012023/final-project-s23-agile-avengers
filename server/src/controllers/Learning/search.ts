@@ -50,7 +50,7 @@ export const getSearchResults = async (req: Request, res: Response) => {
     res
       .status(500)
       .json(
-        createError('InternalServerError', 'Failed to retrieve Search Results')
+        createError('InternalServerError', 'Failed to retrieve Search Results'),
       );
   }
 };
@@ -157,8 +157,8 @@ export const getAutoCompleteResults = async (req: Request, res: Response) => {
       .json(
         createError(
           'InternalServerError',
-          'Failed to retrieve Autocomplete Results'
-        )
+          'Failed to retrieve Autocomplete Results',
+        ),
       );
   }
 };

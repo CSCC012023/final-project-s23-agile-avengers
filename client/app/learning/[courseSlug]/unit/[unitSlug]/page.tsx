@@ -47,7 +47,7 @@ export default function UnitPage({ params }: CourseProps) {
     useState<UnitProgressData[]>();
 
   const [selectedUnit, setSelectedUnit] = useState<string>(
-    decodeURIComponent(params?.unitSlug as string)
+    decodeURIComponent(params?.unitSlug as string),
   );
 
   const { userId } = useAuth();
@@ -55,7 +55,7 @@ export default function UnitPage({ params }: CourseProps) {
   const getCourse = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`
+        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`,
       );
       const data: CourseWithUnits = await response.json();
       setCourse(data);
@@ -68,7 +68,7 @@ export default function UnitPage({ params }: CourseProps) {
   const getAllUnitsProgress = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/unitsProgress?userID=${userId}`
+        `http://localhost:4000/unitsProgress?userID=${userId}`,
       );
       const data: UnitProgressData[] = await response.json();
       setAllUnitsProgress(data);

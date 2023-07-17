@@ -6,7 +6,7 @@ export type Course = {
   name: string;
   slug: string;
   icon: string;
-}
+};
 
 export interface Unit {
   name: string;

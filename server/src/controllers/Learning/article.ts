@@ -33,8 +33,8 @@ export const getArticleBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'ArticleDoesNotExist',
-          `Failed to find Article with slug: ${articleSlug}`
-        )
+          `Failed to find Article with slug: ${articleSlug}`,
+        ),
       );
   } catch (error) {
     res

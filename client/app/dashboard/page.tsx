@@ -41,17 +41,18 @@ const DashboardPage = () => {
       );
       let loadedUserCourses: Course[] = [];
       let loadedUserUnits: UnitWithProgress[] = [];
-      if (userCoursesResponse.ok){
+      if (userCoursesResponse.ok) {
         const userCoursesData: LearningProgressResponse =
-        await userCoursesResponse.json();
-        loadedUserCourses = userCoursesData.courses.map((elem) => elem.courseID);
+          await userCoursesResponse.json();
+        loadedUserCourses = userCoursesData.courses.map(
+          (elem) => elem.courseID,
+        );
         setUserCourses(loadedUserCourses);
         loadedUserUnits = userCoursesData.units.map((elem) => {
-            return { unit: elem.unitID, progress: elem.progress };
-          });
-      setUserUnits(loadedUserUnits);
-      }
-      else{
+          return { unit: elem.unitID, progress: elem.progress };
+        });
+        setUserUnits(loadedUserUnits);
+      } else {
         const error: ErrorResponse = await userCoursesResponse.json();
         console.error(error);
       }

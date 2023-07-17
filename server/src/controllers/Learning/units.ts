@@ -41,8 +41,8 @@ export const getAllUnitsBySlug = async (req: Request, res: Response) => {
         .json(
           createError(
             'CourseDoesNotExist',
-            `Failed to find Course with slug: ${courseSlug}`
-          )
+            `Failed to find Course with slug: ${courseSlug}`,
+          ),
         );
 
     course = await course.populate('units');
@@ -65,7 +65,7 @@ export const getAllUnitsBySlug = async (req: Request, res: Response) => {
                 .findById(id)
                 .select(requiredFields);
               return video ? video : article;
-            })
+            }),
           ),
         });
     }
@@ -77,8 +77,8 @@ export const getAllUnitsBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'InternalServerError',
-          'Failed to retrieve content for Course'
-        )
+          'Failed to retrieve content for Course',
+        ),
       );
   }
 };
@@ -106,8 +106,8 @@ export const getAllUnitProgress = async (req: Request, res: Response) => {
         .json(
           createError(
             'UserDoesNotExist',
-            `User with ID: ${userID} does not exist`
-          )
+            `User with ID: ${userID} does not exist`,
+          ),
         );
 
     const unitLearningProgress = await modelProgress
@@ -129,8 +129,8 @@ export const getAllUnitProgress = async (req: Request, res: Response) => {
         .json(
           createError(
             'UserProgressDoesNotExist',
-            `No Unit Progress found for User with ID: ${userID}`
-          )
+            `No Unit Progress found for User with ID: ${userID}`,
+          ),
         );
 
     const progressData = unitLearningProgress?.units.map(
@@ -139,7 +139,7 @@ export const getAllUnitProgress = async (req: Request, res: Response) => {
           slug: unitID.slug,
           progress: progress,
         };
-      }
+      },
     );
 
     res.status(200).json(progressData);
@@ -147,7 +147,7 @@ export const getAllUnitProgress = async (req: Request, res: Response) => {
     res
       .status(500)
       .json(
-        createError('InternalServerError', 'Failed to retrieve User Progress')
+        createError('InternalServerError', 'Failed to retrieve User Progress'),
       );
   }
 };

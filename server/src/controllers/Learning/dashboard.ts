@@ -29,8 +29,8 @@ export const getLearningProgress = async (req: Request, res: Response) => {
         .json(
           createError(
             'UserDoesNotExist',
-            `User with ID: ${userID} does not exist`
-          )
+            `User with ID: ${userID} does not exist`,
+          ),
         );
 
     const learningProgress = await modelProgress
@@ -59,8 +59,8 @@ export const getLearningProgress = async (req: Request, res: Response) => {
         .json(
           createError(
             'UserProgressDoesNotExist',
-            `No Learning Progress found for User with ID: ${userID}`
-          )
+            `No Learning Progress found for User with ID: ${userID}`,
+          ),
         );
 
     res.status(200).json(learningProgress);
@@ -68,7 +68,7 @@ export const getLearningProgress = async (req: Request, res: Response) => {
     res
       .status(500)
       .json(
-        createError('InternalServerError', 'Failed to retrieve User Progress')
+        createError('InternalServerError', 'Failed to retrieve User Progress'),
       );
   }
 };

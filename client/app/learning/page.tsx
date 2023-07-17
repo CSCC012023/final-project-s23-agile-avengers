@@ -41,7 +41,7 @@ export default function LearningPage() {
       if (searchTerm.length)
         try {
           const response: Response = await fetch(
-            `http://localhost:4000/searchAutoComplete?searchText=${searchTerm}`
+            `http://localhost:4000/searchAutoComplete?searchText=${searchTerm}`,
           );
           const searchAutoComplete: any = await response.json();
           setAutoComplete(searchAutoComplete);
@@ -62,7 +62,7 @@ export default function LearningPage() {
       if (!searchTerm.length || !validationRegex.test(searchTerm)) getCourses();
       else {
         const response: Response = await fetch(
-          `http://localhost:4000/search?searchText=${searchTerm}`
+          `http://localhost:4000/search?searchText=${searchTerm}`,
         );
         const jsonData: any = await response.json();
         if (Object.keys(jsonData).length !== 0) setCourses(jsonData);

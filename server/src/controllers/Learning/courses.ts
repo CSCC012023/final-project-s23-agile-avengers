@@ -22,7 +22,7 @@ export const getAllCourses = async (req: Request, res: Response) => {
       ? res
           .status(404)
           .json(
-            createError('CoursesDoesNotExist', 'Failed to retrieve Courses')
+            createError('CoursesDoesNotExist', 'Failed to retrieve Courses'),
           )
       : res.status(200).json(courses);
   } catch (error) {

@@ -37,7 +37,7 @@ const CourseSchema = new Schema<Course>(
         return ret;
       },
     },
-  }
+  },
 );
 
 const modelCourse = model<Course>('Course', CourseSchema);

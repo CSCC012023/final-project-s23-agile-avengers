@@ -51,7 +51,7 @@ export default function ContentPage({ params }: VideoProps) {
   const getVideo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/video?videoSlug=${params?.videoSlug}`
+        `http://localhost:4000/video?videoSlug=${params?.videoSlug}`,
       );
       if (response.ok) {
         const data: Video = await response.json();
