@@ -1,6 +1,16 @@
 'use client';
 
-import { Divider, Heading, Spinner } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import {
+  Button,
+  Divider,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import {
   CopyrightStyles,
@@ -24,7 +34,7 @@ const StockCard = (props: any) => {
       <MiniChart
         colorTheme="dark"
         copyrightStyles={twStyles}
-        largeChartUrl={'http://localhost:3000/research/AAPL'}
+        largeChartUrl={`http://localhost:3000/research/${props.symbol}`}
         symbol={props.symbol}
         width={'auto'}></MiniChart>
     </div>
@@ -51,6 +61,8 @@ const StockSlider = (props: any) => {
 
 export default function ResearchPage() {
   const [top10Stocks, setTop10Stocks] = useState<any>([]);
+  const [leaderBoard, setLeaderBoard] = useState<string>('Top Gainers');
+  const [fullResponse, setFullResponse] = useState<any>([]);
 
   useEffect(() => {
     const getTops = async () => {
@@ -59,9 +71,10 @@ export default function ResearchPage() {
           `http://localhost:4000/top10Stocks`
         );
         const jsonResponse: any = await response.json();
-        const { topGainers, topLosers, mostActivelyTraded } = jsonResponse;
+        const { topGainers } = jsonResponse;
         console.log('json response is:', jsonResponse);
-        setTop10Stocks(topLosers);
+        setFullResponse(jsonResponse);
+        setTop10Stocks(topGainers);
       } catch (e: any) {
         console.error(e);
       }
@@ -81,6 +94,37 @@ export default function ResearchPage() {
   return (
     <>
       <Heading fontSize={'xl'}>Top 10 Stocks</Heading>
+
+      <Menu>
+        <MenuButton
+          as={Button}
+          rightIcon={<ChevronDownIcon />}>
+          {leaderBoard}
+        </MenuButton>
+        <MenuList>
+          <MenuItem
+            onClick={() => {
+              setTop10Stocks(fullResponse['topGainers']);
+              setLeaderBoard('Top Gainers');
+            }}>
+            Top Gainers
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setTop10Stocks(fullResponse['topLosers']);
+              setLeaderBoard('Top Losers');
+            }}>
+            Top Losers
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setTop10Stocks(fullResponse['mostActivelyTraded']);
+              setLeaderBoard('Most Actively Traded');
+            }}>
+            Most Actively Traded
+          </MenuItem>
+        </MenuList>
+      </Menu>
 
       <div className={container}>
         {top10Stocks && Array.isArray(top10Stocks) ? (

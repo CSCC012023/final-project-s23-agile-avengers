@@ -27,7 +27,6 @@ export const getTop10Stocks = async (req: Request, res: Response) => {
       ? res.status(200).json(response)
       : res.status(404).json({ message: 'Unable to pull Top 10 Stocks' });
   } catch (e: any) {
-    console.log('error is this: ', e);
     return res.status(404).json({ message: 'Unable to pull Top 10 Stocks' });
   }
 };
