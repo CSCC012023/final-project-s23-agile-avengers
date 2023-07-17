@@ -58,7 +58,8 @@ export default function LearningPage() {
     e.preventDefault(); // prevents default behavior of submitting form and refreshing the page
 
     try {
-      if (!searchTerm.length) getCourses();
+      const validationRegex = /^[a-zA-Z0-9&]+$/;
+      if (!searchTerm.length || !validationRegex.test(searchTerm)) getCourses();
       else {
         const response: Response = await fetch(
           `http://localhost:4000/search?searchText=${searchTerm}`
