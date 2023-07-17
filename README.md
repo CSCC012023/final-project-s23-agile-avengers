@@ -7,6 +7,8 @@
 - [Product Summary](#product-summary)
 - [Figma Design](https://www.figma.com/file/60Sd92fZbhCcNtnpLVMkaY/FinLearn-UI?type=design&node-id=0%3A1&t=2tLlEYOO0zEVJooo-1)
 - [Technologies Used](#technologies-used)
+  - [Data Tools](#data-tools)
+  - [Developer Tools](#developer-tools)
 - [Setup Project](#setup-project)
   - [Requirements](#requirements)
   - [Steps](#steps)
@@ -44,17 +46,28 @@ for learning to manage money without the risk of incurring a financial loss.
 - [MongoDB](https://www.mongodb.com/)
   - [Atlas](https://www.mongodb.com/atlas)
   - [Mongoose](https://mongoosejs.com/)
-- [Chakra UI](https://chakra-ui.com)
 - [Express](https://expressjs.com/)
 - [Next.js](https://nextjs.org/docs)
 - [React](https://reactjs.org/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
+- [Chakra UI](https://chakra-ui.com)
+- [Clerk](https://clerk.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Node](https://nodejs.org/en/)
-- [Figma](https://www.figma.com/)
+
+### Data Tools
+
 - [Alpha Vantage](https://www.alphavantage.co/)
 - [TradingView Widgets](https://www.tradingview.com/widget/)
+
+### Developer Tools
+
+- [Serveo](https://serveo.net/)
+- [Figma](https://www.figma.com/)
+- [ESLint](https://eslint.org/)
+- [commitlint](https://commitlint.js.org)
+- [Prettier](https://prettier.io/)
+- [Postman](https://www.postman.com)
+- [GitHub Actions](https://github.com/features/actions)
 
 ## Setup Project
 
