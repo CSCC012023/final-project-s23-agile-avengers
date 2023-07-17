@@ -1,26 +1,123 @@
 'use client';
 
-import {
-  Box,
-  Divider,
-  Heading,
-  IconButton,
-  useBreakpointValue,
-} from '@chakra-ui/react';
-import { Key, useEffect, useState } from 'react';
+import { Divider, Heading, useBreakpointValue } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import {
   CopyrightStyles,
   MiniChart,
   Screener,
 } from 'react-ts-tradingview-widgets';
 
-import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import Slider from 'react-slick';
+
+import styles from '@/styles/pages/Research.module.scss';
+
+const Card = (props: any) => {
+  const twStyles: CopyrightStyles = {
+    parent: {
+      display: 'none',
+    },
+  };
+
+  const { content } = styles;
+
+  return (
+    <div className={content}>
+      <MiniChart
+        colorTheme="dark"
+        copyrightStyles={twStyles}
+        largeChartUrl={'http://localhost:3000/research/AAPL'}
+        symbol={'AAPL'}
+        width={'auto'}></MiniChart>
+    </div>
+  );
+};
+
+const CardContainer = (props: any) => {
+  const { wrapper } = styles;
+  return (
+    <>
+      <div className={wrapper}>
+        {props.cards.map((card: any, idx: any) => (
+          <Card
+            content={card.content}
+            imgUrl={card.imgUrl}
+            key={idx}
+            title={card.title}
+          />
+        ))}
+      </div>
+    </>
+  );
+};
 
 export default function ResearchPage() {
   const [top10Stocks, setTop10Stocks] = useState<any>([]);
 
   const [slider, setSlider] = useState<Slider | null>(null);
+
+  const cardsData = [
+    {
+      id: 1,
+      title: 'CARD 1',
+      content: 'Clark Kent',
+      imgUrl: 'https://unsplash.it/200/200',
+    },
+    {
+      id: 2,
+      title: 'CARD 2',
+      content: 'Bruce Wayne',
+      imgUrl: 'https://unsplash.it/201/200',
+    },
+    {
+      id: 3,
+      title: 'CARD 3',
+      content: 'Peter Parker',
+      imgUrl: 'https://unsplash.it/200/201',
+    },
+    {
+      id: 4,
+      title: 'CARD 4',
+      content: 'Tony Stark',
+      imgUrl: 'https://unsplash.it/201/201',
+    },
+    {
+      id: 5,
+      title: 'CARD 5',
+      content: 'Reed Richards',
+      imgUrl: 'https://unsplash.it/202/200',
+    },
+    {
+      id: 6,
+      title: 'CARD 6',
+      content: 'Wade Wilson',
+      imgUrl: 'https://unsplash.it/200/199',
+    },
+    {
+      id: 7,
+      title: 'CARD 7',
+      content: 'Peter Quill',
+      imgUrl: 'https://unsplash.it/199/199',
+    },
+    {
+      id: 8,
+      title: 'CARD 8',
+      content: 'Steven Rogers',
+      imgUrl: 'https://unsplash.it/199/200',
+    },
+    {
+      id: 9,
+      title: 'CARD 9',
+      content: 'Bruce Banner',
+      imgUrl: 'https://unsplash.it/200/198',
+    },
+    {
+      id: 10,
+      title: 'CARD 10',
+      content: 'Vincent Strange',
+      imgUrl: 'https://unsplash.it/198/199',
+    },
+  ];
 
   useEffect(() => {
     const getTops = async () => {
@@ -38,7 +135,7 @@ export default function ResearchPage() {
     getTops();
   }, []);
 
-  const styles: CopyrightStyles = {
+  const twStyles: CopyrightStyles = {
     parent: {
       display: 'none',
     },
@@ -61,71 +158,15 @@ export default function ResearchPage() {
   const top = useBreakpointValue({ base: '90%', md: '50%' });
   const side = useBreakpointValue({ base: '30%', md: '10px' });
 
+  const { container } = styles;
+
   return (
     <>
       <Heading fontSize={'xl'}>Top 10 Stocks</Heading>
 
-      <Box
-        height={'600px'}
-        overflow={'hidden'}
-        position={'relative'}
-        width={'full'}>
-        {/* CSS files for react-slick */}
-        <link
-          charSet="UTF-8"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-          rel="stylesheet"
-          type="text/css"
-        />
-        <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-          rel="stylesheet"
-          type="text/css"
-        />
-        {/* Left Icon */}
-        <IconButton
-          aria-label="left-arrow"
-          borderRadius="full"
-          colorScheme="messenger"
-          left={side}
-          onClick={() => slider?.slickPrev()}
-          position="absolute"
-          top={top}
-          transform={'translate(0%, -50%)'}
-          zIndex={2}>
-          <ArrowBackIcon />
-        </IconButton>
-        {/* Right Icon */}
-        <IconButton
-          aria-label="right-arrow"
-          borderRadius="full"
-          colorScheme="messenger"
-          onClick={() => slider?.slickNext()}
-          position="absolute"
-          right={side}
-          top={top}
-          transform={'translate(0%, -50%)'}
-          zIndex={2}>
-          <ArrowForwardIcon />
-        </IconButton>
-        {/* Slider */}
-        <Slider
-          {...settings}
-          ref={(slider) => setSlider(slider)}>
-          {top10Stocks &&
-            Array.isArray(top10Stocks) &&
-            top10Stocks.map((item: any, idx: Key) => {
-              return (
-                <MiniChart
-                  colorTheme="dark"
-                  copyrightStyles={styles}
-                  key={idx}
-                  symbol={item.ticker}
-                  width={'100%'}></MiniChart>
-              );
-            })}
-        </Slider>
-      </Box>
+      <div className={container}>
+        <CardContainer cards={cardsData} />
+      </div>
 
       <Heading
         mb="1"
@@ -136,7 +177,7 @@ export default function ResearchPage() {
       </Heading>
       <Screener
         colorTheme="light"
-        copyrightStyles={styles}
+        copyrightStyles={twStyles}
         defaultScreen="most_capitalized"
         height={300}
         market="america"
