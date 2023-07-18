@@ -1,30 +1,31 @@
 'use client';
 
 import { Heading } from '@chakra-ui/react';
-import { CopyrightStyles, Screener } from 'react-ts-tradingview-widgets';
+import { useRouter } from 'next/navigation';
+import { CopyrightStyles } from 'react-ts-tradingview-widgets';
+
+import SymbolSearch from '@/components/SymbolSearch';
+
+import styles from '@/styles/pages/Research.module.scss';
 
 export default function ResearchPage() {
-  const styles: CopyrightStyles = {
-    parent: {
-      display: 'none',
-    },
-  };
+  const tradingViewStyles: CopyrightStyles = { parent: { display: 'none' } };
+
+  const { container } = styles;
+  const router = useRouter();
+
   return (
-    <>
+    <div className={container}>
       <Heading
-        mb="1"
-        mt="3"
-        size="md"
-        w="100%">
-        STOCK SCREENER
+        as="h1"
+        size="xl">
+        Research
       </Heading>
-      <Screener
-        colorTheme="light"
-        copyrightStyles={styles}
-        defaultScreen="most_capitalized"
-        height={300}
-        market="america"
-        width="100%"></Screener>
-    </>
+      <SymbolSearch
+        callback={(symbol: string) => {
+          router.push(`/research/${symbol}`);
+        }}
+      />
+    </div>
   );
 }
