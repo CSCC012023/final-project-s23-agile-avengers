@@ -22,6 +22,10 @@ export default function ResearchInfoPage({ searchParams }: ResearchInfoProps) {
         ? tvwidgetsymbol
         : tvwidgetsymbol.split(':')[1];
     } catch (error) {
+      /**
+       * User tries to access this page without passing a symbol gets
+       * redirected to the Research Page
+       */
       router.push('/research');
     }
   };

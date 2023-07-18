@@ -44,7 +44,8 @@ const SymbolSearch = ({ callback }: SymbolSearchProps) => {
   } = styles;
 
   const [isExpanded, setExpanded] = useState(false);
-  const collapseContainer = () => {
+
+  const resetSearchBar = () => {
     setExpanded(false);
     setSearchQuery('');
     setLoading(false);
@@ -53,9 +54,10 @@ const SymbolSearch = ({ callback }: SymbolSearchProps) => {
   };
 
   const containerRef = useRef(null);
+
   useOutsideClick({
     ref: containerRef,
-    handler: () => collapseContainer(),
+    handler: () => resetSearchBar(),
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -69,8 +71,8 @@ const SymbolSearch = ({ callback }: SymbolSearchProps) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
     if (e.target.value.length === 0) {
-      e.currentTarget.blur();
-      collapseContainer();
+      e.currentTarget.blur(); // Removes Focus from the input
+      resetSearchBar();
     }
   };
 
@@ -111,6 +113,7 @@ const SymbolSearch = ({ callback }: SymbolSearchProps) => {
     setLoading(false);
   };
 
+  // Waits for user to finish typing and then sends a request to get symbols
   useDebounce({
     value: searchQuery,
     timeout: 250,
@@ -147,7 +150,7 @@ const SymbolSearch = ({ callback }: SymbolSearchProps) => {
                 exit={{ opacity: 0 }}
                 initial={{ opacity: 0 }}
                 key="close-icon"
-                onClick={collapseContainer}
+                onClick={resetSearchBar}
                 transition={{ duration: 1 }}>
                 <IoClose />
               </motion.span>
