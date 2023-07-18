@@ -22,6 +22,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+
 import { useEffect, useState } from 'react';
 
 import { SearchIcon } from '@chakra-ui/icons';
