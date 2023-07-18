@@ -20,4 +20,4 @@ export default function MoreInfoPage({ params }: MoreInfoProps) {
       </div>
     </>
   );
-};
+}
