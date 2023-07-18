@@ -7,6 +7,14 @@ type SymbolSearchResults = {
   name: string;
 };
 
+/**
+ * Retrieves a list of best matches for a given symbol query
+ *
+ * @param {Request} req - Must contain `searchText` in query
+ * @param {Response} res - Response Object
+ *
+ * @return {Promise} Response Object with an Error or SymbolSearchResults
+ */
 export const getSymbolAutoComplete = async (req: Request, res: Response) => {
   const searchText = req.query.searchText as string;
   if (!searchText)
