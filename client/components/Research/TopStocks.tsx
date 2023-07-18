@@ -1,15 +1,19 @@
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
+  Box,
   Button,
+  Flex,
   Heading,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Spacer,
   Spinner,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { CopyrightStyles, MiniChart } from 'react-ts-tradingview-widgets';
+
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
 import styles from '@/styles/pages/Research.module.scss';
 
@@ -79,13 +83,24 @@ export default function TopStocks() {
 
   return (
     <>
-      <Heading fontSize={'xl'}>Top 10 Stocks</Heading>
       <Menu>
-        <MenuButton
-          as={Button}
-          rightIcon={<ChevronDownIcon />}>
-          {leaderBoard}
-        </MenuButton>
+        <Flex
+          minWidth="max-content"
+          alignItems="center"
+          paddingX={'20px'}
+          marginTop={'10px'}
+          marginBottom={'20px'}
+          gap="2">
+          <Box>
+            <Heading size="md">Top 10 Stocks</Heading>
+          </Box>
+          <Spacer />
+          <MenuButton
+            as={Button}
+            rightIcon={<ChevronDownIcon />}>
+            {leaderBoard}
+          </MenuButton>
+        </Flex>
         <MenuList>
           <MenuItem
             onClick={() => {
