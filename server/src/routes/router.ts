@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { getArticleBySlug } from '../controllers/article';
 import { getAllCourses } from '../controllers/courses';
 import { getLearningProgress } from '../controllers/learningProgress';
+import { getTop10Stocks } from '../controllers/research';
 import {
   getAutoCompleteResults,
   getSearchResults,
@@ -98,5 +99,12 @@ router.get('/learningProgress', getLearningProgress);
  * @access public
  */
 router.get('/progress', getUnitProgress);
+
+/**
+ * @route GET /top10Stocks
+ * @description Get the Top 10 stocks to trade in the market
+ * @access public
+ */
+router.get('/top10Stocks', getTop10Stocks);
 
 export default router;
