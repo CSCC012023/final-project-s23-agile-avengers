@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import { getStatus } from '../controllers/status';
+
 import {
   getAllCourses,
   getAllUnitProgress,
@@ -11,7 +13,7 @@ import {
   getVideoBySlug,
 } from '../controllers/Learning';
 
-import { getStatus } from '../controllers/status';
+import { getTop10Stocks } from '../controllers/research';
 
 const api = Router();
 
@@ -77,5 +79,12 @@ api.get('/learningProgress', getLearningProgress);
  * @access public
  */
 api.get('/unitsProgress', getAllUnitProgress);
+
+/**
+ * @route GET /top10Stocks
+ * @description Get the Top 10 stocks to trade in the market
+ * @access public
+ */
+api.get('/top10Stocks', getTop10Stocks);
 
 export default api;
