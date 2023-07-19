@@ -35,7 +35,7 @@ export const getTopStocks = async (req: Request, res: Response) => {
     res
       .status(500)
       .json(
-        createError('InternalServerError', 'Failed to retrieve Top Stocks')
+        createError('InternalServerError', 'Failed to retrieve Top Stocks'),
       );
   }
 };
