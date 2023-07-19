@@ -85,12 +85,12 @@ export default function TopStocks() {
     <>
       <Menu>
         <Flex
-          minWidth="max-content"
           alignItems="center"
-          paddingX={'20px'}
-          marginTop={'10px'}
+          gap="2"
           marginBottom={'20px'}
-          gap="2">
+          marginTop={'10px'}
+          minWidth="max-content"
+          paddingX={'20px'}>
           <Box>
             <Heading size="md">Top 10 Stocks</Heading>
           </Box>
@@ -104,21 +104,21 @@ export default function TopStocks() {
         <MenuList>
           <MenuItem
             onClick={() => {
-              setTop10Stocks(fullResponse['topGainers']);
+              setTop10Stocks(fullResponse.topGainers);
               setLeaderBoard('Top Gainers');
             }}>
             Top Gainers
           </MenuItem>
           <MenuItem
             onClick={() => {
-              setTop10Stocks(fullResponse['topLosers']);
+              setTop10Stocks(fullResponse.topLosers);
               setLeaderBoard('Top Losers');
             }}>
             Top Losers
           </MenuItem>
           <MenuItem
             onClick={() => {
-              setTop10Stocks(fullResponse['mostActivelyTraded']);
+              setTop10Stocks(fullResponse.mostActivelyTraded);
               setLeaderBoard('Most Actively Traded');
             }}>
             Most Actively Traded
