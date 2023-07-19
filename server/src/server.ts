@@ -3,7 +3,9 @@ import express, { Application } from 'express';
 import { load } from 'ts-dotenv';
 
 import { connectDB } from './config/db';
-import router from './routes/router';
+
+import api from './routes/api';
+import webhook from './routes/webhook';
 
 const { PORT } = load({ PORT: Number });
 
@@ -17,4 +19,5 @@ app.listen(PORT, () => {
   console.info(`Connected on PORT: ${PORT}`);
 });
 
-app.use('/', router);
+app.use('/', api);
+app.use('/webhook', webhook);

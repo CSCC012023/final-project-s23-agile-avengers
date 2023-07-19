@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { CopyrightStyles, Screener } from 'react-ts-tradingview-widgets';
 
 import SymbolSearch from '@/components/SymbolSearch';
+import TopStocks from '@/components/TopStocks/';
 
 import styles from '@/styles/pages/Research.module.scss';
 
@@ -28,6 +29,7 @@ export default function ResearchPage() {
           }
         />
       </div>
+      <TopStocks />
       <Heading
         mb="1"
         mt="3"

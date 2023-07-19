@@ -1,9 +1,4 @@
 'use client';
-
-import { useEffect, useState } from 'react';
-
-import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
-import { Video } from '@/types/learning';
 import {
   Accordion,
   AspectRatio,
@@ -13,10 +8,16 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { Course } from '../../page';
+import { useEffect, useState } from 'react';
 
 import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
+import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
+
 import styles from '@/styles/pages/Video.module.scss';
+
+import { ErrorResponse } from '@/types/base';
+import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
+import { Video } from '@/types/learning';
 
 type VideoProps = {
   params: {
@@ -25,35 +26,63 @@ type VideoProps = {
   };
 };
 
-type CourseVideo = {
-  video: Video;
-};
-
 export default function ContentPage({ params }: VideoProps) {
-  const { container, title, unitLists } = styles;
+  const { center, container, title, unitLists } = styles;
 
-  const [courseVideo, setCourseVideo] = useState<CourseVideo>();
-  const [course, setCourse] = useState<Course>();
+  const [video, setVideo] = useState<Video>();
+  const [course, setCourse] = useState<CourseWithUnits>();
 
-  const fetchVideo = async () => {
+  const getCourseWithUnits = async () => {
     try {
-      const urlCourse = `http://localhost:4000/units?courseSlug=${params?.courseSlug}`;
-      const responseCourse = await fetch(urlCourse);
-      const dataCourse: Course = await responseCourse.json();
-      const url = `http://localhost:4000/video?videoSlug=${params?.videoSlug}`;
+      const url = `http://localhost:4000/units?courseSlug=${params?.courseSlug}`;
       const response = await fetch(url);
-      const data: CourseVideo = await response.json();
-      setCourse(dataCourse);
-      setCourseVideo(data);
+      if (response.ok) {
+        const data: CourseWithUnits = await response.json();
+        setCourse(data);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
     } catch (error) {
-      setCourseVideo(undefined);
-      console.error((error as Error).message);
+      console.error(error);
+    }
+  };
+
+  const getVideo = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/video?videoSlug=${params?.videoSlug}`,
+      );
+      if (response.ok) {
+        const data: Video = await response.json();
+        setVideo(data);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchVideo();
-  }, []);
+    getCourseWithUnits();
+    getVideo();
+  }, [params]);
+
+  if (!course && !video)
+    return (
+      <div className={center}>
+        <Spinner
+          color="blue.500"
+          emptyColor="gray.200"
+          size="xl"
+          speed="0.65s"
+          thickness="4px"
+        />
+        <Text>Loading Video</Text>
+      </div>
+    );
 
   return (
     <div className={container}>
@@ -72,41 +101,27 @@ export default function ContentPage({ params }: VideoProps) {
           })}
         </Accordion>
       </div>
-      {courseVideo == undefined ? (
-        <Spinner
-          alignSelf="center"
-          color="blue.500"
-          emptyColor="gray.200"
-          justifyContent="center"
-          marginTop="240"
-          size="xl"
-          speed="0.65s"
-          thickness="4px"
-        />
-      ) : (
-        <Container
-          maxW={'7xl'}
-          p="12">
-          <Heading as="h1">{courseVideo.video.name}</Heading>
+      <Container
+        maxW={'7xl'}
+        p="12">
+        <Heading as="h1">{video?.name}</Heading>
+        <AspectRatio
+          ratio={16 / 9}
+          w="100%">
+          <YoutubePlayer videoId={video?.videoId || ''} />
+        </AspectRatio>
 
-          <AspectRatio
-            ratio={16 / 9}
-            w="100%">
-            <YoutubePlayer videoId={courseVideo.video.videoId.toString()} />
-          </AspectRatio>
-
-          <VStack
-            alignItems="flex-start"
-            paddingTop="40px"
-            spacing="2">
-            <Text
-              as="p"
-              fontSize="lg">
-              {courseVideo.video.description}
-            </Text>
-          </VStack>
-        </Container>
-      )}
+        <VStack
+          alignItems="flex-start"
+          paddingTop="40px"
+          spacing="2">
+          <Text
+            as="p"
+            fontSize="lg">
+            {video?.description}
+          </Text>
+        </VStack>
+      </Container>
     </div>
   );
 }
