@@ -13,7 +13,7 @@ import {
   getVideoBySlug,
 } from '../controllers/Learning';
 
-import { getTop10Stocks } from '../controllers/research';
+import { getTopStocks } from '../controllers/research';
 
 const api = Router();
 
@@ -85,6 +85,6 @@ api.get('/unitsProgress', getAllUnitProgress);
  * @description Get the Top 10 stocks to trade in the market
  * @access public
  */
-api.get('/top10Stocks', getTop10Stocks);
+api.get('/topStocks', getTopStocks);
 
 export default api;
