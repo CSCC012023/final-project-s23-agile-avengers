@@ -3,7 +3,7 @@
 import { Divider, Heading } from '@chakra-ui/react';
 import { CopyrightStyles, Screener } from 'react-ts-tradingview-widgets';
 
-import TopStocks from '@/components/Research/TopStocks';
+import TopStocks from '@/components/TopStocks/';
 
 export default function ResearchPage() {
   const twStyles: CopyrightStyles = {

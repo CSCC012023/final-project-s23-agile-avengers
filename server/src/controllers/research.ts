@@ -1,7 +1,10 @@
 /* eslint-disable camelcase */
 import { Request, Response } from 'express';
 
+import { createError } from '../utils/error';
 import { queryAlphaVantage } from '../utils/query';
+
+import { TopStocksResults } from '../types/research';
 
 /**
  *
@@ -10,23 +13,29 @@ import { queryAlphaVantage } from '../utils/query';
  *
  * @return {Response} - Response Object with an Error or Success
  */
-export const getTop10Stocks = async (req: Request, res: Response) => {
+export const getTopStocks = async (req: Request, res: Response) => {
   try {
-    const { top_gainers, top_losers, most_actively_traded } =
-      await queryAlphaVantage({
-        function: 'TOP_GAINERS_LOSERS',
-      });
+    const { top_gainers, top_losers, most_actively_traded }: TopStocksResults =
+      await queryAlphaVantage({ function: 'TOP_GAINERS_LOSERS' });
 
     const response = {
-      topGainers: top_gainers.slice(0, 10),
-      topLosers: top_losers.slice(0, 10),
-      mostActivelyTraded: most_actively_traded.slice(0, 10),
+      topGainers: top_gainers
+        ? top_gainers.slice(0, 10).map((stock) => stock.ticker)
+        : [],
+      topLosers: top_losers
+        ? top_losers.slice(0, 10).map((stock) => stock.ticker)
+        : [],
+      mostActivelyTraded: most_actively_traded
+        ? most_actively_traded.slice(0, 10).map((stock) => stock.ticker)
+        : [],
     };
 
-    return top_gainers
-      ? res.status(200).json(response)
-      : res.status(404).json({ message: 'Unable to pull Top 10 Stocks' });
-  } catch (e: any) {
-    return res.status(404).json({ message: 'Unable to pull Top 10 Stocks' });
+    res.status(200).json(response);
+  } catch (error) {
+    res
+      .status(500)
+      .json(
+        createError('InternalServerError', 'Failed to retrieve Top Stocks'),
+      );
   }
 };
