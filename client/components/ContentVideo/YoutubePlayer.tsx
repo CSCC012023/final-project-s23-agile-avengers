@@ -72,15 +72,16 @@ const YoutubePlayer = ({
   useEffect(() => {
     const calculateYoutubeProps = async () => {
       if (ref.current == null) return;
-
+      //console.log(progressPercent);
+      const duration = await (ref.current as any)
+        .getInternalPlayer()
+        .getDuration();
       setYoutobeProps({
         height: '100%',
         width: '100%',
         playerVars: {
           autoplay: 0,
-          start:
-            (progressPercent / 100) *
-            (await (ref.current as any).getInternalPlayer().getCurrentTime()),
+          start: (progressPercent / 100) * duration,
         },
       });
     };

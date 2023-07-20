@@ -52,10 +52,9 @@ export const getVideoBySlug = async (req: Request, res: Response) => {
  * @param {Request} req - Must contain `videoId` and 'user' in query
  * @param {Response} res - Response Object
  *
- * @return {Response}  Response Object with an Error or Video Progress value
+ * @return {Promise}  Response Object with an Error or Video Progress value
  */
 export const getVideoProgressBySlug = async (req: Request, res: Response) => {
-  // Checks if the field `videoID` is included in the query
   const userID = req.query.userID as string;
   const { status, error } = validateUserID(userID);
 
@@ -124,7 +123,7 @@ export const getVideoProgressBySlug = async (req: Request, res: Response) => {
  * @param {Request} req - Must contain `videoId` and 'user' in query
  * @param {Response} res - Response Object
  *
- * @return {Response}  Response Object with an Error
+ * @return {Promise}  Response Object with an Error or updated video progress
  */
 export const updateVideoProgress = async (req: Request, res: Response) => {
   /* validation */
@@ -132,20 +131,17 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
   const { status, error } = validateUserID(userID);
   if (!status) return res.status(400).json(error);
 
-  if (!req.body.videoSlug)
-    return res
-      .status(400)
-      .json(
-        createError('MissingBodyParams', 'The body params requires videoID')
-      );
+  const videoSlug = req.body.videoSlug as string;
+  const validateSlug = validateInput('slug', videoSlug, 'videoSlug');
+  if (!validateSlug.status) return res.status(400).json(validateSlug.error);
 
-  if (!req.body.videoProgressPercent)
+  if (!req.body.videoProgressPercent || isNaN(req.body.videoProgressPercent))
     return res
       .status(400)
       .json(
         createError(
           'MissingBodyParams',
-          'The body params requires videoProgressPercent'
+          'The body params requires numeric videoProgressPercent'
         )
       );
 

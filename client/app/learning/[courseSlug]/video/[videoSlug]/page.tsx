@@ -62,6 +62,12 @@ export default function ContentPage({ params }: VideoProps) {
         const error: ErrorResponse = await response.json();
         console.error(error);
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getProgress = async () => {
+    try {
       const progressResponse = await fetch(
         `http://localhost:4000/progress/video?userID=${userId}&videoSlug=${params.videoSlug}`
       );
@@ -69,17 +75,17 @@ export default function ContentPage({ params }: VideoProps) {
         const progressData = await progressResponse.json();
         setVideoProgress(progressData.progressPercent);
       } else {
-        const error: ErrorResponse = await response.json();
+        const error: ErrorResponse = await progressResponse.json();
         console.error(error);
       }
     } catch (error) {
       console.error(error);
     }
   };
-
   useEffect(() => {
     getCourseWithUnits();
     getVideo();
+    getProgress();
   }, [params]);
 
   if (!course && !video)

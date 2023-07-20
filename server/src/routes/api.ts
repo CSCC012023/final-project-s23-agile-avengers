@@ -11,12 +11,9 @@ import {
   getLearningProgress,
   getSearchResults,
   getVideoBySlug,
-} from '../controllers/Learning';
-
-import {
   getVideoProgressBySlug,
   updateVideoProgress,
-} from '../controllers/Learning/video';
+} from '../controllers/Learning';
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
