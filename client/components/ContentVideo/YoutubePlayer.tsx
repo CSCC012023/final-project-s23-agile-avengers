@@ -72,7 +72,6 @@ const YoutubePlayer = ({
   useEffect(() => {
     const calculateYoutubeProps = async () => {
       if (ref.current == null) return;
-      //console.log(progressPercent);
       const duration = await (ref.current as any)
         .getInternalPlayer()
         .getDuration();
