@@ -13,7 +13,7 @@ import {
   getVideoBySlug,
 } from '../controllers/Learning';
 
-import { getTopStocks } from '../controllers/research';
+import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
 const api = Router();
 
@@ -86,5 +86,12 @@ api.get('/unitsProgress', getAllUnitProgress);
  * @access public
  */
 api.get('/topStocks', getTopStocks);
+
+/**
+ * @route GET /symbolSearch
+ * @description Get best matches for symbol keywords
+ * @access public
+ */
+api.get('/symbolSearch', getSymbolAutoComplete);
 
 export default api;

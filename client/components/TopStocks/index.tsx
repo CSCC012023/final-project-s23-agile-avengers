@@ -1,8 +1,7 @@
 import {
-  Box,
-  Button,
   Flex,
   Heading,
+  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -11,9 +10,11 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { Scrollbar } from 'react-scrollbars-custom';
 import { CopyrightStyles, MiniChart } from 'react-ts-tradingview-widgets';
 
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { FaQuestion } from '@react-icons/all-files/fa/FaQuestion';
 
 import styles from '@/styles/components/TopStocks.module.scss';
 
@@ -46,27 +47,35 @@ export default function TopStocks() {
     getTopStocks();
   }, []);
 
-  const { container, center, wrapper, content } = styles;
+  const { container, center, wrapper, content, question } = styles;
+
+  const isEmpty =
+    topStocks && Object.values(topStocks).every((value) => value.length === 0);
 
   return (
     <>
-      <Menu>
+      <Menu isLazy>
         <Flex
           alignItems="center"
           gap="2"
           marginBottom={'20px'}
           marginTop={'10px'}
-          minWidth="max-content"
-          paddingX={'20px'}>
-          <Box>
-            <Heading size="md">Top 10 Stocks</Heading>
-          </Box>
+          minWidth="max-content">
+          {' '}
+          <Heading
+            mb="1"
+            mt="3"
+            size="md"
+            w="100%">
+            {modeToText[mode]}
+          </Heading>
           <Spacer />
           <MenuButton
-            as={Button}
-            rightIcon={<ChevronDownIcon />}>
-            {modeToText[mode]}
-          </MenuButton>
+            aria-label="Options"
+            as={IconButton}
+            icon={<ChevronDownIcon />}
+            variant="outline"
+          />
         </Flex>
         <MenuList>
           <MenuItem onClick={() => setMode('topGainers')}>Top Gainers</MenuItem>
@@ -78,8 +87,14 @@ export default function TopStocks() {
       </Menu>
 
       <div className={topStocks ? container : center}>
-        {topStocks ? (
-          <div className={wrapper}>
+        {isEmpty && (
+          <div className={center}>
+            <FaQuestion className={question} />
+            No Results
+          </div>
+        )}
+        {topStocks && topStocks[mode].length !== 0 && (
+          <Scrollbar className={wrapper}>
             {topStocks[mode].map((symbol: string, idx) => {
               return (
                 <div
@@ -88,14 +103,16 @@ export default function TopStocks() {
                   <MiniChart
                     colorTheme="light"
                     copyrightStyles={twStyles}
-                    largeChartUrl={`http://localhost:3000/research/${symbol}`}
+                    largeChartUrl={`http://localhost:3000/research/info`}
                     symbol={symbol.replace('+', '')} // MiniChart does not recognize tickers with '+' - shows loading icon indefinitely
-                    width={'auto'}></MiniChart>
+                    width={'auto'}
+                  />
                 </div>
               );
             })}
-          </div>
-        ) : (
+          </Scrollbar>
+        )}
+        {!topStocks && (
           <Spinner
             color="blue.500"
             emptyColor="gray.200"

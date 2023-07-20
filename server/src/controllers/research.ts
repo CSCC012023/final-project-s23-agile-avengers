@@ -39,3 +39,53 @@ export const getTopStocks = async (req: Request, res: Response) => {
       );
   }
 };
+
+type SymbolSearchResults = {
+  symbol: string;
+  name: string;
+};
+
+/**
+ * Retrieves a list of best matches for a given symbol query
+ *
+ * @param {Request} req - Must contain `searchText` in query
+ * @param {Response} res - Response Object
+ *
+ * @return {Promise} Response Object with an Error or SymbolSearchResults
+ */
+export const getSymbolAutoComplete = async (req: Request, res: Response) => {
+  const searchText = req.query.searchText as string;
+  if (!searchText)
+    return res.status(400).json({ message: 'Please provide searchText' });
+
+  const userIDRegex = /^[A-Za-z]+/;
+  if (!userIDRegex.test(searchText))
+    return res.status(400).json({ message: 'Invalid searchText' });
+
+  try {
+    const { bestMatches }: { bestMatches: Record<string, string>[] } =
+      await queryAlphaVantage({
+        function: 'SYMBOL_SEARCH',
+        keywords: searchText,
+      });
+
+    if (!bestMatches)
+      return res.status(400).json({ message: 'Unable Find Results' });
+
+    const result: SymbolSearchResults[] = bestMatches
+      .filter((result) => {
+        return result['3. type'] === 'Equity';
+      })
+      .map((result) => {
+        return {
+          symbol: result['1. symbol'],
+          name: result['2. name'],
+        };
+      });
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(404).json({ message: 'Unable Search Symbol' });
+  }
+};
