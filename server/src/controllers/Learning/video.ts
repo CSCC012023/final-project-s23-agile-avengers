@@ -257,6 +257,7 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
     _id: progress._id,
     userID: user._id,
     courses:
+      /* If parent course is not already added add,it otherwise update it */
       indexCourse !== -1
         ? progress.courses.map((elem) => {
             return elem.courseID.toString() != parentCourse._id.toString()
@@ -271,6 +272,7 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
             },
           ],
     units:
+      /* If parent unit is not already added add,it otherwise update it */
       indexUnit !== -1
         ? progress.units.map((elem) => {
             return elem.unitID.toString() != parentUnit._id.toString()
@@ -285,6 +287,7 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
             },
           ],
     videos:
+      /* If video is not already added add,it otherwise update it */
       indexVideo !== -1
         ? progress.videos.map((elem) => {
             return elem.videoID.toString() == video._id.toString()
