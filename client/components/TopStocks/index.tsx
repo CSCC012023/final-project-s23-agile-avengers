@@ -88,7 +88,7 @@ export default function TopStocks() {
                   <MiniChart
                     colorTheme="light"
                     copyrightStyles={twStyles}
-                    largeChartUrl={`http://localhost:3000/research/${symbol}`}
+                    largeChartUrl={`http://localhost:3000/research/info`}
                     symbol={symbol.replace('+', '')} // MiniChart does not recognize tickers with '+' - shows loading icon indefinitely
                     width={'auto'}></MiniChart>
                 </div>
