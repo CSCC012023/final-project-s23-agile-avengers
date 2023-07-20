@@ -65,8 +65,13 @@ export default function ContentPage({ params }: VideoProps) {
       const progressResponse = await fetch(
         `http://localhost:4000/progress/video?userID=${userId}&videoSlug=${params.videoSlug}`
       );
-      const progressData = await progressResponse.json();
-      setVideoProgress(progressData.progressPercent);
+      if (progressResponse.ok) {
+        const progressData = await progressResponse.json();
+        setVideoProgress(progressData.progressPercent);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
     } catch (error) {
       console.error(error);
     }
