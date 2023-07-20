@@ -31,11 +31,11 @@
 ### Decisions that did not turn out as well as we hoped
 
 - Last minute changes: A bunch of commits happened at the last moment which
-indicates poor estimation of individual members' work.
+  indicates poor estimation of individual members' work.
 - Lack of documentation depth for testing: Need more robust postman testing
-for created endpoints.
+  for created endpoints.
 - UI Responsiveness: Need to improve on the overall UI experience and
-responsiveness.
+  responsiveness.
 
 ### Planned changes
 
