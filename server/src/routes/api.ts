@@ -101,7 +101,7 @@ api.get('/symbolSearch', getSymbolAutoComplete);
 
 /**
  * @route GET /progress
- * @description Get unit progress of a user
+ * @description Get progress of a user for video
  * @access public
  */
 api.get('/progress/video', getVideoProgressBySlug);
@@ -109,7 +109,7 @@ api.get('/progress/video', getVideoProgressBySlug);
 /**
 
  * @route PATCH /videoProgress
- * @description Get all progress of a video for a user
+ * @description Update progress for user
  * @access public
  */
 api.patch('/videoProgress', updateVideoProgress);
