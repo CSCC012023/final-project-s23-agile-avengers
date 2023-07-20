@@ -141,8 +141,8 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'MissingBodyParams',
-          'The body params requires numeric videoProgressPercent'
-        )
+          'The body params requires numeric videoProgressPercent',
+        ),
       );
 
   const progressPercentageCurrent: number = parseFloat(
