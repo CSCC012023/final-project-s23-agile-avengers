@@ -16,10 +16,9 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-import { useAuth } from '@clerk/nextjs';
-import  Course  from '../../page';
 import { ErrorResponse } from '@/types/base';
 import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
+import { useAuth } from '@clerk/nextjs';
 
 type VideoProps = {
   params: {
@@ -30,9 +29,10 @@ type VideoProps = {
 
 export default function ContentPage({ params }: VideoProps) {
   const { center, container, title, unitLists } = styles;
-
+  const { userId } = useAuth();
   const [video, setVideo] = useState<Video>();
   const [course, setCourse] = useState<CourseWithUnits>();
+  const [videoProgress, setVideoProgress] = useState(0);
 
   const getCourseWithUnits = async () => {
     try {
@@ -53,7 +53,7 @@ export default function ContentPage({ params }: VideoProps) {
   const getVideo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/video?videoSlug=${params?.videoSlug}`,
+        `http://localhost:4000/video?videoSlug=${params?.videoSlug}`
       );
       if (response.ok) {
         const data: Video = await response.json();
@@ -129,10 +129,12 @@ export default function ContentPage({ params }: VideoProps) {
         <AspectRatio
           ratio={16 / 9}
           w="100%">
-          <YoutubePlayer progressPercent={videoProgress}
-              userId={userId}
-              videoId={courseVideo.video.videoId.toString()}
-              videoSlug={params.videoSlug} />
+          <YoutubePlayer
+            progressPercent={videoProgress}
+            userId={userId}
+            videoId={video?.videoId.toString() || ''}
+            videoSlug={params.videoSlug}
+          />
         </AspectRatio>
 
         <VStack

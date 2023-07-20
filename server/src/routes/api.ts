@@ -13,6 +13,11 @@ import {
   getVideoBySlug,
 } from '../controllers/Learning';
 
+import {
+  getVideoProgressBySlug,
+  updateVideoProgress,
+} from '../controllers/Learning/video';
+
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
 const api = Router();
@@ -93,5 +98,20 @@ api.get('/topStocks', getTopStocks);
  * @access public
  */
 api.get('/symbolSearch', getSymbolAutoComplete);
+
+/**
+ * @route GET /progress
+ * @description Get unit progress of a user
+ * @access public
+ */
+api.get('/progress/video', getVideoProgressBySlug);
+
+/**
+
+ * @route PATCH /videoProgress
+ * @description Get all progress of a video for a user
+ * @access public
+ */
+api.patch('/videoProgress', updateVideoProgress);
 
 export default api;
