@@ -36,8 +36,8 @@ export const getVideoBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'VideoDoesNotExist',
-          `Failed to find Video with slug: ${videoSlug}`
-        )
+          `Failed to find Video with slug: ${videoSlug}`,
+        ),
       );
   } catch (error) {
     res
@@ -73,8 +73,8 @@ export const getVideoProgressBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'UserDoesNotExist',
-          `User with ID: ${userID} does not exist`
-        )
+          `User with ID: ${userID} does not exist`,
+        ),
       );
 
   const video = await modelVideo.findOne({ slug: req.query.videoSlug });
@@ -84,8 +84,8 @@ export const getVideoProgressBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'VideoDoesNotExist',
-          `Failed to find Video with slug: ${videoSlug}`
-        )
+          `Failed to find Video with slug: ${videoSlug}`,
+        ),
       );
 
   const progress = await modelProgress
@@ -105,7 +105,7 @@ export const getVideoProgressBySlug = async (req: Request, res: Response) => {
       progressPercent: 0,
     });
   const specificVideo = progress.videos.find(
-    (entry) => (entry.videoID = video._id)
+    (entry) => (entry.videoID = video._id),
   );
 
   if (!specificVideo)
@@ -136,7 +136,7 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
     return res
       .status(400)
       .json(
-        createError('MissingBodyParams', 'The body params requires videoID')
+        createError('MissingBodyParams', 'The body params requires videoID'),
       );
 
   if (!req.body.videoProgressPercent)
@@ -145,12 +145,12 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'MissingBodyParams',
-          'The body params requires videoProgressPercent'
-        )
+          'The body params requires videoProgressPercent',
+        ),
       );
 
   const progressPercentageCurrent: number = parseFloat(
-    req.body.videoProgressPercent.toString()
+    req.body.videoProgressPercent.toString(),
   );
   const user = await modelUser.findOne({ userID: req.body.userID });
   if (!user)
@@ -159,8 +159,8 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'UserDoesNotExist',
-          `User with ID: ${userID} does not exist`
-        )
+          `User with ID: ${userID} does not exist`,
+        ),
       );
 
   const video = await modelVideo.findOne({ slug: req.body.videoSlug });
@@ -170,8 +170,8 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'VideoDoesNotExist',
-          `Failed to find Video with slug: ${req.body.videoSlug}`
-        )
+          `Failed to find Video with slug: ${req.body.videoSlug}`,
+        ),
       );
 
   const progress = await modelProgress.findOne({
@@ -189,8 +189,8 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'ParentUnitNotFound',
-          `Failed to find parentUnit of video: ${req.body.videoSlug}`
-        )
+          `Failed to find parentUnit of video: ${req.body.videoSlug}`,
+        ),
       );
   const parentCourse = await modelCourse.findOne({
     units: { $all: [parentUnit._id] },
@@ -201,8 +201,8 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'ParentCourseNotFound',
-          `Failed to find parentCourse of video: ${req.body.videoSlug}`
-        )
+          `Failed to find parentCourse of video: ${req.body.videoSlug}`,
+        ),
       );
 
   if (!progress) {
@@ -236,13 +236,13 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
   }
   /* User already has a progress elem then update the progres object */
   const indexVideo = progress.videos.findIndex(
-    (elem) => elem.videoID.toString() == video._id.toString()
+    (elem) => elem.videoID.toString() == video._id.toString(),
   );
   const indexUnit = progress.units.findIndex(
-    (elem) => elem.unitID.toString() == parentUnit._id.toString()
+    (elem) => elem.unitID.toString() == parentUnit._id.toString(),
   );
   const indexCourse = progress.courses.findIndex(
-    (elem) => elem.courseID.toString() == parentCourse._id.toString()
+    (elem) => elem.courseID.toString() == parentCourse._id.toString(),
   );
 
   /* A video was just completed if its progress went over 70 and it was previously incomplete */
