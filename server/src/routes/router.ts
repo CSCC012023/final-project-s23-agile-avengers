@@ -7,7 +7,7 @@ import { getAllUnitProgress, getAllUnitsBySlug } from '../controllers/units';
 import { createNewUser, getAllUsers } from '../controllers/user';
 import {
   getVideoBySlug,
-  getVideoProgress,
+  getVideoProgressBySlug,
   updateVideoProgress,
 } from '../controllers/video';
 
@@ -84,13 +84,6 @@ router.get('/video', getVideoBySlug);
  */
 router.patch('/videoProgress', updateVideoProgress);
 
-/**
- * @route GET /videoProgress
- * @description Get all progress of a video for a user
- * @access public
- */
-router.get('/videoProgress', getVideoProgress);
-
 /*
  * @route GET /search
  * @description Get all the search results
@@ -113,5 +106,12 @@ router.get('/learningProgress', getLearningProgress);
  * @access public
  */
 router.get('/progress', getUnitProgress);
+
+/**
+ * @route GET /progress
+ * @description Get unit progress of a user
+ * @access public
+ */
+router.get('/progress/video', getVideoProgressBySlug);
 
 export default router;

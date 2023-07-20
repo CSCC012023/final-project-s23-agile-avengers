@@ -37,22 +37,22 @@ export const getVideoBySlug = async (req: Request, res: Response) => {
  *
  * @return {Response}  Response Object with an Error or Video Progress value
  */
-export const getVideoProgress = async (req: Request, res: Response) => {
+export const getVideoProgressBySlug = async (req: Request, res: Response) => {
   // Checks if the field `videoID` is included in the query
   if (!req.query.userID)
     return res
       .status(400)
       .json({ message: 'Invalid Request: Missing field "userID".' });
 
-  if (!req.query.videoID)
+  if (!req.query.videoSlug)
     return res
       .status(400)
-      .json({ message: 'Invalid Request: Missing field "videoID".' });
+      .json({ message: 'Invalid Request: Missing field "videoSlug".' });
 
   const user = await modelUser.findOne({ userID: req.query.userID });
   if (!user) return res.status(404).json({ message: 'user not found' });
 
-  const video = await modelVideo.findOne({ videoId: req.query.videoID });
+  const video = await modelVideo.findOne({ slug: req.query.videoSlug });
   if (!video) return res.status(404).json({ message: 'video not found' });
 
   const progress = await modelProgress
@@ -60,17 +60,10 @@ export const getVideoProgress = async (req: Request, res: Response) => {
       userID: user._id,
     })
     .populate({
-      path: 'courses',
+      path: 'videos',
       populate: {
-        path: 'courseID',
-        model: 'Course',
-      },
-    })
-    .populate({
-      path: 'units',
-      populate: {
-        path: 'unitID',
-        model: 'Unit',
+        path: 'videoID',
+        model: 'Video',
       },
     });
 
@@ -78,8 +71,22 @@ export const getVideoProgress = async (req: Request, res: Response) => {
   // if (checkIfVideoExists(video._id, progress)) {
   //   const progressPercentageCurrent = progressObj.videos.find((elem) => elem.videoID.toString() == video._id.toString()).progressPercent;
   // }
+  if (progress == null)
+    return res.status(200).json({
+      progressPercent: 0,
+    });
+  const specificVideo = progress.videos.find(
+    (entry) => (entry.videoID = video._id)
+  );
 
-  return res.status(200).json({ progress });
+  if (!specificVideo)
+    return res.status(200).json({
+      progressPercent: 0,
+    });
+
+  return res.status(200).json({
+    progressPercent: specificVideo.progressPercent,
+  });
 };
 
 /**
@@ -125,15 +132,16 @@ const checkIfVideoExists = (
  */
 export const updateVideoProgress = async (req: Request, res: Response) => {
   // Checks if the field `videoID` is included in the query
+  console.log(req.body);
   if (!req.body.userID)
     return res
       .status(400)
       .json({ message: 'Invalid Request: Missing field "userID".' });
 
-  if (!req.body.videoID)
+  if (!req.body.videoSlug)
     return res
       .status(400)
-      .json({ message: 'Invalid Request: Missing field "videoID".' });
+      .json({ message: 'Invalid Request: Missing field "videoSlug".' });
 
   if (!req.body.videoProgressPercent)
     return res.status(400).json({
@@ -146,7 +154,7 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
   const user = await modelUser.findOne({ userID: req.body.userID });
   if (!user) return res.status(404).json({ message: 'user not found' });
 
-  const video = await modelVideo.findOne({ _id: req.body.videoID });
+  const video = await modelVideo.findOne({ slug: req.body.videoSlug });
   if (!video) return res.status(404).json({ message: 'video not found' });
 
   const progress = await modelProgress.findOne({
@@ -201,15 +209,12 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
   const indexCourse = progress.courses.findIndex(
     (elem) => elem.courseID.toString() == parentCourse._id.toString()
   );
-  console.log(
-    progressPercentageCurrent >= 70 &&
-      ((indexVideo != -1 && !progress.videos[indexVideo].isComplete) ||
-        indexVideo == -1)
-  );
   const isJustComplete =
     progressPercentageCurrent >= 70 &&
     ((indexVideo != -1 && !progress.videos[indexVideo].isComplete) ||
       indexVideo == -1);
+
+  console.log(isJustComplete);
   const increment = isJustComplete ? 1 : 0;
   // eslint-disable-next-line new-cap
   const updatedObject = new modelProgress({
@@ -250,7 +255,9 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
               ? {
                   ...elem,
                   progressPercent: progressPercentageCurrent,
-                  isComplete: isJustComplete,
+                  isComplete: elem.isComplete
+                    ? elem.isComplete
+                    : isJustComplete,
                 }
               : elem;
           })

@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
+import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
 import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
+import styles from '@/styles/pages/Video.module.scss';
 import { Video } from '@/types/learning';
 import {
   Accordion,
@@ -13,15 +15,13 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { useAuth } from '@clerk/nextjs';
 import { Course } from '../../page';
-
-import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
-import styles from '@/styles/pages/Video.module.scss';
 
 type VideoProps = {
   params: {
-    courseSlug?: string;
-    videoSlug?: string;
+    courseSlug: string;
+    videoSlug: string;
   };
 };
 
@@ -31,18 +31,23 @@ type CourseVideo = {
 
 export default function ContentPage({ params }: VideoProps) {
   const { container, title, unitLists } = styles;
-
+  const { userId } = useAuth();
   const [courseVideo, setCourseVideo] = useState<CourseVideo>();
   const [course, setCourse] = useState<Course>();
-
+  const [videoProgress, setVideoProgress] = useState(0);
   const fetchVideo = async () => {
     try {
-      const urlCourse = `http://localhost:4000/units?courseSlug=${params?.courseSlug}`;
+      const urlCourse = `http://localhost:4000/units?courseSlug=${params.courseSlug}`;
       const responseCourse = await fetch(urlCourse);
       const dataCourse: Course = await responseCourse.json();
       const url = `http://localhost:4000/video?videoSlug=${params?.videoSlug}`;
       const response = await fetch(url);
       const data: CourseVideo = await response.json();
+      const progressResponse = await fetch(
+        `http://localhost:4000/progress/video?userID=${userId}&videoSlug=${params.videoSlug}`
+      );
+      const progressData = await progressResponse.json();
+      setVideoProgress(progressData.progressPercent);
       setCourse(dataCourse);
       setCourseVideo(data);
     } catch (error) {
@@ -54,6 +59,20 @@ export default function ContentPage({ params }: VideoProps) {
   useEffect(() => {
     fetchVideo();
   }, []);
+
+  if (!userId || userId == null)
+    return (
+      <Spinner
+        alignSelf="center"
+        color="blue.500"
+        emptyColor="gray.200"
+        justifyContent="center"
+        marginTop="240"
+        size="xl"
+        speed="0.65s"
+        thickness="4px"
+      />
+    );
 
   return (
     <div className={container}>
@@ -92,7 +111,12 @@ export default function ContentPage({ params }: VideoProps) {
           <AspectRatio
             ratio={16 / 9}
             w="100%">
-            <YoutubePlayer videoId={courseVideo.video.videoId.toString()} />
+            <YoutubePlayer
+              progressPercent={videoProgress}
+              userId={userId}
+              videoId={courseVideo.video.videoId.toString()}
+              videoSlug={params.videoSlug}
+            />
           </AspectRatio>
 
           <VStack
