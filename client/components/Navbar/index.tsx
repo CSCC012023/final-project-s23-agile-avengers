@@ -29,6 +29,10 @@ const navLinks = [
     name: 'Learning',
     href: '/learning',
   },
+  {
+    name: 'Research',
+    href: '/research',
+  },
 ];
 
 const Navbar = () => {
