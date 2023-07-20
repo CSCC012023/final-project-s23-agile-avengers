@@ -71,6 +71,6 @@ const ProgressSchema = new Schema<LearningProgress>(
 
 const modelProgress = model<LearningProgress>(
   'LearningProgress',
-  ProgressSchema
+  ProgressSchema,
 );
 export default modelProgress;

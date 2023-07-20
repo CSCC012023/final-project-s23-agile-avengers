@@ -44,7 +44,7 @@ type ErrorResponse = {
  */
 export const createError = (
   type: ErrorTypes,
-  message: string
+  message: string,
 ): ErrorResponse => {
   return { type, message };
 };
