@@ -36,6 +36,10 @@ const ProgressSchema = new Schema<LearningProgress>(
           ref: 'Video',
         },
         progressPercent: Number,
+        isComplete: {
+          type: Boolean,
+          defult: false,
+        },
       },
     ],
     articles: [
@@ -45,6 +49,10 @@ const ProgressSchema = new Schema<LearningProgress>(
           ref: 'Article',
         },
         progressPercent: Number,
+        isComplete: {
+          type: Boolean,
+          defult: false,
+        },
       },
     ],
   },

@@ -1,4 +1,11 @@
 'use client';
+
+import { useEffect, useState } from 'react';
+
+import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
+import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
+import styles from '@/styles/pages/Video.module.scss';
+import { Video } from '@/types/learning';
 import {
   Accordion,
   AspectRatio,
@@ -8,29 +15,24 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-
-import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
-import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
-
-import styles from '@/styles/pages/Video.module.scss';
 
 import { ErrorResponse } from '@/types/base';
 import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
-import { Video } from '@/types/learning';
+import { useAuth } from '@clerk/nextjs';
 
 type VideoProps = {
   params: {
-    courseSlug?: string;
-    videoSlug?: string;
+    courseSlug: string;
+    videoSlug: string;
   };
 };
 
 export default function ContentPage({ params }: VideoProps) {
   const { center, container, title, unitLists } = styles;
-
+  const { userId } = useAuth();
   const [video, setVideo] = useState<Video>();
   const [course, setCourse] = useState<CourseWithUnits>();
+  const [videoProgress, setVideoProgress] = useState(0);
 
   const getCourseWithUnits = async () => {
     try {
@@ -64,10 +66,26 @@ export default function ContentPage({ params }: VideoProps) {
       console.error(error);
     }
   };
-
+  const getProgress = async () => {
+    try {
+      const progressResponse = await fetch(
+        `http://localhost:4000/progress/video?userID=${userId}&videoSlug=${params.videoSlug}`,
+      );
+      if (progressResponse.ok) {
+        const progressData = await progressResponse.json();
+        setVideoProgress(progressData.progressPercent);
+      } else {
+        const error: ErrorResponse = await progressResponse.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     getCourseWithUnits();
     getVideo();
+    getProgress();
   }, [params]);
 
   if (!course && !video)
@@ -82,6 +100,20 @@ export default function ContentPage({ params }: VideoProps) {
         />
         <Text>Loading Video</Text>
       </div>
+    );
+
+  if (!userId || userId == null)
+    return (
+      <Spinner
+        alignSelf="center"
+        color="blue.500"
+        emptyColor="gray.200"
+        justifyContent="center"
+        marginTop="240"
+        size="xl"
+        speed="0.65s"
+        thickness="4px"
+      />
     );
 
   return (
@@ -108,7 +140,12 @@ export default function ContentPage({ params }: VideoProps) {
         <AspectRatio
           ratio={16 / 9}
           w="100%">
-          <YoutubePlayer videoId={video?.videoId || ''} />
+          <YoutubePlayer
+            progressPercent={videoProgress}
+            userId={userId}
+            videoId={video?.videoId.toString() || ''}
+            videoSlug={params.videoSlug}
+          />
         </AspectRatio>
 
         <VStack

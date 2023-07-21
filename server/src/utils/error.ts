@@ -5,7 +5,9 @@ type RequestErrorTypes =
   | 'MissingUserID'
   | 'InvalidUserID'
   | 'MissingSlug'
-  | 'InvalidSlug';
+  | 'InvalidSlug'
+  | 'ParentUnitNotFound'
+  | 'ParentCourseNotFound';
 
 // Database Error will be used to handle Mongo Query related Errors
 type DatabaseErrorTypes =
