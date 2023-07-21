@@ -16,7 +16,7 @@ import {
   ModalOverlay,
   Select,
   Text,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { SearchIcon, ViewIcon } from '@chakra-ui/icons';
@@ -26,9 +26,8 @@ import SymbolSearch from '@/components/SymbolSearch';
 import { useState } from 'react';
 
 const TradingHome = () => {
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [symbol, setSymbol] = useState("");
+  const [symbol, setSymbol] = useState('');
 
   return (
     <Box p={10}>
@@ -48,7 +47,12 @@ const TradingHome = () => {
             <InputLeftElement pointerEvents="none">
               <SearchIcon color="gray.900" />
             </InputLeftElement>
-            <Input isReadOnly onClick={onOpen} placeholder="Search for symbol" value={symbol} />
+            <Input
+              isReadOnly
+              onClick={onOpen}
+              placeholder="Search for symbol"
+              value={symbol}
+            />
           </InputGroup>
         </FormControl>
 
@@ -130,28 +134,38 @@ const TradingHome = () => {
           w={'100%'}>
           <Button
             colorScheme="red"
-            onClick={()=> {alert('unimplemented, probably reset all values')}}
+            onClick={() => {
+              alert('unimplemented, probably reset all values');
+            }}
             size={'lg'}>
             Cancel
           </Button>
           <Button
             colorScheme="blue"
-            onClick={()=> {alert('unimplemented!')}}
+            onClick={() => {
+              alert('unimplemented!');
+            }}
             size={'lg'}>
             Preview Order
           </Button>
         </ButtonGroup>
       </Box>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalBody height={800} pl={-10} pt={-2}>
-            <SymbolSearch callback={(symbol: string) =>
-              {
+          <ModalBody
+            height={800}
+            pl={-10}
+            pt={-2}>
+            <SymbolSearch
+              callback={(symbol: string) => {
                 setSymbol(symbol);
                 onClose();
-              }} />
+              }}
+            />
           </ModalBody>
         </ModalContent>
       </Modal>

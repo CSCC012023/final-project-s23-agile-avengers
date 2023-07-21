@@ -35,8 +35,8 @@ const navLinks = [
   },
   {
     name: 'Trading',
-    href: '/trading'
-  }
+    href: '/trading',
+  },
 ];
 
 const Navbar = () => {
