@@ -1,7 +1,13 @@
 'use client';
 
-import { Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
+import {
+  AdvancedRealTimeChart,
+  CompanyProfile,
+} from 'react-ts-tradingview-widgets';
+
+import SymbolSearch from '@/components/SymbolSearch';
 
 import styles from '@/styles/pages/ResearchInfo.module.scss';
 
@@ -12,8 +18,7 @@ type ResearchInfoProps = {
 };
 
 export default function ResearchInfoPage({ searchParams }: ResearchInfoProps) {
-  const { container } = styles;
-
+  const { container, searchWrapper } = styles;
   const router = useRouter();
 
   const parseSymbol = (tvwidgetsymbol: string) => {
@@ -34,9 +39,29 @@ export default function ResearchInfoPage({ searchParams }: ResearchInfoProps) {
 
   return (
     <>
-      <div className={container}>
-        <Heading>{symbol}</Heading>
-      </div>
+      <Heading
+        marginLeft={'10px'}
+        marginTop={10}>
+        {symbol}
+      </Heading>
+      <Flex
+        justifyContent={'center'}
+        marginLeft={300}>
+        <Box>
+          <SymbolSearch
+            callback={(symbol: string) =>
+              router.push(`/research/info?tvwidgetsymbol=${symbol}`)
+            }
+          />
+        </Box>
+      </Flex>
+      <Box marginTop={100}>
+        <AdvancedRealTimeChart symbol={symbol}></AdvancedRealTimeChart>
+      </Box>
+      <CompanyProfile
+        height={400}
+        symbol={symbol}
+        width="100%"></CompanyProfile>
     </>
   );
 }
