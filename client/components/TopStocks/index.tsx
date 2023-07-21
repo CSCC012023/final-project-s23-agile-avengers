@@ -10,7 +10,6 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { Scrollbar } from 'react-scrollbars-custom';
 import { CopyrightStyles, MiniChart } from 'react-ts-tradingview-widgets';
 
 import { ChevronDownIcon } from '@chakra-ui/icons';
@@ -94,7 +93,7 @@ export default function TopStocks() {
           </div>
         )}
         {topStocks && topStocks[mode].length !== 0 && (
-          <Scrollbar className={wrapper}>
+          <div className={wrapper}>
             {topStocks[mode].map((symbol: string, idx) => {
               return (
                 <div
@@ -110,7 +109,7 @@ export default function TopStocks() {
                 </div>
               );
             })}
-          </Scrollbar>
+          </div>
         )}
         {!topStocks && (
           <Spinner
