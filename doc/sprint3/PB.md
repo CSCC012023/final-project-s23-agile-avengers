@@ -22,10 +22,3 @@
 | Story      | [FIN-16](https://agile-avengers-cscc01.atlassian.net/browse/FIN-16?atlOrigin=eyJpIjoiMjBhNWIzMmFjMjdiNGE1YzhhZTE4YmM0ZjA0MDM4ZWYiLCJwIjoiZXhjZWwtamlyYSJ9) | Dashboard Trading Page: Recent Trades          | Rahul Sharma    | Medium   | To Do  | 2023-05-31 11:18 |
 | Story      | [FIN-15](https://agile-avengers-cscc01.atlassian.net/browse/FIN-15?atlOrigin=eyJpIjoiMjBhNWIzMmFjMjdiNGE1YzhhZTE4YmM0ZjA0MDM4ZWYiLCJwIjoiZXhjZWwtamlyYSJ9) | Dashboard Trading Page: Portfolio graph        | Rahul Sharma    | Medium   | To Do  | 2023-05-31 11:17 |
 | Story      | [FIN-14](https://agile-avengers-cscc01.atlassian.net/browse/FIN-14?atlOrigin=eyJpIjoiMjBhNWIzMmFjMjdiNGE1YzhhZTE4YmM0ZjA0MDM4ZWYiLCJwIjoiZXhjZWwtamlyYSJ9) | Dashboard Trading Page: Portfolio value/change | Rahul Sharma    | Medium   | To Do  | 2023-05-31 11:17 |
-
-Explain what you do to keep sprint on schedule?
-Daily Standups
-For crucial task we do pair programming
-For any blockers or issues raised in the standup we reach out for help
-For data related tasks we have create mock data
-For tasks that rely on underlying database schemas we schedule meeting at the beginning of the sprint
