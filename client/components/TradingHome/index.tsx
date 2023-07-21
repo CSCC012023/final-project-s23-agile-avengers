@@ -10,18 +10,31 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
   Select,
   Text,
+  useDisclosure
 } from '@chakra-ui/react';
 
 import { SearchIcon, ViewIcon } from '@chakra-ui/icons';
 
+import SymbolSearch from '@/components/SymbolSearch';
+
+import { useState } from 'react';
+
 const TradingHome = () => {
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [symbol, setSymbol] = useState("");
+
   return (
     <Box p={10}>
       <Text
-        fontWeight={'bold'}
         fontSize={'5xl'}
+        fontWeight={'bold'}
         mb={10}
         ml={10}>
         Trading
@@ -35,15 +48,15 @@ const TradingHome = () => {
             <InputLeftElement pointerEvents="none">
               <SearchIcon color="gray.900" />
             </InputLeftElement>
-            <Input placeholder="Search for symbol" />
+            <Input isReadOnly onClick={onOpen} placeholder="Search for symbol" value={symbol} />
           </InputGroup>
         </FormControl>
 
         <Flex justifyContent={'flex-start'}>
           <FormControl
+            mr={'10%'}
             mt={4}
-            width={'30%'}
-            mr={'10%'}>
+            width={'30%'}>
             <FormLabel>Action</FormLabel>
             <Select
               placeholder="Select"
@@ -58,13 +71,13 @@ const TradingHome = () => {
             justifyContent={'flex-start'}
             width={'30%'}>
             <FormControl
-              mt={4}
               mr={'10%'}
+              mt={4}
               width={'50%'}>
               <FormLabel>Amount</FormLabel>
               <Input
-                type="number"
                 placeholder="0"
+                type="number"
                 width={'100%'}
               />
             </FormControl>
@@ -82,9 +95,9 @@ const TradingHome = () => {
 
         <Flex justifyContent={'start'}>
           <FormControl
+            mr={'10%'}
             mt={4}
-            width={'30%'}
-            mr={'10%'}>
+            width={'30%'}>
             <FormLabel>Order Type</FormLabel>
             <Select
               placeholder="Select"
@@ -110,23 +123,38 @@ const TradingHome = () => {
         </Flex>
 
         <ButtonGroup
-          variant="outline"
-          w={'100%'}
-          spacing="25"
           borderRadius={15}
-          mt={30}>
+          mt={30}
+          spacing="25"
+          variant="outline"
+          w={'100%'}>
           <Button
             colorScheme="red"
+            onClick={()=> {alert('unimplemented, probably reset all values')}}
             size={'lg'}>
             Cancel
           </Button>
           <Button
             colorScheme="blue"
+            onClick={()=> {alert('unimplemented!')}}
             size={'lg'}>
             Preview Order
           </Button>
         </ButtonGroup>
       </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalBody height={800} pl={-10} pt={-2}>
+            <SymbolSearch callback={(symbol: string) =>
+              {
+                setSymbol(symbol);
+                onClose();
+              }} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
