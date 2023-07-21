@@ -21,6 +21,7 @@ import styles from '@/styles/pages/Article.module.scss';
 import { ErrorResponse } from '@/types/base';
 import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
 import { Article } from '@/types/learning';
+import { useAuth } from '@clerk/nextjs';
 
 type ArticleProps = {
   params: {
@@ -31,14 +32,15 @@ type ArticleProps = {
 
 const ArticleList = ({ params }: ArticleProps) => {
   const { center, container, title, unitLists } = styles;
-
+  const { userId } = useAuth();
   const [article, setArticle] = useState<Article>();
   const [course, setCourse] = useState<CourseWithUnits>();
+  const [articleProgress, setArticleProgress] = useState(0);
 
   const getCourseWithUnits = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`,
+        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`
       );
       if (response.ok) {
         const data: CourseWithUnits = await response.json();
@@ -55,7 +57,7 @@ const ArticleList = ({ params }: ArticleProps) => {
   const getArticle = async () => {
     try {
       const response: Response = await fetch(
-        `http://localhost:4000/article?articleSlug=${params.articleSlug}`,
+        `http://localhost:4000/article?articleSlug=${params.articleSlug}`
       );
       if (response.ok) {
         const data: Article = await response.json();
@@ -69,10 +71,28 @@ const ArticleList = ({ params }: ArticleProps) => {
     }
   };
 
+  const getProgress = async () => {
+    try {
+      const progressResponse = await fetch(
+        `http://localhost:4000/progress/article?userID=${userId}&articleSlug=${params.articleSlug}`
+      );
+      if (progressResponse.ok) {
+        const progressData = await progressResponse.json();
+        setArticleProgress(progressData.progressPercent);
+      } else {
+        const error: ErrorResponse = await progressResponse.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   /* Without a dependency array the call to get all article is only made once */
   useEffect(() => {
     getCourseWithUnits();
     getArticle();
+    getProgress();
   }, [params]);
 
   if (!course && !article)
@@ -87,6 +107,20 @@ const ArticleList = ({ params }: ArticleProps) => {
         />
         <Text>Loading Article</Text>
       </div>
+    );
+
+  if (!userId || userId == null)
+    return (
+      <Spinner
+        alignSelf="center"
+        color="blue.500"
+        emptyColor="gray.200"
+        justifyContent="center"
+        marginTop="240"
+        size="xl"
+        speed="0.65s"
+        thickness="4px"
+      />
     );
 
   return (
