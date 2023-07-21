@@ -5,6 +5,16 @@
 - Start date: 12/07/2023
 - End date: 21/07/2023
 
+## Participants
+
+- Shawn Santhoshgeorge
+- Adam Badar
+- Aditya Kulkarni
+- Shashwat Doshi
+- Rahul Sharma
+- Balraj Kharol
+- Aryan Thakur
+
 ## Process
 
 ### Changes from the previous iteration
