@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 import { Account } from '../../types/trading';
 
 const AccountSchema = new Schema<Account>({
-  userId: {
+  userID: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
@@ -12,10 +12,13 @@ const AccountSchema = new Schema<Account>({
   },
   cash: {
     type: Number,
+    min: 0,
+    default: 100000,
     required: true,
   },
-  value: {
+  holdings: {
     type: Number,
+    min: 0,
     required: true,
   },
 });
