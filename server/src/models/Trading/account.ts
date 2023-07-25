@@ -2,6 +2,9 @@ import { Schema, model } from 'mongoose';
 
 import { Account } from '../../types/trading';
 
+/*
+ The Account model from our database handles all static information for trades
+*/
 const AccountSchema = new Schema<Account>(
   {
     userID: {

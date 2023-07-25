@@ -2,6 +2,9 @@ import { Schema, model } from 'mongoose';
 
 import { Portfolio } from '../../types/trading';
 
+/*
+ The Portfolio model from our database handles all trades and equity positions
+*/
 const PortfolioSchema = new Schema<Portfolio>(
   {
     userID: {
