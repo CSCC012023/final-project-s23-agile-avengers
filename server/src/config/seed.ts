@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { randomBytes } from 'crypto';
+import { randomBytes } from 'node:crypto';
+import { exit } from 'node:process';
+
 import mongoose, { Types } from 'mongoose';
 import slugify from 'slugify';
 
@@ -113,7 +115,7 @@ const seedDB = async () => {
     })
     .catch((err) => {
       console.error(err);
-      process.exit();
+      exit(1);
     });
 
   console.info('Seeding Videos...');
@@ -142,7 +144,7 @@ const seedDB = async () => {
     })
     .catch((err) => {
       console.error(err);
-      process.exit();
+      exit(1);
     });
 
   console.info('Seeding Units...');
@@ -171,7 +173,7 @@ const seedDB = async () => {
     })
     .catch((err) => {
       console.error(err);
-      process.exit();
+      exit(1);
     });
 
   console.info('Seeding Courses...');
@@ -194,21 +196,26 @@ const seedDB = async () => {
     .then(() => console.info('Courses Seeded! ✅'))
     .catch((err) => {
       console.error(err);
-      process.exit();
+      exit(1);
     });
 };
 
 connectDB().then(async () => {
+  console.info('\n--- Clearing Database --- ');
   await clearDB()
-    .then(() => console.info('----Database cleared----'))
+    .then(() =>
+      console.info(
+        '--- Database Cleared! ✅ --- \n\n --- Seeding Database ---'
+      )
+    )
     .catch((err) => {
       console.error(err);
-      process.exit();
+      exit(1);
     });
 
   await seedDB()
     .then(() => {
-      console.info('Seeded Database! 🎉');
+      console.info('--- Seeded Database! 🎉 ---');
       mongoose.connection.close();
     })
     .catch((err) => {
