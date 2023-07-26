@@ -12,7 +12,7 @@ import modelProgress from '../models/Learning/progress';
 import modelUnit from '../models/Learning/unit';
 import modelVideo from '../models/Learning/video';
 
-import { Article } from '../types/learning';
+import { Article, Video } from '../types/learning';
 
 type MockArticle = {
   title: string;
@@ -20,6 +20,14 @@ type MockArticle = {
   image: string;
   author: string;
   text: string;
+};
+
+type MockVideo = {
+  name: string;
+  createdAt: string;
+  videoID: string;
+  author: string;
+  description: string;
 };
 
 const slugifyConfig = {
@@ -32,6 +40,21 @@ const slugifyConfig = {
 };
 
 const contentSlugs: string[] = [];
+
+const convertDateStrToDate = (dateStr: string) => {
+  const [day, month, year] = dateStr.split('/').map(Number);
+  return new Date(+year, month - 1, +day);
+};
+
+const generateSlug = (input: string, type: 'article' | 'video') => {
+  let slug = `${type}/${slugify(input, slugifyConfig)}`;
+  while (contentSlugs.includes(slug))
+    slug = `${type}/${slugify(input, slugifyConfig)}-${randomBytes(20)
+      .toString('hex')
+      .slice(0, 5)}`;
+  contentSlugs.push(slug);
+  return slug.split('/')[1];
+};
 
 const clearDB = async () => {
   await modelProgress
@@ -56,20 +79,10 @@ const seedDB = async () => {
   const mockArticles: MockArticle[] = require('../mock/articles.json');
   const processedArticles = mockArticles.map(
     ({ title, createdAt, image, author, text }) => {
-      const [day, month, year] = createdAt.split('/').map(Number);
-      let slug = slugify(title, slugifyConfig);
-      while (contentSlugs.includes(slug))
-        slug =
-          slugify(title, slugifyConfig) +
-          '-' +
-          randomBytes(20).toString('hex').slice(0, 5);
-
-      contentSlugs.push(slug);
-
       return {
         title: title.trim(),
-        slug,
-        createdAt: new Date(+year, month - 1, +day),
+        slug: generateSlug(title, 'article'),
+        createdAt: convertDateStrToDate(createdAt),
         image: image.trim(),
         author: author.trim(),
         text: text.trim(),
@@ -80,6 +93,31 @@ const seedDB = async () => {
   await modelArticle
     .insertMany(processedArticles)
     .then((result: Article[]) => {
+      console.info('Articles Seeded! ✅');
+    })
+    .catch((err) => {
+      console.error(err);
+      process.exit();
+    });
+
+  console.info('Seeding Videos...');
+  const mockVideos: MockVideo[] = require('../mock/videos.json');
+  const processedVideos = mockVideos.map(
+    ({ name, createdAt, videoID, author, description }) => {
+      return {
+        name: name.trim(),
+        slug: generateSlug(name, 'video'),
+        createdAt: convertDateStrToDate(createdAt),
+        videoID: videoID.trim(),
+        author: author.trim(),
+        description: description.trim(),
+      };
+    }
+  );
+
+  await modelVideo
+    .insertMany(processedVideos)
+    .then((result: Video[]) => {
       console.info('Articles Seeded! ✅');
     })
     .catch((err) => {
