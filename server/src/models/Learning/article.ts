@@ -1,13 +1,13 @@
-import { model, Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 import { Article } from '../../types/learning';
 
 /*
-The article model from our database
+  The Article Model will be used to store individual articles.
 */
 const ArticleSchema = new Schema<Article>(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
@@ -41,7 +41,7 @@ const ArticleSchema = new Schema<Article>(
       immutable: true,
       default: 'article',
     },
-    articleText: {
+    text: {
       type: String,
       required: true,
     },
@@ -56,7 +56,7 @@ const ArticleSchema = new Schema<Article>(
         return ret;
       },
     },
-  },
+  }
 );
 
 const modelArticle = model<Article>('Article', ArticleSchema);
