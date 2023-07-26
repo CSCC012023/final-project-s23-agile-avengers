@@ -9,7 +9,8 @@
     "webhook": "ssh -o ServerAliveInterval=60 -R finlearn.serveo.net:80:localhost:4000 serveo.net",
     "build": "tsc",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "seed": "nodemon ./src/config/seed.ts"
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^4.12.1",
