@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { randomBytes } from 'crypto';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import slugify from 'slugify';
 
 import { connectDB } from './db';
@@ -35,6 +35,12 @@ type MockUnit = {
   content: string[];
 };
 
+type MockCourse = {
+  name: string;
+  icon: string;
+  content: string[];
+};
+
 const slugifyConfig = {
   replacement: '-', // replace spaces with replacement character, defaults to `-`
   remove: undefined, // remove characters that match regex, defaults to `undefined`
@@ -44,7 +50,7 @@ const slugifyConfig = {
   trim: true, // trim leading and trailing replacement chars, defaults to `true`
 };
 
-let contentID: Record<string, string> = {};
+let contentID: Record<string, Types.ObjectId> = {};
 let contentSlugs: string[] = [];
 
 const convertDateStrToDate = (dateStr: string) => {
@@ -101,7 +107,7 @@ const seedDB = async () => {
     .then((result: Article[]) => {
       contentSlugs = [];
       result.map(({ title, _id }) => {
-        contentID[`article/${title}`] = _id.toString();
+        contentID[`article/${title}`] = _id;
       });
       console.info('Articles Seeded! ✅');
     })
@@ -130,7 +136,7 @@ const seedDB = async () => {
     .then((result: Video[]) => {
       contentSlugs = [];
       result.map(({ name, _id }) => {
-        contentID[`video/${name}`] = _id.toString();
+        contentID[`video/${name}`] = _id;
       });
       console.info('Videos Seeded! ✅');
     })
@@ -144,7 +150,7 @@ const seedDB = async () => {
   const processedUnits = mockUnits.map(({ name, content }) => {
     const unitContent: string[] = [];
     for (const [key, value] of Object.entries(contentID))
-      if (content.includes(key)) unitContent.push(value);
+      if (content.includes(key)) unitContent.push(value.toString());
 
     return {
       name: name.trim(),
@@ -159,10 +165,33 @@ const seedDB = async () => {
       contentSlugs = [];
       contentID = {};
       result.map(({ name, _id }) => {
-        contentID[`unit/${name}`] = _id.toString();
+        contentID[`${name}`] = _id;
       });
       console.info('Units Seeded! ✅');
     })
+    .catch((err) => {
+      console.error(err);
+      process.exit();
+    });
+
+  console.info('Seeding Courses...');
+  const mockCourses: MockCourse[] = require('../mock/courses.json');
+  const processeCourses = mockCourses.map(({ name, icon, content }) => {
+    const courseContent: Types.ObjectId[] = [];
+    for (const [key, value] of Object.entries(contentID))
+      if (content.includes(key)) courseContent.push(value);
+
+    return {
+      name: name.trim(),
+      slug: generateSlug(name),
+      icon: icon.trim(),
+      units: courseContent,
+    };
+  });
+
+  await modelCourse
+    .insertMany(processeCourses)
+    .then(() => console.info('Courses Seeded! ✅'))
     .catch((err) => {
       console.error(err);
       process.exit();
@@ -179,6 +208,7 @@ connectDB().then(async () => {
 
   await seedDB()
     .then(() => {
+      console.info('Seeded Database! 🎉');
       mongoose.connection.close();
     })
     .catch((err) => {
