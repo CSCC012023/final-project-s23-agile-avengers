@@ -1,0 +1,21 @@
+[
+  {
+    "name": "What is a stock market ?",
+    "content": [
+      "article/Stock Market",
+      "video/How does the stock market work? - Oliver Elfenbaum"
+    ]
+  },
+  {
+    "name": "How to analyze an IPO ?",
+    "content": [
+      "video/Top 5 Tips to Analyze an IPO the Best Way",
+      "article/How to analyze an IPO ?",
+      "video/Top 10 Analysis Parameters for IPOs"
+    ]
+  },
+  {
+    "name": "Market Capitalization",
+    "content": ["video/Market Capitalization of Stocks"]
+  }
+]
