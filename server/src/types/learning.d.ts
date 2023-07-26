@@ -21,10 +21,10 @@ export interface Video {
   slug: String;
   createdAt: Date;
   updatedAt: Date;
-  videoId: String;
+  videoID: String;
   author: String;
   description?: String;
-  contentType: String;
+  contentType: 'video';
 }
 
 export interface Unit {

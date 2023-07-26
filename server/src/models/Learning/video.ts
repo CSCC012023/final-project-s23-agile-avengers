@@ -27,7 +27,7 @@ const VideoSchema = new Schema<Video>(
       required: true,
       default: Date.now(),
     },
-    videoId: {
+    videoID: {
       type: String,
       required: true,
     },
@@ -42,7 +42,7 @@ const VideoSchema = new Schema<Video>(
       type: String,
       required: true,
       immutable: true,
-      default: 'article',
+      default: 'video',
     },
   },
   {
