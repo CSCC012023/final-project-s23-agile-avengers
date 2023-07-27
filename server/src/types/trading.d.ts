@@ -4,6 +4,7 @@ import { Types } from 'mongoose';
 Types needed for Trading models
 */
 export interface Equity {
+  _id: Types.ObjectId;
   date: Date;
   action: 'buy' | 'sell';
   order: 'market';
@@ -20,5 +21,10 @@ export interface Portfolio {
 export interface Account {
   userID: Types.ObjectId;
   cash: number;
-  holdings: number;
+  value: number;
+  holdings: Holdings;
+}
+
+export interface Holdings {
+  equity: Map<string, number>;
 }
