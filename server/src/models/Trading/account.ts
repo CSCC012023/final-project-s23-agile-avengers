@@ -22,7 +22,7 @@ const HoldingsSchema = new Schema<Holdings>(
         return ret;
       },
     },
-  }
+  },
 );
 
 /*
@@ -61,9 +61,8 @@ const AccountSchema = new Schema<Account>(
         return ret;
       },
     },
-  }
+  },
 );
-
 
 const modelAccount = model<Account>('Account', AccountSchema);
 export default modelAccount;
