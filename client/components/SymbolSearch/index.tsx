@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ChangeEvent, useRef, useState } from 'react';
 import { Scrollbar } from 'react-scrollbars-custom';
 
-import { useDebounce } from '@/hooks/useDebounce';
+import useDebounce from '@/hooks/useDebounce';
 import SymbolCard from './SymbolCard';
 
 import styles from '@/styles/components/SymbolSearch.module.scss';
