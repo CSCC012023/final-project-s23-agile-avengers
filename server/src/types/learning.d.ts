@@ -5,14 +5,14 @@ Types needed for Learning models
 */
 export interface Article {
   _id: Types.ObjectId;
-  title: String;
+  name: String;
   slug: String;
   createdAt: Date;
   updatedAt: Date;
   image?: String;
   author: String;
   contentType: 'article';
-  text: String;
+  articleText: String;
 }
 
 export interface Video {
@@ -21,7 +21,7 @@ export interface Video {
   slug: String;
   createdAt: Date;
   updatedAt: Date;
-  videoID: String;
+  videoId: String;
   author: String;
   description?: String;
   contentType: 'video';

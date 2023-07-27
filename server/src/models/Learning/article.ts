@@ -7,7 +7,7 @@ import { Article } from '../../types/learning';
 */
 const ArticleSchema = new Schema<Article>(
   {
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -41,7 +41,7 @@ const ArticleSchema = new Schema<Article>(
       immutable: true,
       default: 'article',
     },
-    text: {
+    articleText: {
       type: String,
       required: true,
     },

@@ -94,12 +94,12 @@ const seedDB = async () => {
   const processedArticles = mockArticles.map(
     ({ title, createdAt, image, author, text }) => {
       return {
-        title: title.trim(),
+        name: title.trim(),
         slug: generateSlug(title),
         createdAt: convertDateStrToDate(createdAt),
         image: image.trim(),
         author: author.trim(),
-        text: text.trim(),
+        articleText: text.trim(),
       };
     }
   );
@@ -108,8 +108,8 @@ const seedDB = async () => {
     .insertMany(processedArticles)
     .then((result: Article[]) => {
       contentSlugs = [];
-      result.map(({ title, _id }) => {
-        contentID[`article/${title}`] = _id;
+      result.map(({ name, _id }) => {
+        contentID[`article/${name}`] = _id;
       });
       console.info('Articles Seeded! ✅');
     })
@@ -126,7 +126,7 @@ const seedDB = async () => {
         name: name.trim(),
         slug: generateSlug(name),
         createdAt: convertDateStrToDate(createdAt),
-        videoID: videoID.trim(),
+        videoId: videoID.trim(),
         author: author.trim(),
         description: description.trim(),
       };
