@@ -56,7 +56,7 @@ const ArticleSchema = new Schema<Article>(
         return ret;
       },
     },
-  }
+  },
 );
 
 const modelArticle = model<Article>('Article', ArticleSchema);
