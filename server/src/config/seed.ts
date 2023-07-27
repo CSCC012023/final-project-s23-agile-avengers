@@ -14,7 +14,7 @@ import modelProgress from '../models/Learning/progress';
 import modelUnit from '../models/Learning/unit';
 import modelVideo from '../models/Learning/video';
 
-import { Article, Unit, Video } from '../types/learning';
+import { Article, Video } from '../types/learning';
 
 type MockArticle = {
   title: string;
@@ -101,7 +101,7 @@ const seedDB = async () => {
         author: author.trim(),
         articleText: text.trim(),
       };
-    }
+    },
   );
 
   await modelArticle
@@ -130,7 +130,7 @@ const seedDB = async () => {
         author: author.trim(),
         description: description.trim(),
       };
-    }
+    },
   );
 
   await modelVideo
@@ -163,7 +163,7 @@ const seedDB = async () => {
 
   await modelUnit
     .insertMany(processedUnits)
-    .then((result: Unit[]) => {
+    .then((result) => {
       contentSlugs = [];
       contentID = {};
       result.map(({ name, _id }) => {
@@ -178,7 +178,7 @@ const seedDB = async () => {
 
   console.info('Seeding Courses...');
   const mockCourses: MockCourse[] = require('../mock/courses.json');
-  const processeCourses = mockCourses.map(({ name, icon, content }) => {
+  const processedCourses = mockCourses.map(({ name, icon, content }) => {
     const courseContent: Types.ObjectId[] = [];
     for (const [key, value] of Object.entries(contentID))
       if (content.includes(key)) courseContent.push(value);
@@ -192,7 +192,7 @@ const seedDB = async () => {
   });
 
   await modelCourse
-    .insertMany(processeCourses)
+    .insertMany(processedCourses)
     .then(() => console.info('Courses Seeded! ✅'))
     .catch((err) => {
       console.error(err);
@@ -205,8 +205,8 @@ connectDB().then(async () => {
   await clearDB()
     .then(() =>
       console.info(
-        '--- Database Cleared! ✅ --- \n\n --- Seeding Database ---'
-      )
+        '--- Database Cleared! ✅ --- \n\n --- Seeding Database ---',
+      ),
     )
     .catch((err) => {
       console.error(err);
