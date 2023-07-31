@@ -55,11 +55,25 @@ const slugifyConfig = {
 let contentID: Record<string, Types.ObjectId> = {};
 let contentSlugs: string[] = [];
 
+/**
+ * Convert Date in String to Date Object
+ *
+ * @param {string} dateStr - Must be the following format 'DD/MM/YYYY'
+ *
+ * @return {Date}
+ */
 const convertDateStrToDate = (dateStr: string) => {
   const [day, month, year] = dateStr.split('/').map(Number);
   return new Date(+year, month - 1, +day);
 };
 
+/**
+ * Generates a unique slug
+ *
+ * @param {string} input - Title of the Page
+ *
+ * @return {string}
+ */
 const generateSlug = (input: string) => {
   let slug = slugify(input, slugifyConfig);
   while (contentSlugs.includes(slug))
@@ -70,6 +84,14 @@ const generateSlug = (input: string) => {
   return slug;
 };
 
+/**
+ * Clears Database and deletes these collections
+ *  - modelProgress
+ *  - modelArticle
+ *  - modelVideo
+ *  - modelUnit
+ *  - modelCourse
+ */
 const clearDB = async () => {
   await modelProgress
     .deleteMany({})
@@ -88,6 +110,14 @@ const clearDB = async () => {
     .then(() => console.info('Course Collection Erased! ❌'));
 };
 
+/**
+ * Seeds the database for these collections
+ *  - modelProgress
+ *  - modelArticle
+ *  - modelVideo
+ *  - modelUnit
+ *  - modelCourse
+ */
 const seedDB = async () => {
   console.info('Seeding Articles...');
   const mockArticles: MockArticle[] = require('../mock/articles.json');
