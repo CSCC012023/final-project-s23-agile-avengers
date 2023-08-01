@@ -17,6 +17,8 @@ import {
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
+import { getFavouriteArticles } from '../controllers/Learning/article';
+
 const api = Router();
 
 /**
@@ -110,5 +112,12 @@ api.get('/progress/video', getVideoProgressBySlug);
  * @access public
  */
 api.patch('/videoProgress', updateVideoProgress);
+
+/**
+ * @route GET /favouriteArticles
+ * @description Get all the favourited articles
+ * @access public
+ */
+api.get('/favouriteArticles', getFavouriteArticles);
 
 export default api;

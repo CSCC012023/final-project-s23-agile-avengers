@@ -13,6 +13,12 @@ export interface Article {
   author: String;
   contentType: 'article';
   articleText: String;
+  isFavourited: Boolean;
+}
+
+export interface FavouriteArticles {
+  article: Article,
+  courseSlug: String,
 }
 
 export interface Video {
@@ -25,6 +31,7 @@ export interface Video {
   author: String;
   description?: String;
   contentType: 'video';
+  isFavourited: Boolean;
 }
 
 export interface Unit {

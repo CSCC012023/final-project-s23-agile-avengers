@@ -1,6 +1,7 @@
 'use client';
 
-import { Grid, GridItem, Spinner } from '@chakra-ui/react';
+import { StarIcon } from '@chakra-ui/icons';
+import { Button, Card, CardBody, CardFooter, CardHeader, Flex, Grid, GridItem, Heading, Link, Spinner, Text } from '@chakra-ui/react';
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
@@ -133,6 +134,26 @@ const DashboardPage = () => {
             userCourses={userCourses}
           />
         </GridItem>
+        <Flex maxHeight={'200px'}>
+
+        <Card variant={'filled'}>
+      <CardHeader>
+        <Flex justifyContent={'space-between'}>
+        <Heading size='md'>Favourites</Heading>
+        <StarIcon color={'orange'} />
+        </Flex>
+      </CardHeader>
+      <CardBody>
+        <Text>Access your favourite articles and videos!</Text>
+      </CardBody>
+      <CardFooter>
+        <Link href='/dashboard/favourites'>
+        <Button colorScheme='yellow' >Go to Favourites</Button>
+        </Link>
+      </CardFooter>
+      </Card>
+        </Flex>
+    
         <GridItem className={styles.courses}>
           {isUnitGridReady && units && selectedCourse ? (
             <UnitGrid
