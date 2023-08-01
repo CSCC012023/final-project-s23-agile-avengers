@@ -11,7 +11,7 @@ export interface Article {
   updatedAt: Date;
   image?: String;
   author: String;
-  contentType: String;
+  contentType: 'article';
   articleText: String;
 }
 
@@ -24,7 +24,7 @@ export interface Video {
   videoId: String;
   author: String;
   description?: String;
-  contentType: String;
+  contentType: 'video';
 }
 
 export interface Unit {

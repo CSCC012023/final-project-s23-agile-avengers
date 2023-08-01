@@ -1,7 +1,15 @@
 'use client';
-import { Grid, GridItem, Spinner } from '@chakra-ui/react';
 
+import { Grid, GridItem, Spinner } from '@chakra-ui/react';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
+
+import Sidebar from '@/components/Dashboard-Learning/Sidebar';
 import UnitGrid from '@/components/Dashboard-Learning/UnitGrid';
+
+import styles from '@/styles/pages/Dashboard.module.scss';
+
+import { ErrorResponse } from '@/types/base';
 import {
   CourseWithUnits,
   Unit,
@@ -11,11 +19,6 @@ import {
   LearningProgressResponse,
   UnitWithProgress,
 } from '@/types/learning';
-import { useAuth } from '@clerk/nextjs';
-import { useEffect, useState } from 'react';
-import Sidebar from '../../components/Dashboard-Learning/Sidebar';
-import styles from '../../styles/pages/Dashboard.module.scss';
-import { ErrorResponse } from '@/types/base';
 
 const DashboardPage = () => {
   const { userId } = useAuth();
@@ -130,7 +133,7 @@ const DashboardPage = () => {
             userCourses={userCourses}
           />
         </GridItem>
-        <GridItem colSpan={2}>
+        <GridItem className={styles.courses}>
           {isUnitGridReady && units && selectedCourse ? (
             <UnitGrid
               courseSlug={selectedCourse.slug}
