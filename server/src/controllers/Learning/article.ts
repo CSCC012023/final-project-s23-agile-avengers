@@ -78,11 +78,12 @@ export const getFavouriteArticles = async (req: Request, res: Response) => {
           const unit = await getUnitFromArticle(itemArticle);
           if(unit){
             const course = await getCourseFromUnit(unit);
-            if(unit){
+            if(course){
               data.push({
               article: itemArticle,
               courseSlug: course?.slug
              })
+            //  console.log('data:', data)
             }
           }
         } catch(error){
@@ -91,8 +92,8 @@ export const getFavouriteArticles = async (req: Request, res: Response) => {
           .json(createError('InternalServerError', 'Failed to retrieve relevant details from each article!'));
         }
       })
-      console.log('data:', data)
-      res.status(200).json(data);
+      console.log('DATA OBJECT:', data);
+      return res.status(200).json(data);
     } else{
       res
           .status(500)
