@@ -62,7 +62,7 @@ export const getFavouriteArticles = async (req: Request, res: Response) => {
     const data: any = []
     if(favouriteArticles){
       console.log('here1');
-      favouriteArticles.map(async (itemArticle:Article) => {
+      await Promise.all(favouriteArticles.map(async (itemArticle:Article) => {
         console.log('here2')
         try{
           const unit = await getUnitFromArticle(itemArticle);
@@ -73,7 +73,7 @@ export const getFavouriteArticles = async (req: Request, res: Response) => {
               article: itemArticle,
               courseSlug: course?.slug
              })
-            //  console.log('data:', data)
+            console.log('data:', data)
             }
           }
         } catch(error){
@@ -81,7 +81,7 @@ export const getFavouriteArticles = async (req: Request, res: Response) => {
           .status(500)
           .json(createError('InternalServerError', 'Failed to retrieve relevant details from each article!'));
         }
-      })
+      }))
       console.log('DATA OBJECT:', data);
       return res.status(200).json(data);
     } else{
