@@ -1,0 +1,86 @@
+@import '../abstracts/mixins';
+
+.container {
+  margin: 1.5em;
+
+  h1 {
+    padding-bottom: 1rem;
+  }
+
+  .searchWrapper {
+    margin-bottom: 5em;
+  }
+
+  .tradeWrapper {
+    .optionsWrapper {
+      display: flex;
+      flex-direction: column;
+
+      .orderWrapper {
+        margin-bottom: 10%;
+      }
+    }
+
+    .amountsWrapper {
+      display: flex;
+      align-items: flex-end;
+      margin: 10% 0;
+
+      .showMax {
+        padding-inline: 20vw;
+      }
+    }
+
+    .buttonWrapper {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+@include geq(390px) {
+  .container {
+    .tradeWrapper {
+      .optionsWrapper {
+        flex-direction: row;
+
+        .orderWrapper {
+          margin-bottom: 0;
+          margin-right: 10%;
+        }
+      }
+
+      .amountsWrapper {
+        justify-content: space-between;
+        margin: 8% 0;
+
+        .amountContainer {
+          max-width: 150px;
+        }
+      }
+    }
+  }
+}
+
+@include geq(600px) {
+  .container {
+    .tradeWrapper {
+      max-width: 50%;
+
+      .amountsWrapper .showMax {
+        padding-inline: 10vw;
+      }
+    }
+  }
+}
+
+@include geq(1080px) {
+  .container .tradeWrapper .amountsWrapper {
+    margin: 5% 0;
+
+    .showMax {
+      padding-inline: 6vw;
+      margin-right: 15%;
+    }
+  }
+}
