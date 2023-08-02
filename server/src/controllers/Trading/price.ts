@@ -23,7 +23,9 @@ export const getLatestPrice = async (req: Request, res: Response) => {
     });
 
     if (!globalQuote || Object.keys(globalQuote).length === 0)
-      return res.status(400).json({ message: 'Invalid symbol or no data available' });
+      return res
+        .status(400)
+        .json({ message: 'Invalid symbol or no data available' });
 
     const response = {
       symbol: globalQuote['01. symbol'],
@@ -36,6 +38,8 @@ export const getLatestPrice = async (req: Request, res: Response) => {
     res.status(200).json(response);
   } catch (error) {
     // Handle specific errors from queryAlphaVantage function if needed
-    res.status(500).json(createError('InternalServerError', 'Failed to retrieve the Price'));
+    res
+      .status(500)
+      .json(createError('InternalServerError', 'Failed to retrieve the Price'));
   }
 };
