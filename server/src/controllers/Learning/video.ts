@@ -329,10 +329,8 @@ export const getFavouriteVideos = async (req: Request, res: Response) => {
 
     const data: any = [];
     if (favouriteVideos) {
-      console.log('here1');
       await Promise.all(
         favouriteVideos.map(async (itemVideo: Video) => {
-          console.log('here2');
           try {
             const unit = await getUnitFromVideo(itemVideo);
             if (unit) {
@@ -342,7 +340,6 @@ export const getFavouriteVideos = async (req: Request, res: Response) => {
                   video: itemVideo,
                   courseSlug: course?.slug,
                 });
-                //  console.log('data:', data)
               }
             }
           } catch (error) {
@@ -357,7 +354,6 @@ export const getFavouriteVideos = async (req: Request, res: Response) => {
           }
         }),
       );
-      console.log('DATA OBJECT:', data);
       return res.status(200).json(data);
     } else {
       res

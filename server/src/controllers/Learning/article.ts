@@ -46,53 +46,66 @@ export const getArticleBySlug = async (req: Request, res: Response) => {
 };
 
 export const getUnitFromArticle = async (article: Article) => {
-  try{
-    const unit = await modelUnit.findOne<Unit>({content: article._id});
+  try {
+    const unit = await modelUnit.findOne<Unit>({ content: article._id });
     return unit;
-  } catch(error){
-    console.error("Cannot retrieve unit from article!")
+  } catch (error) {
+    console.error('Cannot retrieve unit from article!');
   }
-}
+};
 
 export const getFavouriteArticles = async (req: Request, res: Response) => {
   try {
-    const favouriteArticles = await modelArticle.find<Article>({isFavourited: true});
-    console.log('Favourite articles:', favouriteArticles)
+    const favouriteArticles = await modelArticle.find<Article>({
+      isFavourited: true,
+    });
 
-    const data: any = []
-    if(favouriteArticles){
-      console.log('here1');
-      await Promise.all(favouriteArticles.map(async (itemArticle:Article) => {
-        console.log('here2')
-        try{
-          const unit = await getUnitFromArticle(itemArticle);
-          if(unit){
-            const course = await getCourseFromUnit(unit);
-            if(course){
-              data.push({
-              article: itemArticle,
-              courseSlug: course?.slug
-             })
-            console.log('data:', data)
+    const data: any = [];
+    if (favouriteArticles) {
+      await Promise.all(
+        favouriteArticles.map(async (itemArticle: Article) => {
+          try {
+            const unit = await getUnitFromArticle(itemArticle);
+            if (unit) {
+              const course = await getCourseFromUnit(unit);
+              if (course) {
+                data.push({
+                  article: itemArticle,
+                  courseSlug: course?.slug,
+                });
+              }
             }
+          } catch (error) {
+            res
+              .status(500)
+              .json(
+                createError(
+                  'InternalServerError',
+                  'Failed to retrieve relevant details from each article!',
+                ),
+              );
           }
-        } catch(error){
-          res
-          .status(500)
-          .json(createError('InternalServerError', 'Failed to retrieve relevant details from each article!'));
-        }
-      }))
-      console.log('DATA OBJECT:', data);
+        }),
+      );
       return res.status(200).json(data);
-    } else{
+    } else {
       res
-          .status(500)
-          .json(createError('InternalServerError', 'Failed to retrieve relevant details from each article!'));
+        .status(500)
+        .json(
+          createError(
+            'InternalServerError',
+            'Failed to retrieve relevant details from each article!',
+          ),
+        );
     }
-  
-  } catch(error) {
+  } catch (error) {
     res
-    .status(500)
-    .json(createError('InternalServerError', 'Failed to retrieve Favourite Articles'));
+      .status(500)
+      .json(
+        createError(
+          'InternalServerError',
+          'Failed to retrieve Favourite Articles',
+        ),
+      );
   }
 };
