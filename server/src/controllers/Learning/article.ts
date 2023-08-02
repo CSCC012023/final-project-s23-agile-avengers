@@ -4,11 +4,10 @@ import modelArticle from '../../models/Learning/article';
 
 import { Article, Unit } from '../../types/learning';
 
-import modelCourse from '../../models/Learning/course';
 import modelUnit from '../../models/Learning/unit';
-import { Course } from '../../types/learning';
 import { createError } from '../../utils/error';
 import { validateInput } from '../../utils/validate';
+import { getCourseFromUnit } from './units';
 
 /**
  * Retrieves an Article with a matching `slug`
@@ -55,19 +54,10 @@ export const getUnitFromArticle = async (article: Article) => {
   }
 }
 
-export const getCourseFromUnit = async (unit: Unit) => {
-  try{
-    const course = await modelCourse.findOne<Course>({units: unit._id});
-    return course;
-  } catch(error){
-    console.error('Cannot retrieve course from unit!');
-  }
-}
-
 export const getFavouriteArticles = async (req: Request, res: Response) => {
   try {
     const favouriteArticles = await modelArticle.find<Article>({isFavourited: true});
-    console.log('Fav art:', favouriteArticles)
+    console.log('Favourite articles:', favouriteArticles)
 
     const data: any = []
     if(favouriteArticles){
