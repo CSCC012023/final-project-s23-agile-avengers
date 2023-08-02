@@ -4,10 +4,9 @@ import modelCourse from '../../models/Learning/course';
 import modelProgress from '../../models/Learning/progress';
 import modelUnit from '../../models/Learning/unit';
 import modelVideo from '../../models/Learning/video';
-import { Video } from '../../types/learning';
+import { Unit, Video } from '../../types/learning';
 import { createError } from '../../utils/error';
 import { validateInput, validateUserID } from '../../utils/validate';
-import { Unit } from '../../types/learning';
 import { getCourseFromUnit } from './units';
 
 /**
@@ -313,53 +312,71 @@ export const updateVideoProgress = async (req: Request, res: Response) => {
 };
 
 export const getUnitFromVideo = async (video: Video) => {
-  try{
-    const unit = await modelUnit.findOne<Unit>({content: video._id});
+  try {
+    const unit = await modelUnit.findOne<Unit>({ content: video._id });
     return unit;
-  } catch(error){
-    console.error("Cannot retrieve unit from video!")
+  } catch (error) {
+    console.error('Cannot retrieve unit from video!');
   }
-}
+};
 
 export const getFavouriteVideos = async (req: Request, res: Response) => {
   try {
-    const favouriteVideos = await modelVideo.find<Video>({isFavourited: true});
-    console.log('Favourite videos:', favouriteVideos)
+    const favouriteVideos = await modelVideo.find<Video>({
+      isFavourited: true,
+    });
+    console.log('Favourite videos:', favouriteVideos);
 
-    const data: any = []
-    if(favouriteVideos){
+    const data: any = [];
+    if (favouriteVideos) {
       console.log('here1');
-      favouriteVideos.map(async (itemVideo:Video) => {
-        console.log('here2')
-        try{
-          const unit = await getUnitFromVideo(itemVideo);
-          if(unit){
-            const course = await getCourseFromUnit(unit);
-            if(course){
-              data.push({
-              video: itemVideo,
-              courseSlug: course?.slug
-             })
-            //  console.log('data:', data)
+      await Promise.all(
+        favouriteVideos.map(async (itemVideo: Video) => {
+          console.log('here2');
+          try {
+            const unit = await getUnitFromVideo(itemVideo);
+            if (unit) {
+              const course = await getCourseFromUnit(unit);
+              if (course) {
+                data.push({
+                  video: itemVideo,
+                  courseSlug: course?.slug,
+                });
+                //  console.log('data:', data)
+              }
             }
+          } catch (error) {
+            res
+              .status(500)
+              .json(
+                createError(
+                  'InternalServerError',
+                  'Failed to retrieve relevant details from each video!',
+                ),
+              );
           }
-        } catch(error){
-          res
-          .status(500)
-          .json(createError('InternalServerError', 'Failed to retrieve relevant details from each video!'));
-        }
-      })
+        }),
+      );
       console.log('DATA OBJECT:', data);
       return res.status(200).json(data);
-    } else{
+    } else {
       res
-          .status(500)
-          .json(createError('InternalServerError', 'Failed to retrieve relevant details from each video!'));
+        .status(500)
+        .json(
+          createError(
+            'InternalServerError',
+            'Failed to retrieve relevant details from each video!',
+          ),
+        );
     }
-  
-  } catch(error) {
+  } catch (error) {
     res
-    .status(500)
-    .json(createError('InternalServerError', 'Failed to retrieve Favourite Videos'));
+      .status(500)
+      .json(
+        createError(
+          'InternalServerError',
+          'Failed to retrieve Favourite Videos',
+        ),
+      );
   }
 };
