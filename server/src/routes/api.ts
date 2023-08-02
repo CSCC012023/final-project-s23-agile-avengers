@@ -16,6 +16,7 @@ import {
 } from '../controllers/Learning';
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
+import { getLatestPrice } from '../controllers/Trading/price';
 
 const api = Router();
 
@@ -110,5 +111,12 @@ api.get('/progress/video', getVideoProgressBySlug);
  * @access public
  */
 api.patch('/videoProgress', updateVideoProgress);
+
+/**
+ * @route GET /latestPrice
+ * @description Get latest price of a stock
+ * @access public
+ */
+api.get('/latestPrice', getLatestPrice);
 
 export default api;
