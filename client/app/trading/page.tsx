@@ -7,6 +7,8 @@ import {
   ButtonGroup,
   Flex,
   FormControl,
+  FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Input,
   InputGroup,
@@ -49,6 +51,8 @@ export default function TradingPage() {
   const handleActionChange = (e: any) => {
     setAction(e.target.value);
   };
+  const isSymbolError = symbol === '';
+  const isAmountError = amount === '';
   return (
     <Box p={10}>
       <Text
@@ -61,7 +65,7 @@ export default function TradingPage() {
       <Box
         maxWidth="800px"
         mx="auto">
-        <FormControl>
+        <FormControl isInvalid={isSymbolError}>
           <FormLabel>Search</FormLabel>
           <InputGroup width={'70%'}>
             <InputLeftElement pointerEvents="none">
@@ -74,10 +78,16 @@ export default function TradingPage() {
               value={symbol}
             />
           </InputGroup>
+          {!isSymbolError ? (
+            <FormHelperText></FormHelperText>
+          ) : (
+            <FormErrorMessage>Symbol is required.</FormErrorMessage>
+          )}
         </FormControl>
 
         <Flex justifyContent={'flex-start'}>
           <FormControl
+            isDisabled={symbol === ''}
             mr={'10%'}
             mt={4}
             width={'30%'}>
@@ -95,6 +105,8 @@ export default function TradingPage() {
             justifyContent={'flex-start'}
             width={'30%'}>
             <FormControl
+              isDisabled={symbol === ''}
+              isInvalid={isAmountError}
               mr={'10%'}
               mt={4}
               width={'50%'}>
@@ -106,11 +118,17 @@ export default function TradingPage() {
                 value={amount}
                 width={'100%'}
               />
+              {!isAmountError ? (
+                <FormHelperText></FormHelperText>
+              ) : (
+                <FormErrorMessage>Enter valid amount.</FormErrorMessage>
+              )}
             </FormControl>
 
             <Button
               alignSelf={'flex-end'}
               colorScheme="gray"
+              isDisabled={symbol === ''}
               minWidth="100px"
               mt={4}
               p={5}>
@@ -121,6 +139,7 @@ export default function TradingPage() {
 
         <Flex justifyContent={'start'}>
           <FormControl
+            isDisabled={symbol === ''}
             mr={'10%'}
             mt={4}
             width={'30%'}>
@@ -131,6 +150,7 @@ export default function TradingPage() {
           </FormControl>
 
           <FormControl
+            isDisabled={symbol === ''}
             mt={4}
             width={'30%'}>
             <FormLabel>Duration</FormLabel>
@@ -148,6 +168,7 @@ export default function TradingPage() {
           w={'100%'}>
           <Button
             colorScheme="red"
+            isDisabled={symbol === ''}
             onClick={() => {
               alert('unimplemented, probably reset all values');
             }}
@@ -156,6 +177,7 @@ export default function TradingPage() {
           </Button>
           <Button
             colorScheme="blue"
+            isDisabled={symbol === '' || amount === ''}
             onClick={onPreviewOpen}
             size={'lg'}>
             Preview Order
