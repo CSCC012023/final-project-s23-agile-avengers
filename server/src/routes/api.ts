@@ -16,6 +16,7 @@ import {
 } from '../controllers/Learning';
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
+import { getTradingAccountInfo } from '../controllers/trading';
 
 const api = Router();
 
@@ -110,5 +111,13 @@ api.get('/progress/video', getVideoProgressBySlug);
  * @access public
  */
 api.patch('/videoProgress', updateVideoProgress);
+
+/**
+
+ * @route GET /tradingAccInfo
+ * @description Retrive Trading Account Info
+ * @access public
+ */
+api.get('/trading/accountInfo', getTradingAccountInfo);
 
 export default api;
