@@ -37,19 +37,15 @@ const ArticleList = ({ params }: ArticleProps) => {
 
   const [article, setArticle] = useState<Article>();
   const [course, setCourse] = useState<CourseWithUnits>();
-  const [spin, setSpin] = useState<Boolean>(false);
 
-  const [color, setColor] = useState<string>('gray');
-  const [isFavourited, setIsFavourited] = useState<Boolean>(false);
+  const [color, setColor] = useState<'gray' | 'yellow'>('gray');
+  const [isFavourited, setIsFavourited] = useState<boolean>(false);
 
   console.log('color', color, article?.isFavourited);
 
-  // useEffect(() => {
-  //   if (article) {
-  //     console.log('in use effect changing color!');
-  //     article.isFavourited ? setColor('yellow') : setColor('gray');
-  //   }
-  // }, [isFavourited]);
+  useEffect(() => {
+    setColor(isFavourited ? 'yellow' : 'gray')
+  }, [isFavourited]);
 
   const getCourseWithUnits = async () => {
     try {
@@ -76,6 +72,7 @@ const ArticleList = ({ params }: ArticleProps) => {
       if (response.ok) {
         const data: Article = await response.json();
         setArticle(data);
+        setIsFavourited(data.isFavourited);
       } else {
         const error: ErrorResponse = await response.json();
         console.error(error);
@@ -106,16 +103,13 @@ const ArticleList = ({ params }: ArticleProps) => {
         requestOptions,
       );
       if (response.ok) {
-        // console.log('SUCCESS CLIENT', await response.json());
         const data: Article = await response.json();
-        // setColor(data.isFavourited ? 'yellow' : 'gray');
         console.log('DATA OBJ:', data);
+        console.log('Favorite Before: ', isFavourited)
         setIsFavourited(data.isFavourited);
-        setColor(isFavourited ? 'yellow' : 'gray');
-        setSpin(false);
+        console.log('Favorite After: ', isFavourited)
       } else {
         console.log('FAIL CLIENT');
-        setSpin(true);
         const error: ErrorResponse = await response.json();
         console.error(error);
       }
@@ -130,7 +124,7 @@ const ArticleList = ({ params }: ArticleProps) => {
     getArticle();
   }, [params]);
 
-  if ((!course && !article) || spin)
+  if ((!course && !article))
     return (
       <div className={center}>
         <Spinner
@@ -167,7 +161,7 @@ const ArticleList = ({ params }: ArticleProps) => {
           <FavoriteButton
             color={color}
             onClickButton={toggleIsFavorite}
-            size="sm"></FavoriteButton>
+            size="sm" />
         </HStack>
 
         <Box>

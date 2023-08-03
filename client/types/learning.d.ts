@@ -19,7 +19,7 @@ export interface Unit {
 export type Article = {
   name: string;
   slug: string;
-  isFavourited: Boolean;
+  isFavourited: boolean;
   createdAt: string;
   updatedAt: string;
   image?: string;

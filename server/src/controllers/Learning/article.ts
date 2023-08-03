@@ -122,11 +122,8 @@ export const toggleFavoriteArticle = async (req: Request, res: Response) => {
   console.log('ARTICLE TOGGLE SERVER: ', article);
 
   try {
-    await modelArticle.updateOne(
-      { slug: article.slug },
-      { $set: { isFavourited: !article.isFavourited } },
-    );
-    res.status(200).send(article);
+    const updatedArticle = await modelArticle.findOneAndUpdate( { slug: article.slug }, { isFavourited: !article.isFavourited }, { new: true } );
+    res.status(200).send(updatedArticle);
   } catch (error) {
     console.log('Fail to update article');
     res.status(500).json(createError('InternalServerError', 'Toggle Fail'));

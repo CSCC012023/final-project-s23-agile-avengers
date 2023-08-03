@@ -46,7 +46,6 @@ const ArticleSchema = new Schema<Article>(
     },
     isFavourited: {
       type: Boolean,
-      required: true,
       default: false,
     }
   },
