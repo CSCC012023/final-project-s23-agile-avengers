@@ -29,6 +29,7 @@ export type Article = {
 
 export interface Video {
   name: string;
+  slug: string;
   createdAt: Date;
   updatedAt: Date;
   videoId: string;

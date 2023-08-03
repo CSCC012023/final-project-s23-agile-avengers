@@ -3,18 +3,20 @@ import {
   Accordion,
   Box,
   Container,
+  HStack,
   Heading,
   Spinner,
   Text,
   VStack,
   Wrap,
-  WrapItem,
+  WrapItem
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
 import ArticleImage from '@/components/ContentArticle/ArticleImage';
 import BlogAuthor from '@/components/ContentArticle/BlogAuthor';
 import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
+import FavoriteButton from '@/components/FavoriteButton';
 
 import styles from '@/styles/pages/Article.module.scss';
 
@@ -34,6 +36,7 @@ const ArticleList = ({ params }: ArticleProps) => {
 
   const [article, setArticle] = useState<Article>();
   const [course, setCourse] = useState<CourseWithUnits>();
+  const [spin, setSpin] = useState<Boolean>(false);
 
   const getCourseWithUnits = async () => {
     try {
@@ -69,13 +72,50 @@ const ArticleList = ({ params }: ArticleProps) => {
     }
   };
 
+  const toggleIsFavorite = async () => {
+
+    console.log ('toggleLaunch');
+    
+    const data = {
+       slug: article?.slug
+     };
+
+    const requestOptions = {
+       method: 'PATCH',
+       headers: {
+        'Content-Type': 'application/json',
+       },
+       body: JSON.stringify(data),
+     };
+
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/toggleFavoriteArticle`, 
+        requestOptions
+      );
+      if (response.ok) {
+        console.log('SUCCESS CLIENT');
+        setSpin(false);
+      } 
+      else {
+        console.log('FAIL CLIENT');
+        setSpin(false);
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    }
+    catch (error) {
+        console.error(error);
+      }
+  }
+
   /* Without a dependency array the call to get all article is only made once */
   useEffect(() => {
     getCourseWithUnits();
     getArticle();
   }, [params]);
 
-  if (!course && !article)
+  if ((!course && !article) || spin)
     return (
       <div className={center}>
         <Spinner
@@ -107,7 +147,7 @@ const ArticleList = ({ params }: ArticleProps) => {
         </Accordion>
       </div>
       <Container maxW={'7xl'}>
-        <Heading>{article?.name}</Heading>
+        <HStack><Heading>{article?.name}</Heading><FavoriteButton onClickButton={toggleIsFavorite} size='sm' color={false}></FavoriteButton></HStack>
 
         <Box>
           <BlogAuthor
@@ -115,7 +155,7 @@ const ArticleList = ({ params }: ArticleProps) => {
             name={article?.author}
           />
         </Box>
-
+        
         <Wrap
           marginTop="5"
           spacing="30px">
@@ -125,6 +165,7 @@ const ArticleList = ({ params }: ArticleProps) => {
             </Box>
           </WrapItem>
         </Wrap>
+
         <VStack
           alignItems="flex-start"
           paddingTop="20px"

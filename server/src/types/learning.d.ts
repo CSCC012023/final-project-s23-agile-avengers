@@ -1,9 +1,9 @@
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 /*
 Types needed for Learning models
 */
-export interface Article {
+export interface Article extends Document {
   _id: Types.ObjectId;
   name: String;
   slug: String;
@@ -21,7 +21,7 @@ export interface FavouriteArticles {
   courseSlug: String,
 }
 
-export interface Video {
+export interface Video extends Document {
   _id: Types.ObjectId;
   name: String;
   slug: String;

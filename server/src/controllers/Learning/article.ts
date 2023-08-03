@@ -109,3 +109,30 @@ export const getFavouriteArticles = async (req: Request, res: Response) => {
       );
   }
 };
+
+export const toggleFavoriteArticle = async (req: Request, res: Response) => {
+
+  const article: Article | null = await modelArticle.findOne<Article>({
+    slug: req.body.slug,
+  }); 
+
+  if (!article) {
+    return res.status(400).json({ error: 'Missing slug in request body' });
+  }
+
+  try {
+    await modelArticle.updateOne({slug: article.slug}, {$set: {isFavourited: !article.isFavourited}});
+    res.status(200);
+  } 
+  catch (error) {
+    console.log("Fail to update article")
+    res
+      .status(500)
+      .json(
+        createError(
+          'InternalServerError', 
+          'Toggle Fail'
+        ),
+      );
+  }
+};

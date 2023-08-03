@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react';
 
 import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
 import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
+import FavoriteButton from '@/components/FavoriteButton';
 import styles from '@/styles/pages/Video.module.scss';
+
 import { Video } from '@/types/learning';
 import {
   Accordion,
   AspectRatio,
   Container,
+  HStack,
   Heading,
   Spinner,
   Text,
@@ -82,6 +85,42 @@ export default function ContentPage({ params }: VideoProps) {
       console.error(error);
     }
   };
+
+  const toggleIsFavorite = async () => {
+
+    console.log ('toggleLaunch');
+    
+    const data = {
+       slug: video?.slug
+     };
+
+    const requestOptions = {
+       method: 'PATCH',
+       headers: {
+        'Content-Type': 'application/json',
+       },
+       body: JSON.stringify(data),
+     };
+
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/toggleFavoriteVideo`, 
+        requestOptions
+      );
+      if (response.ok) {
+        console.log('SUCCESS CLIENT');
+      } 
+      else {
+        console.log('FAIL CLIENT');
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    }
+    catch (error) {
+        console.error(error);
+      }
+  }
+
   useEffect(() => {
     getCourseWithUnits();
     getVideo();
@@ -136,7 +175,7 @@ export default function ContentPage({ params }: VideoProps) {
       <Container
         maxW={'7xl'}
         p="12">
-        <Heading as="h1">{video?.name}</Heading>
+        <HStack><Heading as="h1">{video?.name}</Heading><FavoriteButton onClickButton={toggleIsFavorite} size='sm' color={false}></FavoriteButton></HStack>
         <AspectRatio
           ratio={16 / 9}
           w="100%">

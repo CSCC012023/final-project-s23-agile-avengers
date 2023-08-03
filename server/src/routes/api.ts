@@ -17,8 +17,8 @@ import {
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
-import { getFavouriteArticles } from '../controllers/Learning/article';
-import { getFavouriteVideos } from '../controllers/Learning/video';
+import { getFavouriteArticles, toggleFavoriteArticle } from '../controllers/Learning/article';
+import { getFavouriteVideos, toggleFavoriteVideo } from '../controllers/Learning/video';
 
 const api = Router();
 
@@ -127,5 +127,19 @@ api.get('/favouriteArticles', getFavouriteArticles);
  * @access public
  */
 api.get('/favouriteVideos', getFavouriteVideos);
+
+/**
+ * @route PATCH /toggleFavoriteArticles
+ * @description Toggles isFavorited field in an Article
+ * @access public
+ */
+api.patch('/toggleFavoriteArticle', toggleFavoriteArticle);
+
+/**
+ * @route PATCH /toggleFavoriteVideos
+ * @description Toggles isFavorited field in a Video
+ * @access public
+ */
+api.patch('/toggleFavoriteVideo', toggleFavoriteVideo);
 
 export default api;

@@ -376,3 +376,31 @@ export const getFavouriteVideos = async (req: Request, res: Response) => {
       );
   }
 };
+
+export const toggleFavoriteVideo = async (req: Request, res: Response) => {
+
+  const video: Video | null = await modelVideo.findOne<Video>({
+    slug: req.body.slug,
+  }); 
+
+  if (!video) {
+    return res.status(400).json({ error: 'Missing slug in request body' });
+  }
+
+  try {
+    video.isFavourited = !video.isFavourited;
+    await video.save();
+    res.status(200);
+  } 
+  
+  catch (error) {
+    res
+    .status(500)
+    .json(
+      createError(
+        'InternalServerError',
+        'Toggle Fail'
+      ),
+    );
+  }
+};
