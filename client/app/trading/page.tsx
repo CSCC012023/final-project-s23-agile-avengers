@@ -8,13 +8,16 @@ import {
   Heading,
   Input,
   Select,
+  Spinner,
   Text,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
 import { CopyrightStyles, MiniChart } from 'react-ts-tradingview-widgets';
 
 import SymbolSearch from '@/components/SymbolSearch';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import { ErrorResponse } from '@/types/base';
 
 import styles from '@/styles/pages/Trading.module.scss';
 
@@ -25,10 +28,16 @@ const USDollar = new Intl.NumberFormat('en-US', {
 
 const tradingViewStyles: CopyrightStyles = { parent: { display: 'none' } };
 
+type AccountInfo = {
+  cash: number;
+  value: number;
+};
+
 export default function TradingPage() {
   const [symbol, setSymbol] = useState('');
 
   const {
+    center,
     container,
     accountInfo,
     info,
@@ -46,10 +55,46 @@ export default function TradingPage() {
     buttonWrapper,
   } = styles;
 
-  const cash = 100000;
-  const value = 100192.58;
-
+  const { userId } = useAuth();
   const windowWidth = useWindowWidth();
+
+  const [accInfo, setAccInfo] = useState<AccountInfo>();
+
+  const getAccountInfo = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/trading/accountInfo?userID=${userId}`,
+      );
+
+      if (response.ok) {
+        const data: AccountInfo = await response.json();
+        setAccInfo(data);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAccountInfo();
+  }, []);
+
+  if (!accInfo)
+    return (
+      <div className={center}>
+        <Spinner
+          color="blue.500"
+          emptyColor="gray.200"
+          size="xl"
+          speed="0.65s"
+          thickness="4px"
+        />
+        <Text>Loading Trading Account</Text>
+      </div>
+    );
 
   return (
     <div className={container}>
@@ -64,10 +109,10 @@ export default function TradingPage() {
           <Text className={`${info} ${valueName}`}> Account Value </Text>
           <Text className={`${info} ${valueName}`}>Cash</Text>
           <Text className={`${info} ${valueText}`}>
-            {USDollar.format(value)}
+            {USDollar.format(accInfo.value)}
           </Text>
           <Text className={`${info} ${valueText}`}>
-            {USDollar.format(cash)}
+            {USDollar.format(accInfo.cash)}
           </Text>
         </div>
       </div>
