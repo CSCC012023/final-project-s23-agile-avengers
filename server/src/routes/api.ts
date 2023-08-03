@@ -17,6 +17,9 @@ import {
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
+import { currentPrice, getPortfolio } from '../controllers/Trading';
+import { tempInsert } from '../controllers/Trading/tempInsert';
+
 const api = Router();
 
 /**
@@ -104,11 +107,32 @@ api.get('/symbolSearch', getSymbolAutoComplete);
 api.get('/progress/video', getVideoProgressBySlug);
 
 /**
+ * @route GET /portfolio
+ * @description Get portfolio of specific user
+ * @access public
+ */
+api.get('/portfolio', getPortfolio);
+
+/**
 
  * @route PATCH /videoProgress
  * @description Update progress for user
  * @access public
  */
 api.patch('/videoProgress', updateVideoProgress);
+
+/**
+ * @route GET /currentPrice
+ * @description Get current price of stock based on symbol
+ * @access public
+ */
+api.get('/currentPrice', currentPrice);
+
+/**
+ * @route GET /currentPrice
+ * @description Get current price of stock based on symbol
+ * @access public
+ */
+api.get('/tempInsertX', tempInsert);
 
 export default api;
