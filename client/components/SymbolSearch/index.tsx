@@ -182,7 +182,10 @@ const SymbolSearch = ({ callback }: SymbolSearchProps) => {
               <Scrollbar>
                 {results.map(({ name, symbol }, key) => (
                   <SymbolCard
-                    callback={(symbol: string) => callback(symbol)}
+                    callback={(symbol: string) => {
+                      callback(symbol);
+                      resetSearchBar();
+                    }}
                     key={key}
                     name={name}
                     symbol={symbol}
