@@ -33,6 +33,7 @@ import { useState } from 'react';
 
 import SymbolSearch from '@/components/SymbolSearch';
 import { useAuth } from '@clerk/nextjs';
+import { useAuth } from '@clerk/nextjs';
 
 export default function TradingPage() {
   const { userId } = useAuth();
@@ -130,8 +131,8 @@ export default function TradingPage() {
             width={'30%'}>
             <FormLabel>Action</FormLabel>
             <Select
-              placeholder="Select"
-              value={action}
+              onChange={handleActionChange}
+              placeholder="Buy"
               width={'100%'}>
               <option>Sell</option>
             </Select>
@@ -165,8 +166,10 @@ export default function TradingPage() {
               alignSelf={'flex-end'}
               colorScheme="gray"
               isDisabled={symbol === ''}
+              isDisabled={symbol === ''}
               minWidth="100px"
               mt={4}
+              onClick={handleMaxClick}
               onClick={handleMaxClick}
               p={5}>
               <ViewIcon mr={2}></ViewIcon>Show max
