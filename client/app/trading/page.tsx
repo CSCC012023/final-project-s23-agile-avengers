@@ -27,7 +27,7 @@ import { useAuth } from '@clerk/nextjs';
 export default function TradingPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { userId } = useAuth();
-  const [symbol, setSymbol] = useState('');
+  const [symbol, setSymbol] = useState<string | undefined>('');
   const [selectedAction, setSelectedAction] = useState<string>('Buy');
   const [price, setPrice] = useState<number | null>(null);
   const [maxAmount, setMaxAmount] = useState<number | null>(0);
@@ -59,9 +59,12 @@ export default function TradingPage() {
     setSelectedAction(e.target.value);
   };
 
-  const handleMaxClick = () => {
-    getPrice();
-    calculateMaxAmount();
+  const handleMaxClick = async () => {
+    const price = await getPrice();
+    if (price) {
+      setPrice(price);
+      setTimeout(calculateMaxAmount, 500);
+    }
   };
 
   return (
@@ -123,7 +126,7 @@ export default function TradingPage() {
             <Button
               alignSelf={'flex-end'}
               colorScheme="gray"
-              //isDisabled={!action}
+              isDisabled={symbol === ''}
               minWidth="100px"
               mt={4}
               onClick={handleMaxClick}
@@ -141,8 +144,7 @@ export default function TradingPage() {
             <FormLabel>Order Type</FormLabel>
             <Select
               placeholder="Market"
-              width={'100%'}>
-            </Select>
+              width={'100%'}></Select>
           </FormControl>
 
           <FormControl
@@ -151,8 +153,7 @@ export default function TradingPage() {
             <FormLabel>Duration</FormLabel>
             <Select
               placeholder="Day Only"
-              width={'100%'}>
-            </Select>
+              width={'100%'}></Select>
           </FormControl>
         </Flex>
 
