@@ -13,10 +13,18 @@ import {
   InputLeftElement,
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
+  ModalFooter,
+  ModalHeader,
   ModalOverlay,
   Select,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
   Text,
+  Tr,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
@@ -24,9 +32,23 @@ import { useState } from 'react';
 import SymbolSearch from '@/components/SymbolSearch';
 
 export default function TradingPage() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isSearchOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isPreviewOpen,
+    onOpen: onPreviewOpen,
+    onClose: onPreviewClose,
+  } = useDisclosure();
+  const [action, setAction] = useState('Buy');
+  const [amount, setAmount] = useState('');
   const [symbol, setSymbol] = useState('');
 
+  const handleAmountChange = (e: any) => {
+    setAmount(e.target.value);
+  };
+
+  const handleActionChange = (e: any) => {
+    setAction(e.target.value);
+  };
   return (
     <Box p={10}>
       <Text
@@ -61,11 +83,11 @@ export default function TradingPage() {
             width={'30%'}>
             <FormLabel>Action</FormLabel>
             <Select
-              placeholder="Select"
+              onChange={handleActionChange}
+              placeholder="Buy"
+              value={action}
               width={'100%'}>
-              <option>Buy</option>
               <option>Sell</option>
-              <option>Edit this</option>
             </Select>
           </FormControl>
 
@@ -78,8 +100,10 @@ export default function TradingPage() {
               width={'50%'}>
               <FormLabel>Amount</FormLabel>
               <Input
+                onChange={handleAmountChange}
                 placeholder="0"
                 type="number"
+                value={amount}
                 width={'100%'}
               />
             </FormControl>
@@ -102,12 +126,8 @@ export default function TradingPage() {
             width={'30%'}>
             <FormLabel>Order Type</FormLabel>
             <Select
-              placeholder="Select"
-              width={'100%'}>
-              <option>Market</option>
-              <option>Edit this</option>
-              <option>Edit this</option>
-            </Select>
+              placeholder="Market"
+              width={'100%'}></Select>
           </FormControl>
 
           <FormControl
@@ -115,12 +135,8 @@ export default function TradingPage() {
             width={'30%'}>
             <FormLabel>Duration</FormLabel>
             <Select
-              placeholder="Select"
-              width={'100%'}>
-              <option>Day Only</option>
-              <option>Night Only</option>
-              <option>Edit this</option>
-            </Select>
+              placeholder="Day Only"
+              width={'100%'}></Select>
           </FormControl>
         </Flex>
 
@@ -140,9 +156,7 @@ export default function TradingPage() {
           </Button>
           <Button
             colorScheme="blue"
-            onClick={() => {
-              alert('unimplemented!');
-            }}
+            onClick={onPreviewOpen}
             size={'lg'}>
             Preview Order
           </Button>
@@ -150,7 +164,7 @@ export default function TradingPage() {
       </Box>
 
       <Modal
-        isOpen={isOpen}
+        isOpen={isSearchOpen}
         onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -165,6 +179,54 @@ export default function TradingPage() {
               }}
             />
           </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={isPreviewOpen}
+        onClose={onPreviewClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Preview Order</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <TableContainer>
+              <Table>
+                <Tbody>
+                  <Tr>
+                    <Td as="b">
+                      {symbol}: {action} at Market
+                    </Td>
+                  </Tr>
+                  <Tr>
+                    <Td>Duration</Td>
+                    <Td>Day Only</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>Amount</Td>
+                    <Td>{amount}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>Estimated Total</Td>
+                    <Td>{parseFloat(amount) * 100}</Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              onClick={onPreviewClose}
+              variant="ghost">
+              Change Order
+            </Button>
+            <Button
+              colorScheme="blue"
+              mr={3}>
+              Submit Order
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </Box>
