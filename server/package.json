@@ -10,7 +10,7 @@
     "build": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "seed": "nodemon ./src/config/seed.ts"
+    "seed": "npx ts-node src/config/seed.ts"
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^4.12.1",
