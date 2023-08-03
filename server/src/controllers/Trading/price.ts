@@ -30,9 +30,6 @@ export const getLatestPrice = async (req: Request, res: Response) => {
     const response = {
       symbol: globalQuote['01. symbol'],
       price: globalQuote['05. price'],
-      changeAmount: globalQuote['09. change'],
-      changePercentage: globalQuote['10. change percent'],
-      volume: globalQuote['06. volume'],
     };
 
     res.status(200).json(response);
