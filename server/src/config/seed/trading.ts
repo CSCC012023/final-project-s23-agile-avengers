@@ -4,6 +4,11 @@ import modelUser from '../../models/Account/user';
 import modelAccount from '../../models/Trading/account';
 import modelPortfolio from '../../models/Trading/portfolio';
 
+/**
+ * Clears Database and deletes these collections
+ *  - modelPortfolio
+ *  - modelAccount
+ */
 export const clearTradingDB = async () => {
   await modelAccount
     .deleteMany({})
@@ -13,6 +18,11 @@ export const clearTradingDB = async () => {
     .then(() => console.info('Portfolio Collection Erased! ❌'));
 };
 
+/**
+ * Seeds the database for these collections
+ *  - modelPortfolio
+ *  - modelAccount
+ */
 export const seedTradingDB = async () => {
   const users = await modelUser.find().select('_id');
 
