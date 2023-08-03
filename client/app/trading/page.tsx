@@ -35,6 +35,7 @@ import SymbolSearch from '@/components/SymbolSearch';
 import { useAuth } from '@clerk/nextjs';
 
 export default function TradingPage() {
+  const { userId } = useAuth();
   const { isOpen: isSearchOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isPreviewOpen,
@@ -43,7 +44,6 @@ export default function TradingPage() {
   } = useDisclosure();
   const [action, setAction] = useState('Buy');
   const [amount, setAmount] = useState('');
-  const { userId } = useAuth();
   const [symbol, setSymbol] = useState('');
   const [selectedAction, setSelectedAction] = useState<string>('Buy');
   const [price, setPrice] = useState<number | null>(null);
@@ -73,21 +73,21 @@ export default function TradingPage() {
   };
 
   const handleActionChange = (e: any) => {
-    setSelectedAction(e.target.value);
+    setAction(e.target.value);
   };
 
-  const handleMaxClick = () => {
-    getPrice();
-    calculateMaxAmount();
+  const handleMaxClick = async () => {
+    const price = await getPrice();
+    if (price) {
+      setPrice(price);
+      setTimeout(calculateMaxAmount, 500);
+    }
   };
 
   const handleAmountChange = (e: any) => {
     setAmount(e.target.value);
   };
 
-  const handleActionChange = (e: any) => {
-    setAction(e.target.value);
-  };
   const isSymbolError = symbol === '';
   const isAmountError = amount === '';
   return (
@@ -131,6 +131,7 @@ export default function TradingPage() {
             <FormLabel>Action</FormLabel>
             <Select
               placeholder="Select"
+              value={action}
               width={'100%'}>
               <option>Sell</option>
             </Select>
@@ -147,7 +148,8 @@ export default function TradingPage() {
               width={'50%'}>
               <FormLabel>Amount</FormLabel>
               <Input
-                placeholder="0"
+              onChange={handleAmountChange}
+                placeholder={maxAmount ? maxAmount.toString() : '0'}
                 type="number"
                 value={amount}
                 width={'100%'}
@@ -162,6 +164,7 @@ export default function TradingPage() {
             <Button
               alignSelf={'flex-end'}
               colorScheme="gray"
+              isDisabled={symbol === ''}
               minWidth="100px"
               mt={4}
               onClick={handleMaxClick}
@@ -179,11 +182,8 @@ export default function TradingPage() {
             width={'30%'}>
             <FormLabel>Order Type</FormLabel>
             <Select
-              placeholder="Select"
+              placeholder="Market"
               width={'100%'}>
-              <option>Market</option>
-              <option>Edit this</option>
-              <option>Edit this</option>
             </Select>
           </FormControl>
 
@@ -193,11 +193,8 @@ export default function TradingPage() {
             width={'30%'}>
             <FormLabel>Duration</FormLabel>
             <Select
-              placeholder="Select"
+              placeholder="Day Only"
               width={'100%'}>
-              <option>Day Only</option>
-              <option>Night Only</option>
-              <option>Edit this</option>
             </Select>
           </FormControl>
         </Flex>
