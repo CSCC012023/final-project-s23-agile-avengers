@@ -1,17 +1,29 @@
 'use client';
 
+import { Article } from '@/types/learning';
 import { StarIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
 
 interface FavoriteButtonProps {
-    size: 'sm' | 'md' | 'lg',
-    color: boolean,
-    onClickButton: any
-  }
+  color: string;
+  onClickButton: any;
+  size: 'sm' | 'md' | 'lg';
+}
 
-const FavoriteButton = ({ size, color, onClickButton }: FavoriteButtonProps) => {
+const FavoriteButton = ({
+  color,
+  onClickButton,
+  size,
+}: FavoriteButtonProps) => {
   return (
-    <IconButton aria-label='favorite'onClick={onClickButton} size={size} isRound={true} colorScheme={color ? 'blue' : 'gray'} icon={<StarIcon />} />
+    <IconButton
+      aria-label="favorite"
+      onClick={onClickButton}
+      size={size}
+      isRound={true}
+      colorScheme={color}
+      icon={<StarIcon />}
+    />
   );
 };
 

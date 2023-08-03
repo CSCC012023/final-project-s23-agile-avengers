@@ -9,14 +9,15 @@ import {
   Text,
   VStack,
   Wrap,
-  WrapItem
+  WrapItem,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+
+import FavoriteButton from '@/components/FavoriteButton';
 
 import ArticleImage from '@/components/ContentArticle/ArticleImage';
 import BlogAuthor from '@/components/ContentArticle/BlogAuthor';
 import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
-import FavoriteButton from '@/components/FavoriteButton';
 
 import styles from '@/styles/pages/Article.module.scss';
 
@@ -37,6 +38,18 @@ const ArticleList = ({ params }: ArticleProps) => {
   const [article, setArticle] = useState<Article>();
   const [course, setCourse] = useState<CourseWithUnits>();
   const [spin, setSpin] = useState<Boolean>(false);
+
+  const [color, setColor] = useState<string>('gray');
+  const [isFavourited, setIsFavourited] = useState<Boolean>(false);
+
+  console.log('color', color, article?.isFavourited);
+
+  // useEffect(() => {
+  //   if (article) {
+  //     console.log('in use effect changing color!');
+  //     article.isFavourited ? setColor('yellow') : setColor('gray');
+  //   }
+  // }, [isFavourited]);
 
   const getCourseWithUnits = async () => {
     try {
@@ -73,41 +86,43 @@ const ArticleList = ({ params }: ArticleProps) => {
   };
 
   const toggleIsFavorite = async () => {
+    console.log('toggleLaunch');
 
-    console.log ('toggleLaunch');
-    
     const data = {
-       slug: article?.slug
-     };
+      slug: article?.slug,
+    };
 
     const requestOptions = {
-       method: 'PATCH',
-       headers: {
+      method: 'PATCH',
+      headers: {
         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify(data),
-     };
+      },
+      body: JSON.stringify(data),
+    };
 
     try {
       const response: Response = await fetch(
-        `http://localhost:4000/toggleFavoriteArticle`, 
-        requestOptions
+        `http://localhost:4000/toggleFavoriteArticle`,
+        requestOptions,
       );
       if (response.ok) {
-        console.log('SUCCESS CLIENT');
+        // console.log('SUCCESS CLIENT', await response.json());
+        const data: Article = await response.json();
+        // setColor(data.isFavourited ? 'yellow' : 'gray');
+        console.log('DATA OBJ:', data);
+        setIsFavourited(data.isFavourited);
+        setColor(isFavourited ? 'yellow' : 'gray');
         setSpin(false);
-      } 
-      else {
+      } else {
         console.log('FAIL CLIENT');
-        setSpin(false);
+        setSpin(true);
         const error: ErrorResponse = await response.json();
         console.error(error);
       }
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
-        console.error(error);
-      }
-  }
+  };
 
   /* Without a dependency array the call to get all article is only made once */
   useEffect(() => {
@@ -147,7 +162,13 @@ const ArticleList = ({ params }: ArticleProps) => {
         </Accordion>
       </div>
       <Container maxW={'7xl'}>
-        <HStack><Heading>{article?.name}</Heading><FavoriteButton onClickButton={toggleIsFavorite} size='sm' color={false}></FavoriteButton></HStack>
+        <HStack>
+          <Heading>{article?.name}</Heading>
+          <FavoriteButton
+            color={color}
+            onClickButton={toggleIsFavorite}
+            size="sm"></FavoriteButton>
+        </HStack>
 
         <Box>
           <BlogAuthor
@@ -155,7 +176,7 @@ const ArticleList = ({ params }: ArticleProps) => {
             name={article?.author}
           />
         </Box>
-        
+
         <Wrap
           marginTop="5"
           spacing="30px">

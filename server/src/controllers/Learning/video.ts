@@ -325,7 +325,6 @@ export const getFavouriteVideos = async (req: Request, res: Response) => {
     const favouriteVideos = await modelVideo.find<Video>({
       isFavourited: true,
     });
-    console.log('Favourite videos:', favouriteVideos);
 
     const data: any = [];
     if (favouriteVideos) {

@@ -19,6 +19,7 @@ export interface Unit {
 export type Article = {
   name: string;
   slug: string;
+  isFavourited: Boolean;
   createdAt: string;
   updatedAt: string;
   image?: string;
@@ -30,6 +31,7 @@ export type Article = {
 export interface Video {
   name: string;
   slug: string;
+  isFavourited: Boolean;
   createdAt: Date;
   updatedAt: Date;
   videoId: string;
