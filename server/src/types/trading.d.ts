@@ -14,7 +14,7 @@ export interface Equity {
   date?: Date;
   action: 'buy' | 'sell';
   order: 'market';
-  symbol: String;
+  symbol: string;
   quantity: number;
   price: number;
 }
