@@ -35,8 +35,8 @@ export const getArticleBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'ArticleDoesNotExist',
-          `Failed to find Article with slug: ${articleSlug}`
-        )
+          `Failed to find Article with slug: ${articleSlug}`,
+        ),
       );
   } catch (error) {
     res
@@ -71,8 +71,8 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'UserDoesNotExist',
-          `User with ID: ${userID} does not exist`
-        )
+          `User with ID: ${userID} does not exist`,
+        ),
       );
 
   const article = await modelArticle.findOne({ slug: req.query.articleSlug });
@@ -82,8 +82,8 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'ArticleDoesNotExist',
-          `Failed to find Article with slug: ${articleSlug}`
-        )
+          `Failed to find Article with slug: ${articleSlug}`,
+        ),
       );
 
   const progress = await modelProgress
@@ -103,7 +103,7 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
       progressPercent: 0,
     });
   const specificArticle = progress.articles.find(
-    (entry) => (entry.articleID = article._id)
+    (entry) => (entry.articleID = article._id),
   );
 
   if (!specificArticle)
@@ -143,12 +143,12 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'MissingBodyParams',
-          'The body params requires numeric articleProgressPercent'
-        )
+          'The body params requires numeric articleProgressPercent',
+        ),
       );
 
   const progressPercentageCurrent: number = parseFloat(
-    req.body.articleProgressPercent.toString()
+    req.body.articleProgressPercent.toString(),
   );
   const user = await modelUser.findOne({ userID: req.body.userID });
   if (!user)
@@ -157,8 +157,8 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'UserDoesNotExist',
-          `User with ID: ${userID} does not exist`
-        )
+          `User with ID: ${userID} does not exist`,
+        ),
       );
 
   const article = await modelArticle.findOne({ slug: req.body.articleSlug });
@@ -168,8 +168,8 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'ArticleDoesNotExist',
-          `Failed to find Article with slug: ${req.body.articleSlug}`
-        )
+          `Failed to find Article with slug: ${req.body.articleSlug}`,
+        ),
       );
 
   const progress = await modelProgress.findOne({
@@ -186,8 +186,8 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'ParentUnitNotFound',
-          `Failed to find parentUnit of article: ${req.body.articleSlug}`
-        )
+          `Failed to find parentUnit of article: ${req.body.articleSlug}`,
+        ),
       );
   const parentCourse = await modelCourse.findOne({
     units: { $all: [parentUnit._id] },
@@ -198,8 +198,8 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'ParentCourseNotFound',
-          `Failed to find parentCourse of article: ${req.body.articleSlug}`
-        )
+          `Failed to find parentCourse of article: ${req.body.articleSlug}`,
+        ),
       );
 
   if (!progress) {
@@ -233,13 +233,13 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
   }
   /* User already has a progress elem then update the progres object */
   const indexArticle = progress.articles.findIndex(
-    (elem) => elem.articleID.toString() == article._id.toString()
+    (elem) => elem.articleID.toString() == article._id.toString(),
   );
   const indexUnit = progress.units.findIndex(
-    (elem) => elem.unitID.toString() == parentUnit._id.toString()
+    (elem) => elem.unitID.toString() == parentUnit._id.toString(),
   );
   const indexCourse = progress.courses.findIndex(
-    (elem) => elem.courseID.toString() == parentCourse._id.toString()
+    (elem) => elem.courseID.toString() == parentCourse._id.toString(),
   );
 
   /* An article is just complete if its progress percentage increased from 0

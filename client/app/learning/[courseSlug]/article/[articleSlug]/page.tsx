@@ -54,7 +54,7 @@ const ArticleList = ({ params }: ArticleProps) => {
 
       const updateResponse = await fetch(
         'http://localhost:4000/articleProgress',
-        fetchOptions
+        fetchOptions,
       );
 
       if (updateResponse.ok)
@@ -72,7 +72,7 @@ const ArticleList = ({ params }: ArticleProps) => {
   const getCourseWithUnits = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`
+        `http://localhost:4000/units?courseSlug=${params?.courseSlug}`,
       );
       if (response.ok) {
         const data: CourseWithUnits = await response.json();
@@ -89,7 +89,7 @@ const ArticleList = ({ params }: ArticleProps) => {
   const getArticle = async () => {
     try {
       const response: Response = await fetch(
-        `http://localhost:4000/article?articleSlug=${params.articleSlug}`
+        `http://localhost:4000/article?articleSlug=${params.articleSlug}`,
       );
       if (response.ok) {
         const data: Article = await response.json();
@@ -106,7 +106,7 @@ const ArticleList = ({ params }: ArticleProps) => {
   const getProgress = async () => {
     try {
       const progressResponse = await fetch(
-        `http://localhost:4000/progress/article?userID=${userId}&articleSlug=${params.articleSlug}`
+        `http://localhost:4000/progress/article?userID=${userId}&articleSlug=${params.articleSlug}`,
       );
       if (progressResponse.ok) {
         const progressData = await progressResponse.json();
