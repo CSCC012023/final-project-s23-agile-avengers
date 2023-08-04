@@ -4,7 +4,6 @@ import {
   Heading,
   Spinner,
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Th,
@@ -56,7 +55,6 @@ const TradeHistoryPage = () => {
       <Heading margin="5">Trade History</Heading>
       <TableContainer>
         <Table variant="simple">
-          <TableCaption>Your current Buy history</TableCaption>
           <Thead>
             <Tr>
               <Th>Symbol</Th>
