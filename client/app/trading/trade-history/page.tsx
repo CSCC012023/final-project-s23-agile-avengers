@@ -69,15 +69,17 @@ const TradeHistoryPage = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {userPortfolio.history.equity.map(
-              ({ action, price, quantity, symbol }, idx) =>
-                action === 'buy' && (
-                  <TradeHistioryRow
-                    key={idx}
-                    purchasePrice={price}
-                    quantity={quantity}
-                    symbol={symbol}></TradeHistioryRow>
-                ),
+            {userPortfolio.history.equity.map((item, idx) =>
+              item.action === 'buy' ? (
+                <TradeHistioryRow
+                  key={idx}
+                  purchasePrice={item.price}
+                  quantity={item.quantity}
+                  symbol={item.symbol.toString()}
+                />
+              ) : (
+                <></>
+              ),
             )}
           </Tbody>
         </Table>
@@ -87,3 +89,4 @@ const TradeHistoryPage = () => {
 };
 
 export default TradeHistoryPage;
+
