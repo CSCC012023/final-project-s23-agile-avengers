@@ -311,7 +311,8 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
   updatedObject.isNew = false;
   await updatedObject?.save();
   return res.send(updatedObject);
-  
+};
+
 export const getUnitFromArticle = async (article: Article) => {
   try {
     const unit = await modelUnit.findOne<Unit>({ content: article._id });
@@ -335,12 +336,11 @@ export const getFavouriteArticles = async (req: Request, res: Response) => {
             const unit = await getUnitFromArticle(itemArticle);
             if (unit) {
               const course = await getCourseFromUnit(unit);
-              if (course) {
+              if (course)
                 data.push({
                   article: itemArticle,
                   courseSlug: course?.slug,
                 });
-              }
             }
           } catch (error) {
             res
@@ -355,16 +355,15 @@ export const getFavouriteArticles = async (req: Request, res: Response) => {
         }),
       );
       return res.status(200).json(data);
-    } else {
-      res
-        .status(500)
-        .json(
-          createError(
-            'InternalServerError',
-            'Failed to retrieve relevant details from each article!',
-          ),
-        );
     }
+    res
+      .status(500)
+      .json(
+        createError(
+          'InternalServerError',
+          'Failed to retrieve relevant details from each article!',
+        ),
+      );
   } catch (error) {
     res
       .status(500)
@@ -382,9 +381,8 @@ export const toggleFavoriteArticle = async (req: Request, res: Response) => {
     slug: req.body.slug,
   });
 
-  if (!article) {
+  if (!article)
     return res.status(400).json({ error: 'Missing slug in request body' });
-  }
 
   try {
     const updatedArticle = await modelArticle.findOneAndUpdate(
