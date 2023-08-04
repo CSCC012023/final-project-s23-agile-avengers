@@ -19,6 +19,10 @@ import {
   updateVideoProgress,
 } from '../controllers/Learning';
 
+import {
+  getArticleProgressBySlug,
+  updateArticleProgress,
+} from '../controllers/Learning/article';
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
 import {
@@ -127,6 +131,21 @@ api.get('/trading/portfolio', getPortfolio);
  * @access public
  */
 api.patch('/videoProgress', updateVideoProgress);
+
+/**
+ * @route GET /progress
+ * @description Get progress of a user for article
+ * @access public
+ */
+api.get('/progress/article', getArticleProgressBySlug);
+
+/**
+
+ * @route PATCH /articleProgress
+ * @description Update progress for user
+ * @access public
+ */
+api.patch('/articleProgress', updateArticleProgress);
 
 /**
  * @route GET /favouriteArticles
