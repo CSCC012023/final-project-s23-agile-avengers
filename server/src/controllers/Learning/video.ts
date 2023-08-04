@@ -334,12 +334,11 @@ export const getFavouriteVideos = async (req: Request, res: Response) => {
             const unit = await getUnitFromVideo(itemVideo);
             if (unit) {
               const course = await getCourseFromUnit(unit);
-              if (course) {
+              if (course)
                 data.push({
                   video: itemVideo,
                   courseSlug: course?.slug,
                 });
-              }
             }
           } catch (error) {
             res
@@ -354,16 +353,15 @@ export const getFavouriteVideos = async (req: Request, res: Response) => {
         }),
       );
       return res.status(200).json(data);
-    } else {
-      res
-        .status(500)
-        .json(
-          createError(
-            'InternalServerError',
-            'Failed to retrieve relevant details from each video!',
-          ),
-        );
     }
+    res
+      .status(500)
+      .json(
+        createError(
+          'InternalServerError',
+          'Failed to retrieve relevant details from each video!',
+        ),
+      );
   } catch (error) {
     res
       .status(500)
@@ -381,9 +379,8 @@ export const toggleFavoriteVideo = async (req: Request, res: Response) => {
     slug: req.body.slug,
   });
 
-  if (!video) {
+  if (!video)
     return res.status(400).json({ error: 'Missing slug in request body' });
-  }
 
   try {
     const updatedVideo = await modelVideo.findOneAndUpdate(

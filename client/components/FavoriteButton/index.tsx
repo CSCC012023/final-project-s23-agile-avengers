@@ -1,6 +1,5 @@
 'use client';
 
-import { Article } from '@/types/learning';
 import { StarIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
 
@@ -18,11 +17,11 @@ const FavoriteButton = ({
   return (
     <IconButton
       aria-label="favorite"
-      onClick={onClickButton}
-      size={size}
-      isRound={true}
       colorScheme={color}
       icon={<StarIcon />}
+      isRound={true}
+      onClick={onClickButton}
+      size={size}
     />
   );
 };

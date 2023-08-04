@@ -85,20 +85,17 @@ export const seedTradingDB = async () => {
     const currAAPLPrice = Math.random() * (192.37 - 190.69) + 190.69;
     const currMSFTPrice = Math.random() * (329.88 - 325.95) + 325.95;
 
-    const AAPLOwned = holdings.equity.AAPL[0]
-    const MSFTOwned = holdings.equity.MSFT[0];
+    const { price: AAPLPrice, quantity: AAPLQuantity } =
+      holdings.equity.AAPL[0];
+    const { price: MSFTPrice, quantity: MSFTQuantity } =
+      holdings.equity.MSFT[0];
 
-    const cash =
-      100000 -
-      ((AAPLOwned?.price || 191.38) * (AAPLOwned?.quantity || 1) +
-        (MSFTOwned?.price || 326.66) * (MSFTOwned?.quantity || 1));
+    const cash = 100000 - AAPLPrice * AAPLQuantity + MSFTPrice * MSFTQuantity;
 
     const value =
       cash +
-      (currAAPLPrice - (AAPLOwned?.price || 191.38)) *
-        (AAPLOwned?.quantity || 1) +
-      (currMSFTPrice - (MSFTOwned?.price || 326.66)) *
-        (MSFTOwned?.quantity || 1);
+      (currAAPLPrice - AAPLPrice) * AAPLQuantity +
+      (currMSFTPrice - MSFTPrice) * MSFTQuantity;
 
     return {
       userID,

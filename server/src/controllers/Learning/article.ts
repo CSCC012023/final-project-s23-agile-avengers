@@ -392,7 +392,6 @@ export const toggleFavoriteArticle = async (req: Request, res: Response) => {
     );
     res.status(200).send(updatedArticle);
   } catch (error) {
-    console.log('Fail to update article');
     res.status(500).json(createError('InternalServerError', 'Toggle Fail'));
   }
 };

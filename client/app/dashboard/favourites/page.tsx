@@ -16,7 +16,7 @@ import {
   MenuList,
   SimpleGrid,
   Tag,
-  Text
+  Text,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
@@ -32,7 +32,6 @@ const FavouritesPage = () => {
         'http://localhost:4000/favouriteArticles',
       );
       const jsonArticles: any[] = await response.json();
-      console.log('JSON ARTICLES:', jsonArticles);
       setFavouriteArticles(jsonArticles);
     } catch (error) {
       console.error((error as Error).message);
@@ -46,7 +45,6 @@ const FavouritesPage = () => {
         'http://localhost:4000/favouriteVideos',
       );
       const jsonVideos: any[] = await response.json();
-      console.log('JSON Videos:', jsonVideos);
       setFavouriteVideos(jsonVideos);
     } catch (error) {
       console.error((error as Error).message);
@@ -61,32 +59,42 @@ const FavouritesPage = () => {
 
   return (
     <>
-      <Flex  mt={10} justifyContent={'space-between'}>
-        <Heading ml={10} justifySelf={'flex-start'}>Favourites Page</Heading>
-        <Flex mr={10} direction={'row'} alignItems={'center'} justifyContent={'center'} >
-        <Text mr={2}>Filter by:</Text>
-        <Menu isLazy>
-          <Flex
-            alignItems="center"
-            gap="2"
-            marginBottom={'20px'}
-            marginTop={'10px'}
-            minWidth="max-content">
-            {' '}
-            <MenuButton
-              as={Button}
-              rightIcon={<ChevronDownIcon />}
-              variant="outline">
-              {contentType}
-            </MenuButton>
-          </Flex>
-          <MenuList>
-            <MenuItem onClick={() => setContentType('Article')}>
-              Article
-            </MenuItem>
-            <MenuItem onClick={() => setContentType('Video')}>Video</MenuItem>
-          </MenuList>
-        </Menu>
+      <Flex
+        justifyContent={'space-between'}
+        mt={10}>
+        <Heading
+          justifySelf={'flex-start'}
+          ml={10}>
+          Favourites Page
+        </Heading>
+        <Flex
+          alignItems={'center'}
+          direction={'row'}
+          justifyContent={'center'}
+          mr={10}>
+          <Text mr={2}>Filter by:</Text>
+          <Menu isLazy>
+            <Flex
+              alignItems="center"
+              gap="2"
+              marginBottom={'20px'}
+              marginTop={'10px'}
+              minWidth="max-content">
+              {' '}
+              <MenuButton
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                variant="outline">
+                {contentType}
+              </MenuButton>
+            </Flex>
+            <MenuList>
+              <MenuItem onClick={() => setContentType('Article')}>
+                Article
+              </MenuItem>
+              <MenuItem onClick={() => setContentType('Video')}>Video</MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
       </Flex>
       <SimpleGrid
@@ -99,27 +107,30 @@ const FavouritesPage = () => {
                 <Card key={idx}>
                   <CardHeader>
                     <Flex justifyContent={'space-between'}>
-                      <Heading size="md" maxWidth={300}>{item.article.name}</Heading>
+                      <Heading
+                        maxWidth={300}
+                        size="md">
+                        {item.article.name}
+                      </Heading>
                       <Tag
+                        colorScheme="teal"
                         height={'10px'}
-                        size={'md'}
-                        colorScheme="teal">
+                        size={'md'}>
                         {item.article.contentType.toUpperCase()}
                       </Tag>
                     </Flex>
                   </CardHeader>
-                  <CardBody>
-                  </CardBody>
+                  <CardBody></CardBody>
                   <CardFooter>
-                  <Flex flexDirection={'column'}>
-                  <Text>Author: {item.article.author}</Text>
-                  <Box mt={5}>
-                    <Link
-                      href={`/learning/${item.courseSlug}/${item.article.contentType}/${item.article.slug}`}>
-                      <Button>View here</Button>
-                    </Link>
-                  </Box>
-                  </Flex>
+                    <Flex flexDirection={'column'}>
+                      <Text>Author: {item.article.author}</Text>
+                      <Box mt={5}>
+                        <Link
+                          href={`/learning/${item.courseSlug}/${item.article.contentType}/${item.article.slug}`}>
+                          <Button>View here</Button>
+                        </Link>
+                      </Box>
+                    </Flex>
                   </CardFooter>
                 </Card>
               );
@@ -129,28 +140,30 @@ const FavouritesPage = () => {
                 <Card key={idx}>
                   <CardHeader>
                     <Flex justifyContent={'space-between'}>
-                      <Heading size="md" maxWidth={300}>{item.video.name}</Heading>
+                      <Heading
+                        maxWidth={300}
+                        size="md">
+                        {item.video.name}
+                      </Heading>
                       <Tag
+                        colorScheme="blue"
                         height={'10px'}
-                        size={'md'}
-                        colorScheme="blue">
+                        size={'md'}>
                         {item.video.contentType.toUpperCase()}
                       </Tag>
                     </Flex>
                   </CardHeader>
-                  <CardBody>
-                    
-                  </CardBody>
+                  <CardBody></CardBody>
                   <CardFooter>
-                  <Flex flexDirection={'column'}>
-                    <Text>Author: {item.video.author}</Text>
-                    <Box mt={5}>
-                    <Link
-                      href={`/learning/${item.courseSlug}/${item.video.contentType}/${item.video.slug}`}>
-                      <Button>View here</Button>
-                    </Link>
-                    </Box>
-                  </Flex>
+                    <Flex flexDirection={'column'}>
+                      <Text>Author: {item.video.author}</Text>
+                      <Box mt={5}>
+                        <Link
+                          href={`/learning/${item.courseSlug}/${item.video.contentType}/${item.video.slug}`}>
+                          <Button>View here</Button>
+                        </Link>
+                      </Box>
+                    </Flex>
                   </CardFooter>
                 </Card>
               );
