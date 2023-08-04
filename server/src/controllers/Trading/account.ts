@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 
-import modelUser from '../models/Account/user';
+import modelUser from '../../models/Account/user';
 
-import modelAccount from '../models/Trading/account';
+import modelAccount from '../../models/Trading/account';
 
-import { createError } from '../utils/error';
-import { validateUserID } from '../utils/validate';
+import { createError } from '../../utils/error';
+import { validateUserID } from '../../utils/validate';
 
 /**
  * Retrieves a Trading Account for a user
