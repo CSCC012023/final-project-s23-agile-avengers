@@ -1,5 +1,6 @@
 'use client';
 
+import SymbolSearch from '@/components/SymbolSearch';
 import { SearchIcon, ViewIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -8,20 +9,20 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   InputGroup,
   InputLeftElement,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
   ModalOverlay,
   Select,
   Text,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react';
 import { useState } from 'react';
-
-import SymbolSearch from '@/components/SymbolSearch';
 
 export default function TradingPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,13 +30,24 @@ export default function TradingPage() {
 
   return (
     <Box p={10}>
-      <Text
-        fontSize={'5xl'}
-        fontWeight={'bold'}
-        mb={10}
-        ml={10}>
-        Trading
-      </Text>
+      <HStack>
+        <Text
+          fontSize={'5xl'}
+          fontWeight={'bold'}
+          mb={10}
+          ml={10}>
+          Trading
+        </Text>
+        <Link  href={`/trading/trade-history`} mb={8} ml='5'>
+          <Button
+              fontSize={['xs', null, null, 'md']}
+              mt={3}
+              w={'100%'}>
+              Your Trades
+            </Button>
+        </Link>
+      </HStack>
+
       <Box
         maxWidth="800px"
         mx="auto">
