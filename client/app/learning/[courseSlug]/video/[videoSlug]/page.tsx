@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import SidePaneItem from '@/components/ContentVideo/SidePaneItem';
 import YoutubePlayer from '@/components/ContentVideo/YoutubePlayer';
 import FavoriteButton from '@/components/FavoriteButton';
 import styles from '@/styles/pages/Video.module.scss';
+import { useEffect, useState } from 'react';
 
 import { Video } from '@/types/learning';
 import {
@@ -36,6 +35,12 @@ export default function ContentPage({ params }: VideoProps) {
   const [video, setVideo] = useState<Video>();
   const [course, setCourse] = useState<CourseWithUnits>();
   const [videoProgress, setVideoProgress] = useState(0);
+  const [color, setColor] = useState<'gray' | 'yellow'>('gray');
+  const [isFavourited, setIsFavourited] = useState<Boolean>(false);
+  
+  useEffect(() => {
+    setColor(isFavourited ? 'yellow' : 'gray')
+  }, [isFavourited]);
 
   const getCourseWithUnits = async () => {
     try {
@@ -61,6 +66,7 @@ export default function ContentPage({ params }: VideoProps) {
       if (response.ok) {
         const data: Video = await response.json();
         setVideo(data);
+        setIsFavourited(data.isFavourited);
       } else {
         const error: ErrorResponse = await response.json();
         console.error(error);
@@ -91,7 +97,7 @@ export default function ContentPage({ params }: VideoProps) {
     console.log ('toggleLaunch');
     
     const data = {
-       slug: video?.slug
+       slug: params?.videoSlug
      };
 
     const requestOptions = {
@@ -108,6 +114,9 @@ export default function ContentPage({ params }: VideoProps) {
         requestOptions
       );
       if (response.ok) {
+        const data: Video = await response.json();
+        setVideo(data);
+        setIsFavourited(data.isFavourited);
         console.log('SUCCESS CLIENT');
       } 
       else {
@@ -175,7 +184,11 @@ export default function ContentPage({ params }: VideoProps) {
       <Container
         maxW={'7xl'}
         p="12">
-        <HStack><Heading as="h1">{video?.name}</Heading><FavoriteButton onClickButton={toggleIsFavorite} size='sm' color={false}></FavoriteButton></HStack>
+        <HStack><Heading as="h1">{video?.name}</Heading>
+        <FavoriteButton
+            color={color}
+            onClickButton={toggleIsFavorite}
+            size="sm" /></HStack>
         <AspectRatio
           ratio={16 / 9}
           w="100%">

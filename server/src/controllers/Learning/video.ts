@@ -387,9 +387,8 @@ export const toggleFavoriteVideo = async (req: Request, res: Response) => {
   }
 
   try {
-    video.isFavourited = !video.isFavourited;
-    await video.save();
-    res.status(200);
+    const updatedVideo = await modelVideo.findOneAndUpdate( { slug: video.slug }, { isFavourited: !video.isFavourited }, { new: true } );
+    res.status(200).send(updatedVideo);
   } 
   
   catch (error) {

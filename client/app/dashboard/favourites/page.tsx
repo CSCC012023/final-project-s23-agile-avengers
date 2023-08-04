@@ -1,6 +1,7 @@
 'use client';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
+  Box,
   Button,
   Card,
   CardBody,
@@ -15,7 +16,7 @@ import {
   MenuList,
   SimpleGrid,
   Tag,
-  Text,
+  Text
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
@@ -60,9 +61,10 @@ const FavouritesPage = () => {
 
   return (
     <>
-      <Flex justifyContent={'space-between'}>
-        <Heading>Favourites Page</Heading>
-        <Text>Filter by:</Text>
+      <Flex  mt={10} justifyContent={'space-between'}>
+        <Heading ml={10} justifySelf={'flex-start'}>Favourites Page</Heading>
+        <Flex mr={10} direction={'row'} alignItems={'center'} justifyContent={'center'} >
+        <Text mr={2}>Filter by:</Text>
         <Menu isLazy>
           <Flex
             alignItems="center"
@@ -85,8 +87,10 @@ const FavouritesPage = () => {
             <MenuItem onClick={() => setContentType('Video')}>Video</MenuItem>
           </MenuList>
         </Menu>
+        </Flex>
       </Flex>
       <SimpleGrid
+        ml={10}
         spacing={4}
         templateColumns="repeat(auto-fill, minmax(350px, 1fr))">
         {contentType === 'Article'
@@ -95,8 +99,9 @@ const FavouritesPage = () => {
                 <Card key={idx}>
                   <CardHeader>
                     <Flex justifyContent={'space-between'}>
-                      <Heading size="md">{item.article.name}</Heading>
+                      <Heading size="md" maxWidth={300}>{item.article.name}</Heading>
                       <Tag
+                        height={'10px'}
                         size={'md'}
                         colorScheme="teal">
                         {item.article.contentType.toUpperCase()}
@@ -104,13 +109,17 @@ const FavouritesPage = () => {
                     </Flex>
                   </CardHeader>
                   <CardBody>
-                    <Text>Author: {item.article.author}</Text>
                   </CardBody>
                   <CardFooter>
+                  <Flex flexDirection={'column'}>
+                  <Text>Author: {item.article.author}</Text>
+                  <Box mt={5}>
                     <Link
                       href={`/learning/${item.courseSlug}/${item.article.contentType}/${item.article.slug}`}>
                       <Button>View here</Button>
                     </Link>
+                  </Box>
+                  </Flex>
                   </CardFooter>
                 </Card>
               );
@@ -120,8 +129,9 @@ const FavouritesPage = () => {
                 <Card key={idx}>
                   <CardHeader>
                     <Flex justifyContent={'space-between'}>
-                      <Heading size="md">{item.video.name}</Heading>
+                      <Heading size="md" maxWidth={300}>{item.video.name}</Heading>
                       <Tag
+                        height={'10px'}
                         size={'md'}
                         colorScheme="blue">
                         {item.video.contentType.toUpperCase()}
@@ -129,13 +139,18 @@ const FavouritesPage = () => {
                     </Flex>
                   </CardHeader>
                   <CardBody>
-                    <Text>Author: {item.video.author}</Text>
+                    
                   </CardBody>
                   <CardFooter>
+                  <Flex flexDirection={'column'}>
+                    <Text>Author: {item.video.author}</Text>
+                    <Box mt={5}>
                     <Link
                       href={`/learning/${item.courseSlug}/${item.video.contentType}/${item.video.slug}`}>
                       <Button>View here</Button>
                     </Link>
+                    </Box>
+                  </Flex>
                   </CardFooter>
                 </Card>
               );
