@@ -18,7 +18,7 @@ import {
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 import { getTradingAccountInfo } from '../controllers/trading';
 
-import { currentPrice, getPortfolio } from '../controllers/Trading';
+import { currentPrice, getPortfolio } from '../controllers/TradingHistory';
 
 const api = Router();
 

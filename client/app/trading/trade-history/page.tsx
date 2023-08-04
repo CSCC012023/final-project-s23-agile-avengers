@@ -52,7 +52,7 @@ const TradeHistoryPage = () => {
     </Heading>
     <TableContainer>
     <Table variant='simple'>
-      <TableCaption>Your current 'buy' history</TableCaption>
+      <TableCaption>Your current Buy history</TableCaption>
       <Thead>
         <Tr>
           <Th>Symbol</Th>
