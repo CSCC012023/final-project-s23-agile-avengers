@@ -20,6 +20,7 @@ const PortfolioSchema = new Schema<Portfolio>(
           type: Date,
           required: true,
           immutable: true,
+          default: Date.now(),
         },
         action: {
           type: String,
