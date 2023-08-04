@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { createError } from '../../utils/error';
 import { queryAlphaVantage } from '../../utils/query';
+import { validateInput } from '../../utils/validate';
 
 /**
  * Retrieves the latest price for a given symbol
@@ -13,6 +14,9 @@ import { queryAlphaVantage } from '../../utils/query';
 export const getTradingSymbolPrice = async (req: Request, res: Response) => {
   try {
     const symbol = req.query.symbol as string;
+
+    const { status, error } = validateInput('symbol', symbol, 'symbol');
+    if (!status) return res.status(400).json(error);
 
     const { 'Global Quote': globalQuote } = await queryAlphaVantage({
       function: 'GLOBAL_QUOTE',
