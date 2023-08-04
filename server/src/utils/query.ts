@@ -46,40 +46,27 @@ type GlobalQuoteResponse = {
   };
 };
 
-type GlobalQuote = {
-  symbol: string;
-  open: number;
-  high: number;
-  low: number;
-  price: number;
-  volume: number;
-  latestTradingDat: string;
-  previousClose: number;
-  change: number;
-  changePercent: string;
-};
-
-export const getGlobalQuote = async (
-  symbol: string,
-): Promise<GlobalQuote | undefined> => {
+export const getGlobalQuote = async (symbol: string) => {
   const { 'Global Quote': globalQuote }: GlobalQuoteResponse =
     await queryAlphaVantage({
       function: 'GLOBAL_QUOTE',
       symbol: symbol,
     });
 
-  return Object.keys(globalQuote).length === 0
-    ? undefined
-    : {
-        symbol: globalQuote['01. symbol'],
-        open: globalQuote['02. open'],
-        high: globalQuote['03. high'],
-        low: globalQuote['04. low'],
-        price: globalQuote['05. price'],
-        volume: globalQuote['06. volume'],
-        latestTradingDat: globalQuote['07. latest trading day'],
-        previousClose: globalQuote['08. previous close'],
-        change: globalQuote['09. change'],
-        changePercent: globalQuote['10. change percent'],
-      };
+  if (!globalQuote) return undefined;
+
+  if (Object.keys(globalQuote).length === 0) return null;
+
+  return {
+    symbol: globalQuote['01. symbol'],
+    open: globalQuote['02. open'],
+    high: globalQuote['03. high'],
+    low: globalQuote['04. low'],
+    price: globalQuote['05. price'],
+    volume: globalQuote['06. volume'],
+    latestTradingDat: globalQuote['07. latest trading day'],
+    previousClose: globalQuote['08. previous close'],
+    change: globalQuote['09. change'],
+    changePercent: globalQuote['10. change percent'],
+  };
 };
