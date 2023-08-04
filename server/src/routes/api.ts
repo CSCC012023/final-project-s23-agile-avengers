@@ -15,9 +15,12 @@ import {
   updateVideoProgress,
 } from '../controllers/Learning';
 
-import { getTradingSymbolPrice } from '../controllers/Trading/price';
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
-import { getTradingAccountInfo } from '../controllers/trading';
+
+import {
+  getTradingAccountInfo,
+  getTradingSymbolPrice,
+} from '../controllers/Trading/';
 
 const api = Router();
 
