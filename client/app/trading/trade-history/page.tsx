@@ -22,7 +22,7 @@ const TradeHistoryPage = () => {
 
   const getUserPortfolio = async () => {
     if (!userId) return;
-    const url = `http://localhost:4000/portfolio?userID=${userId}`;
+    const url = `http://localhost:4000/trading/portfolio?userID=${userId}`;
     const response = await fetch(url);
     if (response.ok) {
       const portfolio = await response.json();
@@ -53,7 +53,7 @@ const TradeHistoryPage = () => {
 
   return (
     <div>
-      <Heading margin="5">Your Trade History</Heading>
+      <Heading margin="5">Trade History</Heading>
       <TableContainer>
         <Table variant="simple">
           <TableCaption>Your current Buy history</TableCaption>
@@ -76,8 +76,7 @@ const TradeHistoryPage = () => {
                   key={item.date.toString() + item.symbol.toString()}
                   purchasePrice={item.price}
                   quantity={item.quantity}
-                  symbol={item.symbol.toString()}
-                  type={item.action}></TradeHistioryRow>
+                  symbol={item.symbol.toString()}></TradeHistioryRow>
               ) : (
                 <></>
               ),

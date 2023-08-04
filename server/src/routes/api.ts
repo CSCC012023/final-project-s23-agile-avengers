@@ -16,9 +16,13 @@ import {
 } from '../controllers/Learning';
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
-import { getTradingAccountInfo } from '../controllers/trading';
 
-import { currentPrice, getPortfolio } from '../controllers/TradingHistory';
+import {
+  getTradingAccountInfo,
+  getTradingSymbolPrice,
+} from '../controllers/Trading/';
+
+import { getPortfolio } from '../controllers/TradingHistory';
 
 const api = Router();
 
@@ -111,7 +115,7 @@ api.get('/progress/video', getVideoProgressBySlug);
  * @description Get portfolio of specific user
  * @access public
  */
-api.get('/portfolio', getPortfolio);
+api.get('/trading/portfolio', getPortfolio);
 
 /**
 
@@ -122,13 +126,13 @@ api.get('/portfolio', getPortfolio);
 api.patch('/videoProgress', updateVideoProgress);
 
 /**
- * @route GET /currentPrice
- * @description Get current price of stock based on symbol
+ * @route GET /latestPrice
+ * @description Get latest price of a stock
  * @access public
  */
-api.get('/currentPrice', currentPrice);
+api.get('/trading/symbolPrice', getTradingSymbolPrice);
 
-/**
+/*
  * @route GET /tradingAccInfo
  * @description Retrive Trading Account Info
  * @access public
