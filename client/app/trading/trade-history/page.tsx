@@ -14,6 +14,7 @@ import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { Portfolio } from '../../../../server/src/types/trading';
 import TradeHistioryRow from '../../../components/TradingHistory';
+
 const TradeHistoryPage = () => {
   const [userPortfolio, setUserPortfolio] = useState<Portfolio | null>(null);
   const { userId } = useAuth();
@@ -68,16 +69,15 @@ const TradeHistoryPage = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {userPortfolio.equity.map((item) =>
-              item.action === 'buy' ? (
-                <TradeHistioryRow
-                  key={item.date.toString() + item.symbol.toString()}
-                  purchasePrice={item.price}
-                  quantity={item.quantity}
-                  symbol={item.symbol.toString()}></TradeHistioryRow>
-              ) : (
-                <></>
-              ),
+            {userPortfolio.history.equity.map(
+              ({ action, price, quantity, symbol }, idx) =>
+                action === 'buy' && (
+                  <TradeHistioryRow
+                    key={idx}
+                    purchasePrice={price}
+                    quantity={quantity}
+                    symbol={symbol}></TradeHistioryRow>
+                ),
             )}
           </Tbody>
         </Table>
