@@ -8,24 +8,21 @@ import {
   getAllUnitsBySlug,
   getArticleBySlug,
   getAutoCompleteResults,
+  getFavouriteArticles,
+  getFavouriteVideos,
   getLearningProgress,
   getSearchResults,
   getVideoBySlug,
   getVideoProgressBySlug,
+  toggleFavoriteArticle,
+  toggleFavoriteVideo,
   updateVideoProgress,
 } from '../controllers/Learning';
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
 import {
-  getFavouriteArticles,
-  toggleFavoriteArticle,
-} from '../controllers/Learning/article';
-import {
-  getFavouriteVideos,
-  toggleFavoriteVideo,
-} from '../controllers/Learning/video';
-import {
+  getPortfolio,
   getTradingAccountInfo,
   getTradingSymbolPrice,
 } from '../controllers/Trading/';
@@ -115,6 +112,13 @@ api.get('/symbolSearch', getSymbolAutoComplete);
  * @access public
  */
 api.get('/progress/video', getVideoProgressBySlug);
+
+/**
+ * @route GET /portfolio
+ * @description Get portfolio of specific user
+ * @access public
+ */
+api.get('/trading/portfolio', getPortfolio);
 
 /**
 

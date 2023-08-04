@@ -31,6 +31,7 @@ export const getTradingSymbolPrice = async (req: Request, res: Response) => {
     const response = {
       symbol: globalQuote['01. symbol'],
       price: globalQuote['05. price'],
+      change: globalQuote['10. change percent'],
     };
 
     res.status(200).json(response);

@@ -7,7 +7,8 @@ type RequestErrorTypes =
   | 'MissingSlug'
   | 'InvalidSlug'
   | 'ParentUnitNotFound'
-  | 'ParentCourseNotFound';
+  | 'ParentCourseNotFound'
+  | 'PortfolioDoesNotExist';
 
 // Database Error will be used to handle Mongo Query related Errors
 type DatabaseErrorTypes =
