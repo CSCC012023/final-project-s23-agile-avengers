@@ -30,7 +30,7 @@ import {
   Text,
   Tr,
   useBreakpointValue,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
@@ -134,7 +134,7 @@ export default function TradingPage() {
     getPrice();
   }, [symbol !== undefined]);
 
-  const spacing = useBreakpointValue({ base: "20%", md: "51%" });
+  const spacing = useBreakpointValue({ base: '20%', md: '51%' });
 
   if (!accInfo)
     return (

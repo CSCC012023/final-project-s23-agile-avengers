@@ -47,7 +47,9 @@ const TradeHistioryRow = (Props: TradeHistoryRowProps) => {
       <Td>{quantity}</Td>
       <Td>{USDollar.format(symbolInfo.currentPrice * quantity)}</Td>
       <Td>{symbolInfo.currentChange}</Td>
-      <Td>{USDollar.format((symbolInfo.currentPrice - purchasePrice) * quantity)}</Td>
+      <Td>
+        {USDollar.format((symbolInfo.currentPrice - purchasePrice) * quantity)}
+      </Td>
       <Td>Buy</Td>
     </Tr>
   );

@@ -34,16 +34,18 @@ export const getPortfolio = async (req: Request, res: Response) => {
     const portfolio = await modelPortfolio.findOne({
       userID: user._id,
     });
-    if (portfolio == null) return res.status(400).json(
-      createError(
-        'PortfolioDoesNotExist',
-        `Portfolio With UserID: ${userID} does not exist`,
-      ),
-    );
+    if (portfolio == null)
+      return res
+        .status(400)
+        .json(
+          createError(
+            'PortfolioDoesNotExist',
+            `Portfolio With UserID: ${userID} does not exist`,
+          ),
+        );
 
     return res.send(portfolio);
-  }
-  catch(error) {
+  } catch (error) {
     res
       .status(500)
       .json(createError('InternalServerError', 'Failed to retrieve Portfolio'));
