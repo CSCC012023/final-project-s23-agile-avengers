@@ -27,8 +27,8 @@ export const getPortfolio = async (req: Request, res: Response) => {
       .json(
         createError(
           'UserDoesNotExist',
-          `User with ID: ${userID} does not exist`
-        )
+          `User with ID: ${userID} does not exist`,
+        ),
       );
   const portfolio = await modelPortfolio.findOne({
     userID: user._id,

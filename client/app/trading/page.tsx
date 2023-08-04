@@ -12,7 +12,7 @@ import {
   Link,
   Select,
   Spinner,
-  Text
+  Text,
 } from '@chakra-ui/react';
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
@@ -106,7 +106,10 @@ export default function TradingPage() {
           size="xl">
           Trading
         </Heading>
-        <Link as="a" href="/trading/trade-history" ml='5'>
+        <Link
+          as="a"
+          href="/trading/trade-history"
+          ml="5">
           <Button>Your trade history</Button>
         </Link>
       </HStack>
