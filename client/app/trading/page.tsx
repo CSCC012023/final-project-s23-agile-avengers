@@ -78,8 +78,13 @@ export default function TradingPage() {
     const price = await getPrice();
     if (price) {
       setPrice(price);
-      setTimeout(calculateMaxAmount, 500);
+      calculateMaxAmount();
     }
+  };
+
+  const handlePreviewClick = async () => {
+    const price = await getPrice();
+    if (price) setPrice(price);
   };
 
   const handleAmountChange = (e: any) => {
@@ -217,7 +222,10 @@ export default function TradingPage() {
           <Button
             colorScheme="blue"
             isDisabled={symbol === '' || amount === ''}
-            onClick={onPreviewOpen}
+            onClick={() => {
+              onPreviewOpen();
+              handlePreviewClick();
+            }}
             size={'lg'}>
             Preview Order
           </Button>
@@ -267,12 +275,16 @@ export default function TradingPage() {
                     <Td>Day Only</Td>
                   </Tr>
                   <Tr>
+                    <Td>Price</Td>
+                    <Td>${price}</Td>
+                  </Tr>
+                  <Tr>
                     <Td>Amount</Td>
                     <Td>{amount}</Td>
                   </Tr>
                   <Tr>
                     <Td>Estimated Total</Td>
-                    <Td>{parseFloat(amount) * price}</Td>
+                    <Td>${(parseFloat(amount) * price).toFixed(2)}</Td>
                   </Tr>
                 </Tbody>
               </Table>
