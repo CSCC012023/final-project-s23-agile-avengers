@@ -17,8 +17,18 @@ import {
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
-import { getFavouriteArticles, toggleFavoriteArticle } from '../controllers/Learning/article';
-import { getFavouriteVideos, toggleFavoriteVideo } from '../controllers/Learning/video';
+import {
+  getFavouriteArticles,
+  toggleFavoriteArticle,
+} from '../controllers/Learning/article';
+import {
+  getFavouriteVideos,
+  toggleFavoriteVideo,
+} from '../controllers/Learning/video';
+import {
+  getTradingAccountInfo,
+  getTradingSymbolPrice,
+} from '../controllers/Trading/';
 
 const api = Router();
 
@@ -141,5 +151,19 @@ api.patch('/toggleFavoriteArticle', toggleFavoriteArticle);
  * @access public
  */
 api.patch('/toggleFavoriteVideo', toggleFavoriteVideo);
+
+/**
+ * @route GET /latestPrice
+ * @description Get latest price of a stock
+ * @access public
+ */
+api.get('/trading/symbolPrice', getTradingSymbolPrice);
+
+/*
+ * @route GET /tradingAccInfo
+ * @description Retrive Trading Account Info
+ * @access public
+ */
+api.get('/trading/accountInfo', getTradingAccountInfo);
 
 export default api;

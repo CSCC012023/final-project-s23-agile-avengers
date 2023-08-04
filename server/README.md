@@ -34,4 +34,4 @@ These are all the commands that can be run
 - `npm run build`: Compile the Code
 - `npm run lint`: Runs ESLint on Code
 - `npm run lint:fix`: Runs ESLint and makes fixes
-- `npm run seed`: Seeds the Database with Mock Data
+- `npm run seed <model>`: Seeds the Database with Mock Data for a specific model (`learning`, `trading`)
