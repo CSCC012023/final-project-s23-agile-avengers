@@ -1,18 +1,14 @@
 'use client';
 
-import { SearchIcon, ViewIcon } from '@chakra-ui/icons';
 import {
-  Box,
   Button,
   ButtonGroup,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Heading,
   Input,
-  InputGroup,
-  InputLeftElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -21,6 +17,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -29,14 +26,31 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
+import { CopyrightStyles, MiniChart } from 'react-ts-tradingview-widgets';
 
 import SymbolSearch from '@/components/SymbolSearch';
-import { useAuth } from '@clerk/nextjs';
+import useWindowWidth from '@/hooks/useWindowWidth';
+import { ErrorResponse } from '@/types/base';
+
+import styles from '@/styles/pages/Trading.module.scss';
+
+const USDollar = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
+
+const tradingViewStyles: CopyrightStyles = { parent: { display: 'none' } };
+
+type AccountInfo = {
+  cash: number;
+  value: number;
+};
 
 export default function TradingPage() {
   const { userId } = useAuth();
-  const { isOpen: isSearchOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isSearchOpen, onClose } = useDisclosure();
   const {
     isOpen: isPreviewOpen,
     onOpen: onPreviewOpen,
@@ -97,69 +111,138 @@ export default function TradingPage() {
 
   const isSymbolError = symbol === '';
   const isAmountError = amount === '';
+  const {
+    center,
+    container,
+    accountInfo,
+    info,
+    valueName,
+    valueText,
+    searchWrapper,
+    tradeWrapper,
+    symbolInfo,
+    tradeContainer,
+    optionsWrapper,
+    orderWrapper,
+    amountsWrapper,
+    amountContainer,
+    showMax,
+    buttonWrapper,
+  } = styles;
+
+  const windowWidth = useWindowWidth();
+
+  const [accInfo, setAccInfo] = useState<AccountInfo>();
+
+  const getAccountInfo = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/trading/accountInfo?userID=${userId}`,
+      );
+
+      if (response.ok) {
+        const data: AccountInfo = await response.json();
+        setAccInfo(data);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAccountInfo();
+  }, []);
+
+  if (!accInfo)
+    return (
+      <div className={center}>
+        <Spinner
+          color="blue.500"
+          emptyColor="gray.200"
+          size="xl"
+          speed="0.65s"
+          thickness="4px"
+        />
+        <Text>Loading Trading Account</Text>
+      </div>
+    );
+
   return (
-    <Box p={10}>
-      <Text
-        fontSize={'5xl'}
-        fontWeight={'bold'}
-        mb={10}
-        ml={10}>
+    <div className={container}>
+      <Heading
+        as="h1"
+        size="xl">
         Trading
-      </Text>
-      <Box
-        maxWidth="800px"
-        mx="auto">
-        <FormControl isInvalid={isSymbolError}>
-          <FormLabel>Search</FormLabel>
-          <InputGroup width={'70%'}>
-            <InputLeftElement pointerEvents="none">
-              <SearchIcon color="gray.900" />
-            </InputLeftElement>
-            <Input
-              isReadOnly
-              onClick={onOpen}
-              placeholder="Search for symbol"
-              value={symbol}
-            />
-          </InputGroup>
+      </Heading>
+      <div className={searchWrapper}>
+        <SymbolSearch callback={(symbol: string) => setSymbol(symbol)} />
+        <div className={accountInfo}>
+          <Text className={`${info} ${valueName}`}> Account Value </Text>
+          <Text className={`${info} ${valueName}`}>Cash</Text>
+          <Text className={`${info} ${valueText}`}>
+            {USDollar.format(accInfo.value)}
+          </Text>
+          <Text className={`${info} ${valueText}`}>
+            {USDollar.format(accInfo.cash)}
+          </Text>
           {!isSymbolError ? (
             <FormHelperText></FormHelperText>
           ) : (
             <FormErrorMessage>Symbol is required.</FormErrorMessage>
           )}
-        </FormControl>
+        </div>
+      </div>
+      <div className={tradeWrapper}>
+        <div className={symbolInfo}>
+          {symbol && (
+            <MiniChart
+              autosize={windowWidth <= 790}
+              colorTheme="light"
+              copyrightStyles={tradingViewStyles}
+              dateRange="1M"
+              height="270"
+              largeChartUrl={`http://localhost:3000/research/info`}
+              symbol={symbol}
+              width="560"
+            />
+          )}
+        </div>
 
-        <Flex justifyContent={'flex-start'}>
-          <FormControl
-            isDisabled={symbol === ''}
-            mr={'10%'}
-            mt={4}
-            width={'30%'}>
-            <FormLabel>Action</FormLabel>
-            <Select
-              onChange={handleActionChange}
-              placeholder="Buy"
-              width={'100%'}>
-              <option>Sell</option>
-            </Select>
-          </FormControl>
+        <div className={tradeContainer}>
+          <div className={optionsWrapper}>
+            <FormControl className={orderWrapper}>
+              <FormLabel>Order Type</FormLabel>
+              <Select
+                placeholder="Market"
+                width="100%"></Select>
+            </FormControl>
 
-          <Flex
-            justifyContent={'flex-start'}
-            width={'30%'}>
+            <FormControl isDisabled={symbol === ''}>
+              <FormLabel>Action</FormLabel>
+              <Select
+                onChange={handleActionChange}
+                placeholder="Buy"
+                width={'100%'}>
+                <option>Sell</option>
+              </Select>
+            </FormControl>
+          </div>
+          <div className={amountsWrapper}>
             <FormControl
+              className={amountContainer}
               isDisabled={symbol === ''}
               isInvalid={isAmountError}
-              mr={'10%'}
-              mt={4}
-              width={'50%'}>
+              mr={'10%'}>
               <FormLabel>Amount</FormLabel>
               <Input
+                min={0}
                 onChange={handleAmountChange}
                 placeholder={maxAmount ? maxAmount.toString() : '0'}
                 type="number"
                 value={amount}
-                width={'100%'}
               />
               {!isAmountError ? (
                 <FormHelperText></FormHelperText>
@@ -169,74 +252,40 @@ export default function TradingPage() {
             </FormControl>
 
             <Button
-              alignSelf={'flex-end'}
+              className={showMax}
               colorScheme="gray"
               isDisabled={symbol === ''}
-              minWidth="100px"
-              mt={4}
-              onClick={handleMaxClick}
-              p={5}>
-              <ViewIcon mr={2}></ViewIcon>Show max
+              maxWidth="30%"
+              onClick={handleMaxClick}>
+              Show max
             </Button>
-          </Flex>
-        </Flex>
+          </div>
 
-        <Flex justifyContent={'start'}>
-          <FormControl
-            isDisabled={symbol === ''}
-            mr={'10%'}
-            mt={4}
-            width={'30%'}>
-            <FormLabel>Order Type</FormLabel>
-            <Select
-              placeholder="Market"
-              width={'100%'}></Select>
-          </FormControl>
-
-          <FormControl
-            isDisabled={symbol === ''}
-            mt={4}
-            width={'30%'}>
-            <FormLabel>Duration</FormLabel>
-            <Select
-              placeholder="Day Only"
-              width={'100%'}></Select>
-          </FormControl>
-        </Flex>
-
-        <ButtonGroup
-          borderRadius={15}
-          mt={30}
-          spacing="25"
-          variant="outline"
-          w={'100%'}>
-          <Button
-            colorScheme="red"
-            isDisabled={symbol === ''}
-            onClick={() => {
-              alert('unimplemented, probably reset all values');
-            }}
-            size={'lg'}>
-            Cancel
-          </Button>
-          <Button
-            colorScheme="blue"
-            isDisabled={symbol === '' || amount === ''}
-            onClick={() => {
-              onPreviewOpen();
-              handlePreviewClick();
-            }}
-            size={'lg'}>
-            Preview Order
-          </Button>
-        </ButtonGroup>
-      </Box>
-
+          <ButtonGroup
+            className={buttonWrapper}
+            spacing="25">
+            <Button
+              colorScheme="red"
+              isDisabled={symbol === ''}
+              size={'lg'}>
+              Cancel
+            </Button>
+            <Button
+              colorScheme="blue"
+              isDisabled={symbol === '' || amount === ''}
+              onClick={() => {
+                onPreviewOpen();
+                handlePreviewClick();
+              }}
+              size={'lg'}>
+              Preview Order
+            </Button>
+          </ButtonGroup>
+        </div>
+      </div>
       <Modal
         isOpen={isSearchOpen}
-        onClose={() => {
-          onClose();
-        }}>
+        onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalBody
@@ -253,7 +302,6 @@ export default function TradingPage() {
           </ModalBody>
         </ModalContent>
       </Modal>
-
       <Modal
         isOpen={isPreviewOpen}
         onClose={onPreviewClose}>
@@ -305,6 +353,6 @@ export default function TradingPage() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
+    </div>
   );
 }
