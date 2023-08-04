@@ -7,6 +7,8 @@ import modelProgress from '../../models/Learning/progress';
 import modelUnit from '../../models/Learning/unit';
 import modelVideo from '../../models/Learning/video';
 
+import { Course } from '../../types/learning';
+
 import { Article, Unit, Video } from '../../types/learning';
 
 import { createError } from '../../utils/error';
@@ -151,3 +153,12 @@ export const getAllUnitProgress = async (req: Request, res: Response) => {
       );
   }
 };
+
+export const getCourseFromUnit = async (unit: Unit) => {
+  try{
+    const course = await modelCourse.findOne<Course>({units: unit._id});
+    return course;
+  } catch(error){
+    console.error('Cannot retrieve course from unit!');
+  }
+}
