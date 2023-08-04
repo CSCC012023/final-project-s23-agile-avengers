@@ -4,8 +4,8 @@ import { Types } from 'mongoose';
 Types needed for Trading models
 */
 export interface Equity {
-  _id: Types.ObjectId;
-  date: Date;
+  _id?: Types.ObjectId;
+  date?: Date;
   action: 'buy' | 'sell';
   order: 'market';
   symbol: String;

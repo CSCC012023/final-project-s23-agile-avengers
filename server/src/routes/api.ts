@@ -18,6 +18,7 @@ import {
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
 import {
+  buyStocks,
   getTradingAccountInfo,
   getTradingSymbolPrice,
 } from '../controllers/Trading/';
@@ -129,5 +130,13 @@ api.get('/trading/symbolPrice', getTradingSymbolPrice);
  * @access public
  */
 api.get('/trading/accountInfo', getTradingAccountInfo);
+
+/**
+
+ * @route GET /tradingAccInfo
+ * @description Retrive Trading Account Info
+ * @access public
+ */
+api.post('/trading/buyStocks', buyStocks);
 
 export default api;
