@@ -35,7 +35,39 @@ const ArticleList = ({ params }: ArticleProps) => {
   const { userId } = useAuth();
   const [article, setArticle] = useState<Article>();
   const [course, setCourse] = useState<CourseWithUnits>();
-  const [articleProgress, setArticleProgress] = useState(0);
+  const [articleProgressPercent, setArticleProgress] = useState(0);
+
+  const patchProgress = async () => {
+    try {
+      const requestBody = {
+        userID: userId,
+        articleSlug: params.articleSlug,
+        articleProgressPercent: 100,
+      };
+      const fetchOptions = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json', // Specifying JSON content in the headers
+        },
+        body: JSON.stringify(requestBody), // Convert the object to JSON string
+      };
+
+      const updateResponse = await fetch(
+        'http://localhost:4000/articleProgress',
+        fetchOptions
+      );
+
+      if (updateResponse.ok)
+        // Progress updated successfully
+        setArticleProgress(100); // Update the local progress state
+      else {
+        const error: ErrorResponse = await updateResponse.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getCourseWithUnits = async () => {
     try {
@@ -79,6 +111,7 @@ const ArticleList = ({ params }: ArticleProps) => {
       if (progressResponse.ok) {
         const progressData = await progressResponse.json();
         setArticleProgress(progressData.progressPercent);
+        if (articleProgressPercent != 100) await patchProgress();
       } else {
         const error: ErrorResponse = await progressResponse.json();
         console.error(error);

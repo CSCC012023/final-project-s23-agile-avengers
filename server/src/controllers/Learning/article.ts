@@ -35,8 +35,8 @@ export const getArticleBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'ArticleDoesNotExist',
-          `Failed to find Article with slug: ${articleSlug}`,
-        ),
+          `Failed to find Article with slug: ${articleSlug}`
+        )
       );
   } catch (error) {
     res
@@ -71,8 +71,8 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'UserDoesNotExist',
-          `User with ID: ${userID} does not exist`,
-        ),
+          `User with ID: ${userID} does not exist`
+        )
       );
 
   const article = await modelArticle.findOne({ slug: req.query.articleSlug });
@@ -82,8 +82,8 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
       .json(
         createError(
           'ArticleDoesNotExist',
-          `Failed to find Article with slug: ${articleSlug}`,
-        ),
+          `Failed to find Article with slug: ${articleSlug}`
+        )
       );
 
   const progress = await modelProgress
@@ -94,7 +94,7 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
       path: 'articles',
       populate: {
         path: 'articleID',
-        model: 'article',
+        model: 'Article',
       },
     });
 
@@ -103,7 +103,7 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
       progressPercent: 0,
     });
   const specificArticle = progress.articles.find(
-    (entry) => (entry.articleID = article._id),
+    (entry) => (entry.articleID = article._id)
   );
 
   if (!specificArticle)
@@ -119,7 +119,7 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
 /**
  * Updates the progress of a Article with 'articleId' and 'user'
  *
- * @param {Request} req - Must contain `articleProgressPercent` `articleId` and
+ * @param {Request} req - Must contain `articleProgressPercent` `articleSlug` and
  *                        `user` in query
  * @param {Response} res - Response Object
  *
@@ -128,25 +128,27 @@ export const getArticleProgressBySlug = async (req: Request, res: Response) => {
 export const updateArticleProgress = async (req: Request, res: Response) => {
   /* validation */
   const userID = req.body.userID as string;
-  const { status, error } = validateUserID(userID);
+  const { status, error } = validateUserID(userID, false);
   if (!status) return res.status(400).json(error);
 
   const articleSlug = req.body.articleSlug as string;
   const validateSlug = validateInput('slug', articleSlug, 'articleSlug');
   if (!validateSlug.status) return res.status(400).json(validateSlug.error);
-
-  if (!req.body.articleProgressPercent || isNaN(req.body.articleProgressPercent))
+  if (
+    !req.body.articleProgressPercent ||
+    isNaN(req.body.articleProgressPercent)
+  )
     return res
       .status(400)
       .json(
         createError(
           'MissingBodyParams',
-          'The body params requires numeric articleProgressPercent',
-        ),
+          'The body params requires numeric articleProgressPercent'
+        )
       );
 
   const progressPercentageCurrent: number = parseFloat(
-    req.body.articleProgressPercent.toString(),
+    req.body.articleProgressPercent.toString()
   );
   const user = await modelUser.findOne({ userID: req.body.userID });
   if (!user)
@@ -155,8 +157,8 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'UserDoesNotExist',
-          `User with ID: ${userID} does not exist`,
-        ),
+          `User with ID: ${userID} does not exist`
+        )
       );
 
   const article = await modelArticle.findOne({ slug: req.body.articleSlug });
@@ -166,8 +168,8 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'ArticleDoesNotExist',
-          `Failed to find Article with slug: ${req.body.articleSlug}`,
-        ),
+          `Failed to find Article with slug: ${req.body.articleSlug}`
+        )
       );
 
   const progress = await modelProgress.findOne({
@@ -176,17 +178,16 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
 
   /* Find relevant information about parentUnit and parentCourse and sanity checking */
   const parentUnit = await modelUnit.findOne({
-    content: { $all: [article._id.toString()] },
+    content: { $all: [article._id] },
   });
-
   if (!parentUnit)
     return res
       .status(404)
       .json(
         createError(
           'ParentUnitNotFound',
-          `Failed to find parentUnit of article: ${req.body.articleSlug}`,
-        ),
+          `Failed to find parentUnit of article: ${req.body.articleSlug}`
+        )
       );
   const parentCourse = await modelCourse.findOne({
     units: { $all: [parentUnit._id] },
@@ -197,8 +198,8 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
       .json(
         createError(
           'ParentCourseNotFound',
-          `Failed to find parentCourse of article: ${req.body.articleSlug}`,
-        ),
+          `Failed to find parentCourse of article: ${req.body.articleSlug}`
+        )
       );
 
   if (!progress) {
@@ -232,13 +233,13 @@ export const updateArticleProgress = async (req: Request, res: Response) => {
   }
   /* User already has a progress elem then update the progres object */
   const indexArticle = progress.articles.findIndex(
-    (elem) => elem.articleID.toString() == article._id.toString(),
+    (elem) => elem.articleID.toString() == article._id.toString()
   );
   const indexUnit = progress.units.findIndex(
-    (elem) => elem.unitID.toString() == parentUnit._id.toString(),
+    (elem) => elem.unitID.toString() == parentUnit._id.toString()
   );
   const indexCourse = progress.courses.findIndex(
-    (elem) => elem.courseID.toString() == parentCourse._id.toString(),
+    (elem) => elem.courseID.toString() == parentCourse._id.toString()
   );
 
   /* An article is just complete if its progress percentage increased from 0
