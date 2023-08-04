@@ -14,43 +14,65 @@ const PortfolioSchema = new Schema<Portfolio>(
       immutable: true,
       unique: true,
     },
-    equity: [
-      {
-        date: {
-          type: Date,
-          required: true,
-          immutable: true,
-          default: Date.now(),
-        },
-        action: {
-          type: String,
-          required: true,
-          immutable: true,
-        },
-        order: {
-          type: String,
-          required: true,
-          immutable: true,
-        },
-        symbol: {
-          type: String,
-          required: true,
-          immutable: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-          immutable: true,
-          min: 1,
-        },
-        price: {
-          type: Number,
-          required: true,
-          immutable: true,
-          min: 0,
-        },
+    holdings: {
+      equity: {
+        type: Map,
+        of: [
+          {
+            quantity: {
+              type: Number,
+              required: true,
+              min: 1,
+            },
+            price: {
+              type: Number,
+              required: true,
+              immutable: true,
+              min: 0,
+            },
+          },
+        ],
       },
-    ],
+    },
+    history: {
+      equity: [
+        {
+          date: {
+            type: Date,
+            required: true,
+            immutable: true,
+            default: Date.now(),
+          },
+          action: {
+            type: String,
+            required: true,
+            immutable: true,
+          },
+          order: {
+            type: String,
+            required: true,
+            immutable: true,
+          },
+          symbol: {
+            type: String,
+            required: true,
+            immutable: true,
+          },
+          quantity: {
+            type: Number,
+            required: true,
+            immutable: true,
+            min: 1,
+          },
+          price: {
+            type: Number,
+            required: true,
+            immutable: true,
+            min: 0,
+          },
+        },
+      ],
+    },
   },
   {
     toJSON: {

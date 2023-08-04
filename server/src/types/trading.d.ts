@@ -3,6 +3,12 @@ import { Types } from 'mongoose';
 /*
 Types needed for Trading models
 */
+
+export type Position = {
+  price: number;
+  quantity: number;
+};
+
 export interface Equity {
   _id?: Types.ObjectId;
   date?: Date;
@@ -15,16 +21,16 @@ export interface Equity {
 
 export interface Portfolio {
   userID: Types.ObjectId;
-  equity: Array<Equity>;
+  holdings: {
+    equity: Map<string, Position[]>;
+  };
+  history: {
+    equity: Equity[];
+  };
 }
 
 export interface Account {
   userID: Types.ObjectId;
   cash: number;
   value: number;
-  holdings: Holdings;
-}
-
-export interface Holdings {
-  equity: Map<string, number>;
 }
