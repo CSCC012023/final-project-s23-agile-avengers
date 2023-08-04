@@ -3,6 +3,7 @@ import {
   Accordion,
   Box,
   Container,
+  HStack,
   Heading,
   Spinner,
   Text,
@@ -11,6 +12,8 @@ import {
   WrapItem,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+
+import FavoriteButton from '@/components/FavoriteButton';
 
 import ArticleImage from '@/components/ContentArticle/ArticleImage';
 import BlogAuthor from '@/components/ContentArticle/BlogAuthor';
@@ -69,6 +72,15 @@ const ArticleList = ({ params }: ArticleProps) => {
     }
   };
 
+  const [color, setColor] = useState<'gray' | 'yellow'>('gray');
+  const [isFavourited, setIsFavourited] = useState<boolean>(false);
+
+  console.log('color', color, article?.isFavourited);
+
+  useEffect(() => {
+    setColor(isFavourited ? 'yellow' : 'gray');
+  }, [isFavourited]);
+
   const getCourseWithUnits = async () => {
     try {
       const response = await fetch(
@@ -94,6 +106,37 @@ const ArticleList = ({ params }: ArticleProps) => {
       if (response.ok) {
         const data: Article = await response.json();
         setArticle(data);
+        setIsFavourited(data.isFavourited);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const toggleIsFavorite = async () => {
+    const data = {
+      slug: article?.slug,
+    };
+
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/toggleFavoriteArticle`,
+        requestOptions,
+      );
+      if (response.ok) {
+        const data: Article = await response.json();
+        setIsFavourited(data.isFavourited);
       } else {
         const error: ErrorResponse = await response.json();
         console.error(error);
@@ -174,7 +217,14 @@ const ArticleList = ({ params }: ArticleProps) => {
         </Accordion>
       </div>
       <Container maxW={'7xl'}>
-        <Heading>{article?.name}</Heading>
+        <HStack>
+          <Heading>{article?.name}</Heading>
+          <FavoriteButton
+            color={color}
+            onClickButton={toggleIsFavorite}
+            size="sm"
+          />
+        </HStack>
 
         <Box>
           <BlogAuthor
@@ -192,6 +242,7 @@ const ArticleList = ({ params }: ArticleProps) => {
             </Box>
           </WrapItem>
         </Wrap>
+
         <VStack
           alignItems="flex-start"
           paddingTop="20px"
