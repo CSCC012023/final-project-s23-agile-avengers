@@ -20,5 +20,6 @@ export const currentPrice = async (req: Request, res: Response) => {
     symbol: symbol,
   });
 
+  if (!response['Global Quote']) return res.status(400).send(response);
   return res.send(response);
 };
