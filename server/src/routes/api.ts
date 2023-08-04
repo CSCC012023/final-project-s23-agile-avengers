@@ -16,6 +16,7 @@ import {
 } from '../controllers/Learning';
 
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
+import { getTradingAccountInfo } from '../controllers/trading';
 
 import { currentPrice, getPortfolio } from '../controllers/Trading';
 
@@ -126,5 +127,12 @@ api.patch('/videoProgress', updateVideoProgress);
  * @access public
  */
 api.get('/currentPrice', currentPrice);
+
+/**
+ * @route GET /tradingAccInfo
+ * @description Retrive Trading Account Info
+ * @access public
+ */
+api.get('/trading/accountInfo', getTradingAccountInfo);
 
 export default api;
