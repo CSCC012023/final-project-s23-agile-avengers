@@ -156,7 +156,9 @@ export default function TradingPage() {
 
   return (
     <div className={container}>
-      <HStack spacing={spacing}>
+      <HStack
+        justifyContent={'space-between'}
+        spacing={spacing}>
         <Heading
           as="h1"
           size="xl">
@@ -166,7 +168,7 @@ export default function TradingPage() {
           as="a"
           href="/trading/trade-history"
           ml="5">
-          <Button>Trade history</Button>
+          <Button>History</Button>
         </Link>
       </HStack>
 

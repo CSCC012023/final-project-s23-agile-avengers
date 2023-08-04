@@ -1,1 +1,0 @@
-export { getPortfolio } from './portfolio';

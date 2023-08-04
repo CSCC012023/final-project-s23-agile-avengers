@@ -18,11 +18,10 @@ import {
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
 import {
+  getPortfolio,
   getTradingAccountInfo,
   getTradingSymbolPrice,
 } from '../controllers/Trading/';
-
-import { getPortfolio } from '../controllers/TradingHistory';
 
 const api = Router();
 

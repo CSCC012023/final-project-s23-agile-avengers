@@ -32,9 +32,9 @@ export const getPortfolio = async (req: Request, res: Response) => {
           ),
         );
     const portfolio = await modelPortfolio.findOne({
-      userID: user._id,
+      userID: user.id,
     });
-    if (portfolio == null)
+    if (!portfolio)
       return res
         .status(400)
         .json(
