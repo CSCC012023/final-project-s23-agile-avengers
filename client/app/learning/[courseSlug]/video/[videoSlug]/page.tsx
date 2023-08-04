@@ -37,9 +37,9 @@ export default function ContentPage({ params }: VideoProps) {
   const [videoProgress, setVideoProgress] = useState(0);
   const [color, setColor] = useState<'gray' | 'yellow'>('gray');
   const [isFavourited, setIsFavourited] = useState<Boolean>(false);
-  
+
   useEffect(() => {
-    setColor(isFavourited ? 'yellow' : 'gray')
+    setColor(isFavourited ? 'yellow' : 'gray');
   }, [isFavourited]);
 
   const getCourseWithUnits = async () => {
@@ -93,42 +93,35 @@ export default function ContentPage({ params }: VideoProps) {
   };
 
   const toggleIsFavorite = async () => {
-
-    console.log ('toggleLaunch');
-    
     const data = {
-       slug: params?.videoSlug
-     };
+      slug: params?.videoSlug,
+    };
 
     const requestOptions = {
-       method: 'PATCH',
-       headers: {
+      method: 'PATCH',
+      headers: {
         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify(data),
-     };
+      },
+      body: JSON.stringify(data),
+    };
 
     try {
       const response: Response = await fetch(
-        `http://localhost:4000/toggleFavoriteVideo`, 
-        requestOptions
+        `http://localhost:4000/toggleFavoriteVideo`,
+        requestOptions,
       );
       if (response.ok) {
         const data: Video = await response.json();
         setVideo(data);
         setIsFavourited(data.isFavourited);
-        console.log('SUCCESS CLIENT');
-      } 
-      else {
-        console.log('FAIL CLIENT');
+      } else {
         const error: ErrorResponse = await response.json();
         console.error(error);
       }
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
-        console.error(error);
-      }
-  }
+  };
 
   useEffect(() => {
     getCourseWithUnits();
@@ -184,11 +177,14 @@ export default function ContentPage({ params }: VideoProps) {
       <Container
         maxW={'7xl'}
         p="12">
-        <HStack><Heading as="h1">{video?.name}</Heading>
-        <FavoriteButton
+        <HStack>
+          <Heading as="h1">{video?.name}</Heading>
+          <FavoriteButton
             color={color}
             onClickButton={toggleIsFavorite}
-            size="sm" /></HStack>
+            size="sm"
+          />
+        </HStack>
         <AspectRatio
           ratio={16 / 9}
           w="100%">

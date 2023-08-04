@@ -377,28 +377,22 @@ export const getFavouriteVideos = async (req: Request, res: Response) => {
 };
 
 export const toggleFavoriteVideo = async (req: Request, res: Response) => {
-
   const video: Video | null = await modelVideo.findOne<Video>({
     slug: req.body.slug,
-  }); 
+  });
 
   if (!video) {
     return res.status(400).json({ error: 'Missing slug in request body' });
   }
 
   try {
-    const updatedVideo = await modelVideo.findOneAndUpdate( { slug: video.slug }, { isFavourited: !video.isFavourited }, { new: true } );
-    res.status(200).send(updatedVideo);
-  } 
-  
-  catch (error) {
-    res
-    .status(500)
-    .json(
-      createError(
-        'InternalServerError',
-        'Toggle Fail'
-      ),
+    const updatedVideo = await modelVideo.findOneAndUpdate(
+      { slug: video.slug },
+      { isFavourited: !video.isFavourited },
+      { new: true },
     );
+    res.status(200).send(updatedVideo);
+  } catch (error) {
+    res.status(500).json(createError('InternalServerError', 'Toggle Fail'));
   }
 };

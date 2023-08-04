@@ -119,10 +119,12 @@ export const toggleFavoriteArticle = async (req: Request, res: Response) => {
     return res.status(400).json({ error: 'Missing slug in request body' });
   }
 
-  console.log('ARTICLE TOGGLE SERVER: ', article);
-
   try {
-    const updatedArticle = await modelArticle.findOneAndUpdate( { slug: article.slug }, { isFavourited: !article.isFavourited }, { new: true } );
+    const updatedArticle = await modelArticle.findOneAndUpdate(
+      { slug: article.slug },
+      { isFavourited: !article.isFavourited },
+      { new: true },
+    );
     res.status(200).send(updatedArticle);
   } catch (error) {
     console.log('Fail to update article');

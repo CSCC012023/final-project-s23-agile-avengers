@@ -44,7 +44,7 @@ const ArticleList = ({ params }: ArticleProps) => {
   console.log('color', color, article?.isFavourited);
 
   useEffect(() => {
-    setColor(isFavourited ? 'yellow' : 'gray')
+    setColor(isFavourited ? 'yellow' : 'gray');
   }, [isFavourited]);
 
   const getCourseWithUnits = async () => {
@@ -83,8 +83,6 @@ const ArticleList = ({ params }: ArticleProps) => {
   };
 
   const toggleIsFavorite = async () => {
-    console.log('toggleLaunch');
-
     const data = {
       slug: article?.slug,
     };
@@ -104,12 +102,8 @@ const ArticleList = ({ params }: ArticleProps) => {
       );
       if (response.ok) {
         const data: Article = await response.json();
-        console.log('DATA OBJ:', data);
-        console.log('Favorite Before: ', isFavourited)
         setIsFavourited(data.isFavourited);
-        console.log('Favorite After: ', isFavourited)
       } else {
-        console.log('FAIL CLIENT');
         const error: ErrorResponse = await response.json();
         console.error(error);
       }
@@ -124,7 +118,7 @@ const ArticleList = ({ params }: ArticleProps) => {
     getArticle();
   }, [params]);
 
-  if ((!course && !article))
+  if (!course && !article)
     return (
       <div className={center}>
         <Spinner
@@ -161,7 +155,8 @@ const ArticleList = ({ params }: ArticleProps) => {
           <FavoriteButton
             color={color}
             onClickButton={toggleIsFavorite}
-            size="sm" />
+            size="sm"
+          />
         </HStack>
 
         <Box>
