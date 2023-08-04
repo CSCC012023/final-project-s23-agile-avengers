@@ -4,11 +4,8 @@ import {
   Button,
   ButtonGroup,
   FormControl,
-  FormErrorMessage,
-  FormHelperText,
   FormLabel,
   Heading,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -16,6 +13,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Select,
   Spinner,
   Table,
@@ -48,69 +50,25 @@ type AccountInfo = {
   value: number;
 };
 
+type SymbolPrice = {
+  symbol: string;
+  price: string;
+};
+
 export default function TradingPage() {
   const { userId } = useAuth();
-  const { isOpen: isSearchOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isPreviewOpen,
-    onOpen: onPreviewOpen,
-    onClose: onPreviewClose,
-  } = useDisclosure();
-  const [action, setAction] = useState('Buy');
-  const [amount, setAmount] = useState('');
-  const [symbol, setSymbol] = useState('');
-  const [price, setPrice] = useState(0);
-  const [maxAmount, setMaxAmount] = useState<number | null>(0);
 
-  const getPrice = async () => {
-    if (!userId) return;
-    try {
-      const response: Response = await fetch(
-        `http://localhost:4000/trading/symbolPrice?symbol=${symbol}`,
-      );
-      if (!response.ok) throw new Error('Response not ok');
-      const data = await response.json();
-      const price: number = parseFloat(data.price);
-      setPrice(price);
-      return price;
-    } catch (e: any) {
-      console.error(e);
-    }
-  };
+  // Used for Preview Modal
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const calculateMaxAmount = () => {
-    if (action === 'Buy' && price) setMaxAmount(Math.floor(100000 / price));
-    //else if (selectedAction === 'Sell') setMaxAmount(floor(await getShares()));
-    else setMaxAmount(null);
-  };
+  const [accInfo, setAccInfo] = useState<AccountInfo>();
+  const [action, setAction] = useState<string>('buy');
+  const [amount, setAmount] = useState<number>();
+  const [symbol, setSymbol] = useState<string>();
+  const [price, setPrice] = useState<number>();
 
-  const handleActionChange = (e: any) => {
-    setAction(e.target.value);
-  };
+  const windowWidth = useWindowWidth();
 
-  const handleMaxClick = async () => {
-    const price = await getPrice();
-    if (price) {
-      setPrice(price);
-      calculateMaxAmount();
-    }
-  };
-
-  const handlePreviewClick = async () => {
-    const price = await getPrice();
-    if (price) setPrice(price);
-  };
-
-  const handleAmountChange = (e: any) => {
-    setAmount(e.target.value);
-  };
-
-  const handleModalClose = () => {
-    setMaxAmount(0);
-  };
-
-  const isSymbolError = symbol === '';
-  const isAmountError = amount === '';
   const {
     center,
     container,
@@ -130,10 +88,6 @@ export default function TradingPage() {
     buttonWrapper,
   } = styles;
 
-  const windowWidth = useWindowWidth();
-
-  const [accInfo, setAccInfo] = useState<AccountInfo>();
-
   const getAccountInfo = async () => {
     try {
       const response = await fetch(
@@ -152,9 +106,30 @@ export default function TradingPage() {
     }
   };
 
+  const getPrice = async () => {
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/trading/symbolPrice?symbol=${symbol}`,
+      );
+      if (response.ok) {
+        const data: SymbolPrice = await response.json();
+        setPrice(parseFloat(data.price));
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  };
+
   useEffect(() => {
     getAccountInfo();
   }, []);
+
+  useEffect(() => {
+    getPrice();
+  }, [symbol !== undefined]);
 
   if (!accInfo)
     return (
@@ -170,6 +145,10 @@ export default function TradingPage() {
       </div>
     );
 
+  const getMaxAmount = () => {
+    return Math.floor(accInfo.cash / (price as number));
+  };
+
   return (
     <div className={container}>
       <Heading
@@ -178,7 +157,11 @@ export default function TradingPage() {
         Trading
       </Heading>
       <div className={searchWrapper}>
-        <SymbolSearch callback={(symbol: string) => setSymbol(symbol)} />
+        <SymbolSearch
+          callback={(symbol: string) => {
+            setSymbol(symbol);
+          }}
+        />
         <div className={accountInfo}>
           <Text className={`${info} ${valueName}`}> Account Value </Text>
           <Text className={`${info} ${valueName}`}>Cash</Text>
@@ -188,11 +171,6 @@ export default function TradingPage() {
           <Text className={`${info} ${valueText}`}>
             {USDollar.format(accInfo.cash)}
           </Text>
-          {!isSymbolError ? (
-            <FormHelperText></FormHelperText>
-          ) : (
-            <FormErrorMessage>Symbol is required.</FormErrorMessage>
-          )}
         </div>
       </div>
       <div className={tradeWrapper}>
@@ -220,44 +198,43 @@ export default function TradingPage() {
                 width="100%"></Select>
             </FormControl>
 
-            <FormControl isDisabled={symbol === ''}>
+            <FormControl>
               <FormLabel>Action</FormLabel>
               <Select
-                onChange={handleActionChange}
-                placeholder="Buy"
+                onChange={(e) => setAction(e.target.value)}
+                value={action}
                 width={'100%'}>
-                <option>Sell</option>
+                <option value="buy">Buy</option>
+                <option value="sell">Sell</option>
               </Select>
             </FormControl>
           </div>
           <div className={amountsWrapper}>
             <FormControl
               className={amountContainer}
-              isDisabled={symbol === ''}
-              isInvalid={isAmountError}
               mr={'10%'}>
               <FormLabel>Amount</FormLabel>
-              <Input
+              <NumberInput
+                defaultValue={0}
+                max={!price ? Number.MAX_SAFE_INTEGER : getMaxAmount()}
                 min={0}
-                onChange={handleAmountChange}
-                placeholder={maxAmount ? maxAmount.toString() : '0'}
-                type="number"
-                value={amount}
-              />
-              {!isAmountError ? (
-                <FormHelperText></FormHelperText>
-              ) : (
-                <FormErrorMessage>Enter valid amount.</FormErrorMessage>
-              )}
+                onChange={(_, value) => setAmount(value)}
+                value={amount}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
             </FormControl>
 
             <Button
               className={showMax}
               colorScheme="gray"
-              isDisabled={symbol === ''}
+              isDisabled={!symbol || !price}
               maxWidth="30%"
-              onClick={handleMaxClick}>
-              Show max
+              onClick={() => setAmount(getMaxAmount())}>
+              Show Max
             </Button>
           </div>
 
@@ -266,16 +243,20 @@ export default function TradingPage() {
             spacing="25">
             <Button
               colorScheme="red"
-              isDisabled={symbol === ''}
+              onClick={() => {
+                setAction('buy');
+                setAmount(undefined);
+                setSymbol(undefined);
+                setPrice(undefined);
+              }}
               size={'lg'}>
               Cancel
             </Button>
             <Button
               colorScheme="blue"
-              isDisabled={symbol === '' || amount === ''}
+              isDisabled={!symbol || amount === 0 || !price}
               onClick={() => {
-                onPreviewOpen();
-                handlePreviewClick();
+                onOpen();
               }}
               size={'lg'}>
               Preview Order
@@ -284,27 +265,8 @@ export default function TradingPage() {
         </div>
       </div>
       <Modal
-        isOpen={isSearchOpen}
+        isOpen={isOpen}
         onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalBody
-            height={800}
-            pl={-10}
-            pt={-2}>
-            <SymbolSearch
-              callback={(symbol: string) => {
-                setSymbol(symbol);
-                onClose();
-                handleModalClose();
-              }}
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-      <Modal
-        isOpen={isPreviewOpen}
-        onClose={onPreviewClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Preview Order</ModalHeader>
@@ -314,17 +276,17 @@ export default function TradingPage() {
               <Table>
                 <Tbody>
                   <Tr>
-                    <Td as="b">
-                      {symbol}: {action} at Market
+                    <Td>
+                      <b>
+                        {`${symbol} : ${
+                          action.charAt(0).toUpperCase() + action.slice(1)
+                        } at Market`}
+                      </b>
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td>Duration</Td>
-                    <Td>Day Only</Td>
-                  </Tr>
-                  <Tr>
                     <Td>Price</Td>
-                    <Td>${price}</Td>
+                    <Td>{USDollar.format(price as number)}</Td>
                   </Tr>
                   <Tr>
                     <Td>Amount</Td>
@@ -332,7 +294,9 @@ export default function TradingPage() {
                   </Tr>
                   <Tr>
                     <Td>Estimated Total</Td>
-                    <Td>${(parseFloat(amount) * price).toFixed(2)}</Td>
+                    <Td>
+                      {USDollar.format((amount as number) * (price as number))}
+                    </Td>
                   </Tr>
                 </Tbody>
               </Table>
@@ -341,7 +305,7 @@ export default function TradingPage() {
 
           <ModalFooter>
             <Button
-              onClick={onPreviewClose}
+              onClick={onClose}
               variant="ghost">
               Change Order
             </Button>
