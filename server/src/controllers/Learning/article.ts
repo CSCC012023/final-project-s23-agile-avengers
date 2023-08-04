@@ -2,10 +2,12 @@ import { Request, Response } from 'express';
 
 import modelArticle from '../../models/Learning/article';
 
-import { Article } from '../../types/learning';
+import { Article, Unit } from '../../types/learning';
 
+import modelUnit from '../../models/Learning/unit';
 import { createError } from '../../utils/error';
 import { validateInput } from '../../utils/validate';
+import { getCourseFromUnit } from './units';
 
 /**
  * Retrieves an Article with a matching `slug`
@@ -40,5 +42,92 @@ export const getArticleBySlug = async (req: Request, res: Response) => {
     res
       .status(500)
       .json(createError('InternalServerError', 'Failed to retrieve Article'));
+  }
+};
+
+export const getUnitFromArticle = async (article: Article) => {
+  try {
+    const unit = await modelUnit.findOne<Unit>({ content: article._id });
+    return unit;
+  } catch (error) {
+    console.error('Cannot retrieve unit from article!');
+  }
+};
+
+export const getFavouriteArticles = async (req: Request, res: Response) => {
+  try {
+    const favouriteArticles = await modelArticle.find<Article>({
+      isFavourited: true,
+    });
+
+    const data: any = [];
+    if (favouriteArticles) {
+      await Promise.all(
+        favouriteArticles.map(async (itemArticle: Article) => {
+          try {
+            const unit = await getUnitFromArticle(itemArticle);
+            if (unit) {
+              const course = await getCourseFromUnit(unit);
+              if (course) {
+                data.push({
+                  article: itemArticle,
+                  courseSlug: course?.slug,
+                });
+              }
+            }
+          } catch (error) {
+            res
+              .status(500)
+              .json(
+                createError(
+                  'InternalServerError',
+                  'Failed to retrieve relevant details from each article!',
+                ),
+              );
+          }
+        }),
+      );
+      return res.status(200).json(data);
+    } else {
+      res
+        .status(500)
+        .json(
+          createError(
+            'InternalServerError',
+            'Failed to retrieve relevant details from each article!',
+          ),
+        );
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json(
+        createError(
+          'InternalServerError',
+          'Failed to retrieve Favourite Articles',
+        ),
+      );
+  }
+};
+
+export const toggleFavoriteArticle = async (req: Request, res: Response) => {
+  const article: Article | null = await modelArticle.findOne<Article>({
+    slug: req.body.slug,
+  });
+
+  if (!article) {
+    return res.status(400).json({ error: 'Missing slug in request body' });
+  }
+
+  try {
+    const updatedArticle = await modelArticle.findOneAndUpdate(
+      { slug: article.slug },
+      { isFavourited: !article.isFavourited },
+      { new: true },
+    );
+    res.status(200).send(updatedArticle);
+  } catch (error) {
+    console.log('Fail to update article');
+    res.status(500).json(createError('InternalServerError', 'Toggle Fail'));
   }
 };

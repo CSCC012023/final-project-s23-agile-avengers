@@ -44,6 +44,11 @@ const VideoSchema = new Schema<Video>(
       immutable: true,
       default: 'video',
     },
+    isFavourited: {
+      type: Boolean,
+      required: true,
+      default: false,
+    }
   },
   {
     toJSON: {
