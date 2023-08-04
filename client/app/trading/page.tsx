@@ -52,7 +52,7 @@ export default function TradingPage() {
     if (!userId) return;
     try {
       const response: Response = await fetch(
-        `http://localhost:4000/latestPrice?symbol=${symbol}`,
+        `http://localhost:4000/trading/symbolPrice?symbol=${symbol}`,
       );
       if (!response.ok) throw new Error('Response not ok');
       const data = await response.json();

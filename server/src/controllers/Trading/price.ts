@@ -11,7 +11,7 @@ import { validateInput } from '../../utils/validate';
  *
  * @return {Promise} Response Object with an Error or the Latest Price
  */
-export const getLatestPrice = async (req: Request, res: Response) => {
+export const getTradingSymbolPrice = async (req: Request, res: Response) => {
   try {
     const symbol = req.query.symbol as string;
     const { status, error } = validateInput('symbol', symbol, 'symbol');
