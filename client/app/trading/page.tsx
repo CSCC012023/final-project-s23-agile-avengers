@@ -33,7 +33,6 @@ import { useState } from 'react';
 
 import SymbolSearch from '@/components/SymbolSearch';
 import { useAuth } from '@clerk/nextjs';
-import { useAuth } from '@clerk/nextjs';
 
 export default function TradingPage() {
   const { userId } = useAuth();
@@ -46,8 +45,7 @@ export default function TradingPage() {
   const [action, setAction] = useState('Buy');
   const [amount, setAmount] = useState('');
   const [symbol, setSymbol] = useState('');
-  const [selectedAction, setSelectedAction] = useState<string>('Buy');
-  const [price, setPrice] = useState<number | null>(null);
+  const [price, setPrice] = useState(0);
   const [maxAmount, setMaxAmount] = useState<number | null>(0);
 
   const getPrice = async () => {
@@ -67,8 +65,7 @@ export default function TradingPage() {
   };
 
   const calculateMaxAmount = () => {
-    if (selectedAction === 'Buy' && price)
-      setMaxAmount(Math.floor(100000 / price));
+    if (action === 'Buy' && price) setMaxAmount(Math.floor(100000 / price));
     //else if (selectedAction === 'Sell') setMaxAmount(floor(await getShares()));
     else setMaxAmount(null);
   };
@@ -87,6 +84,10 @@ export default function TradingPage() {
 
   const handleAmountChange = (e: any) => {
     setAmount(e.target.value);
+  };
+
+  const handleModalClose = () => {
+    setMaxAmount(0);
   };
 
   const isSymbolError = symbol === '';
@@ -149,7 +150,7 @@ export default function TradingPage() {
               width={'50%'}>
               <FormLabel>Amount</FormLabel>
               <Input
-              onChange={handleAmountChange}
+                onChange={handleAmountChange}
                 placeholder={maxAmount ? maxAmount.toString() : '0'}
                 type="number"
                 value={amount}
@@ -166,10 +167,8 @@ export default function TradingPage() {
               alignSelf={'flex-end'}
               colorScheme="gray"
               isDisabled={symbol === ''}
-              isDisabled={symbol === ''}
               minWidth="100px"
               mt={4}
-              onClick={handleMaxClick}
               onClick={handleMaxClick}
               p={5}>
               <ViewIcon mr={2}></ViewIcon>Show max
@@ -186,8 +185,7 @@ export default function TradingPage() {
             <FormLabel>Order Type</FormLabel>
             <Select
               placeholder="Market"
-              width={'100%'}>
-            </Select>
+              width={'100%'}></Select>
           </FormControl>
 
           <FormControl
@@ -197,8 +195,7 @@ export default function TradingPage() {
             <FormLabel>Duration</FormLabel>
             <Select
               placeholder="Day Only"
-              width={'100%'}>
-            </Select>
+              width={'100%'}></Select>
           </FormControl>
         </Flex>
 
@@ -229,7 +226,9 @@ export default function TradingPage() {
 
       <Modal
         isOpen={isSearchOpen}
-        onClose={onClose}>
+        onClose={() => {
+          onClose();
+        }}>
         <ModalOverlay />
         <ModalContent>
           <ModalBody
@@ -240,6 +239,7 @@ export default function TradingPage() {
               callback={(symbol: string) => {
                 setSymbol(symbol);
                 onClose();
+                handleModalClose();
               }}
             />
           </ModalBody>
@@ -272,7 +272,7 @@ export default function TradingPage() {
                   </Tr>
                   <Tr>
                     <Td>Estimated Total</Td>
-                    <Td>{parseFloat(amount) * 100}</Td>
+                    <Td>{parseFloat(amount) * price}</Td>
                   </Tr>
                 </Tbody>
               </Table>
