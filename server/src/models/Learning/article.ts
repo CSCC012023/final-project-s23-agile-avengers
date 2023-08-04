@@ -34,7 +34,6 @@ const ArticleSchema = new Schema<Article>(
       type: String,
       required: true,
     },
-
     contentType: {
       type: String,
       required: true,
@@ -45,6 +44,10 @@ const ArticleSchema = new Schema<Article>(
       type: String,
       required: true,
     },
+    isFavourited: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     toJSON: {

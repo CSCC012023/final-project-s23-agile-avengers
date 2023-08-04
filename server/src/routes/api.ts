@@ -18,6 +18,14 @@ import {
 import { getSymbolAutoComplete, getTopStocks } from '../controllers/research';
 
 import {
+  getFavouriteArticles,
+  toggleFavoriteArticle,
+} from '../controllers/Learning/article';
+import {
+  getFavouriteVideos,
+  toggleFavoriteVideo,
+} from '../controllers/Learning/video';
+import {
   getTradingAccountInfo,
   getTradingSymbolPrice,
 } from '../controllers/Trading/';
@@ -115,6 +123,34 @@ api.get('/progress/video', getVideoProgressBySlug);
  * @access public
  */
 api.patch('/videoProgress', updateVideoProgress);
+
+/**
+ * @route GET /favouriteArticles
+ * @description Get all the favourited articles
+ * @access public
+ */
+api.get('/favouriteArticles', getFavouriteArticles);
+
+/**
+ * @route GET /favouriteVideos
+ * @description Get all the favourited videos
+ * @access public
+ */
+api.get('/favouriteVideos', getFavouriteVideos);
+
+/**
+ * @route PATCH /toggleFavoriteArticles
+ * @description Toggles isFavorited field in an Article
+ * @access public
+ */
+api.patch('/toggleFavoriteArticle', toggleFavoriteArticle);
+
+/**
+ * @route PATCH /toggleFavoriteVideos
+ * @description Toggles isFavorited field in a Video
+ * @access public
+ */
+api.patch('/toggleFavoriteVideo', toggleFavoriteVideo);
 
 /**
  * @route GET /latestPrice
