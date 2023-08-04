@@ -1,11 +1,12 @@
 import { createError } from './error';
 
-type InputTypes = 'user' | 'text' | 'slug';
+type InputTypes = 'user' | 'text' | 'slug' | 'symbol';
 
 const validInputRegex: Record<InputTypes, RegExp> = {
   user: /^user_[A-z0-9]+/,
   text: /^[a-zA-Z0-9&]+$/,
   slug: /^[a-z0-9-]+$/,
+  symbol: /^[A-Z0-9.]{1,10}$/,
 };
 
 /**

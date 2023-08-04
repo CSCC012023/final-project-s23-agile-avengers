@@ -9,8 +9,6 @@ import {
 
 import SymbolSearch from '@/components/SymbolSearch';
 
-import styles from '@/styles/pages/ResearchInfo.module.scss';
-
 type ResearchInfoProps = {
   searchParams: {
     tvwidgetsymbol: string;
@@ -18,7 +16,6 @@ type ResearchInfoProps = {
 };
 
 export default function ResearchInfoPage({ searchParams }: ResearchInfoProps) {
-  const { container, searchWrapper } = styles;
   const router = useRouter();
 
   const parseSymbol = (tvwidgetsymbol: string) => {

@@ -58,10 +58,10 @@ export const getAllUnitsBySlug = async (req: Request, res: Response) => {
           contents: await Promise.all(
             unit.content.map(async (id) => {
               const requiredFields = 'name slug contentType';
-              const video: Video | null = await modelVideo
+              const video = await modelVideo
                 .findById(id)
                 .select(requiredFields);
-              const article: Article | null = await modelArticle
+              const article = await modelArticle
                 .findById(id)
                 .select(requiredFields);
               return video ? video : article;
