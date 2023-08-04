@@ -4,8 +4,6 @@ import modelUser from '../../models/Account/user';
 import modelAccount from '../../models/Trading/account';
 import modelPortfolio from '../../models/Trading/portfolio';
 
-import { getGlobalQuote } from '../../utils/query';
-
 import { createError } from '../../utils/error';
 import { validateTradeOrder } from '../../utils/validate';
 
@@ -46,7 +44,8 @@ const getTradingModels = async (userID: string, symbol: string) => {
       ),
     };
 
-  const quote = await getGlobalQuote(symbol);
+  // const quote = await getGlobalQuote(symbol, true);
+  const quote = { price: 115.24 };
 
   if (quote === undefined)
     return {
@@ -77,36 +76,35 @@ const getTradingModels = async (userID: string, symbol: string) => {
 
 export const buyStocks = async (req: Request, res: Response) => {
   try {
-    const userID = req.body.userID as string;
-    const symbol = req.body.symbol as string;
-    const order = req.body.order as string;
-
-    const { status, error } = validateTradeOrder(
-      userID,
-      symbol,
-      req.body.quantity as string,
-      order,
-    );
-    if (!status) return res.status(400).send(error);
-
-    const quantity = parseInt(req.body.quantity as string);
+    const { status, error, userID, symbol, order, quantity } =
+      validateTradeOrder(
+        req.body.userID as string,
+        req.body.symbol as string,
+        req.body.quantity as string,
+        req.body.order as string,
+      );
+    if (!status || !userID || !symbol || !order || !quantity)
+      return res.status(400).json(error);
 
     const { modelsStatus, modelsError, tradingAccount, portfolio, price } =
       await getTradingModels(userID, symbol);
 
     if (!modelsStatus || !tradingAccount || !portfolio || !price)
-      return res.send(400).json(modelsError);
+      return res.status(400).json(modelsError);
 
     tradingAccount.cash -= price * quantity;
-    tradingAccount.holdings.equity.set(
-      symbol,
-      tradingAccount.holdings.equity.has(symbol)
-        ? (tradingAccount.holdings.equity.get(symbol) as number) + quantity
-        : quantity,
-    );
     tradingAccount.save();
 
-    portfolio.equity.push({
+    if (portfolio.holdings.equity.has(symbol)) {
+      const currValues = portfolio.holdings.equity.get(symbol);
+      if (currValues)
+        portfolio.holdings.equity.set(symbol, [
+          ...currValues,
+          { quantity, price },
+        ]);
+    } else portfolio.holdings.equity.set(symbol, [{ quantity, price }]);
+
+    portfolio.history.equity.push({
       action: 'buy',
       order: 'market',
       symbol,
@@ -123,11 +121,113 @@ export const buyStocks = async (req: Request, res: Response) => {
   } catch (error) {
     res
       .status(500)
-      .json(
-        createError(
-          'InternalServerError',
-          'Failed to retrieve User Trading Account',
-        ),
+      .json(createError('InternalServerError', 'Failed to Buy Stocks'));
+  }
+};
+
+export const sellStocks = async (req: Request, res: Response) => {
+  try {
+    const { status, error, userID, symbol, order, quantity } =
+      validateTradeOrder(
+        req.body.userID as string,
+        req.body.symbol as string,
+        req.body.quantity as string,
+        req.body.order as string,
       );
+    if (!status || !userID || !symbol || !order || !quantity)
+      return res.status(400).json(error);
+
+    const { modelsStatus, modelsError, tradingAccount, portfolio, price } =
+      await getTradingModels(userID, symbol);
+
+    if (!modelsStatus || !tradingAccount || !portfolio || !price)
+      return res.status(400).json(modelsError);
+
+    if (!portfolio.holdings.equity.has(symbol))
+      return res
+        .status(400)
+        .json(
+          createError(
+            'InvalidTradeOrder',
+            `You do own ${symbol} in your holdings`,
+          ),
+        );
+
+    const positions = portfolio.holdings.equity.get(symbol);
+
+    if (positions) {
+      const numStocksOwned = positions?.reduce((accumulator, position) => {
+        return accumulator + position.quantity;
+      }, 0);
+
+      if ((numStocksOwned as number) < quantity)
+        return res
+          .status(400)
+          .json(
+            createError(
+              'InvalidTradeOrder',
+              `You only own ${numStocksOwned as number} shares of ${symbol} `,
+            ),
+          );
+
+      for (let idx = 0; idx < positions?.length; idx++) {
+        const unusedPositions = positions.filter(
+          (value) => value !== positions[idx],
+        );
+        if (positions[idx].quantity > quantity) {
+          portfolio.holdings.equity.set(symbol, [
+            ...unusedPositions,
+            {
+              quantity: positions[idx].quantity - quantity,
+              price: positions[idx].price,
+            },
+          ]);
+          tradingAccount.cash += price * quantity;
+          portfolio.history.equity.push({
+            action: 'sell',
+            order: 'market',
+            price,
+            quantity,
+            symbol,
+          });
+          break;
+        }
+
+        if (positions[idx].quantity === quantity) {
+          portfolio.holdings.equity.delete(symbol);
+          tradingAccount.cash += price * quantity;
+          portfolio.history.equity.push({
+            action: 'sell',
+            order: 'market',
+            price,
+            quantity,
+            symbol,
+          });
+          break;
+        }
+
+        tradingAccount.cash += price * quantity;
+        portfolio.history.equity.push({
+          action: 'sell',
+          order: 'market',
+          price,
+          quantity: positions[idx].quantity,
+          symbol,
+        });
+        portfolio.holdings.equity.set(symbol, [...unusedPositions]);
+      }
+      portfolio.save();
+      tradingAccount.save();
+
+      res.status(200).json({
+        cash: tradingAccount.cash,
+        symbol,
+        price,
+      });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json(createError('InternalServerError', 'Failed to Sell Stocks'));
   }
 };

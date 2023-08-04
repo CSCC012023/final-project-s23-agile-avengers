@@ -158,5 +158,12 @@ export const validateTradeOrder = (
       ),
     };
 
-  return { status: true, error: {} };
+  return {
+    status: true,
+    error: {},
+    userID,
+    symbol,
+    order,
+    quantity: parseInt(quantity),
+  };
 };

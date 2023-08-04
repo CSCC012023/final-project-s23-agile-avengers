@@ -21,6 +21,7 @@ import {
   buyStocks,
   getTradingAccountInfo,
   getTradingSymbolPrice,
+  sellStocks,
 } from '../controllers/Trading/';
 
 const api = Router();
@@ -132,11 +133,17 @@ api.get('/trading/symbolPrice', getTradingSymbolPrice);
 api.get('/trading/accountInfo', getTradingAccountInfo);
 
 /**
-
  * @route GET /tradingAccInfo
  * @description Retrive Trading Account Info
  * @access public
  */
 api.post('/trading/buyStocks', buyStocks);
+
+/**
+ * @route GET /tradingAccInfo
+ * @description Retrive Trading Account Info
+ * @access public
+ */
+api.post('/trading/sellStocks', sellStocks);
 
 export default api;

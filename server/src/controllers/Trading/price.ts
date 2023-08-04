@@ -20,7 +20,7 @@ export const getTradingSymbolPrice = async (req: Request, res: Response) => {
     const { status, error } = validateInput('symbol', symbol, 'symbol');
     if (!status) return res.status(400).json(error);
 
-    const globalQuote = await getGlobalQuote(symbol);
+    const globalQuote = await getGlobalQuote(symbol, true);
 
     if (globalQuote === undefined)
       return res

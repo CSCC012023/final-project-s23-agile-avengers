@@ -1,3 +1,3 @@
 export { getTradingAccountInfo } from './account';
-export { buyStocks } from './actions';
+export { buyStocks, sellStocks } from './actions';
 export { getTradingSymbolPrice } from './price';
