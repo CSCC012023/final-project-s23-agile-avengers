@@ -1,11 +1,14 @@
 'use client';
 
+import SymbolSearch from '@/components/SymbolSearch';
 import {
   Button,
   ButtonGroup,
   FormControl,
   FormLabel,
+  HStack,
   Heading,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -26,13 +29,13 @@ import {
   Td,
   Text,
   Tr,
+  useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { CopyrightStyles, MiniChart } from 'react-ts-tradingview-widgets';
 
-import SymbolSearch from '@/components/SymbolSearch';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { ErrorResponse } from '@/types/base';
 
@@ -131,6 +134,8 @@ export default function TradingPage() {
     getPrice();
   }, [symbol !== undefined]);
 
+  const spacing = useBreakpointValue({ base: '20%', md: '51%' });
+
   if (!accInfo)
     return (
       <div className={center}>
@@ -151,11 +156,22 @@ export default function TradingPage() {
 
   return (
     <div className={container}>
-      <Heading
-        as="h1"
-        size="xl">
-        Trading
-      </Heading>
+      <HStack
+        justifyContent={'space-between'}
+        spacing={spacing}>
+        <Heading
+          as="h1"
+          size="xl">
+          Trading
+        </Heading>
+        <Link
+          as="a"
+          href="/trading/trade-history"
+          ml="5">
+          <Button>History</Button>
+        </Link>
+      </HStack>
+
       <div className={searchWrapper}>
         <SymbolSearch
           callback={(symbol: string) => {

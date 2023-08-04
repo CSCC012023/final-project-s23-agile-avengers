@@ -24,6 +24,7 @@ import styles from '@/styles/pages/Article.module.scss';
 import { ErrorResponse } from '@/types/base';
 import { CourseWithUnits } from '@/types/components/Dashboard-Learning/types';
 import { Article } from '@/types/learning';
+import { useAuth } from '@clerk/nextjs';
 
 type ArticleProps = {
   params: {
@@ -34,9 +35,42 @@ type ArticleProps = {
 
 const ArticleList = ({ params }: ArticleProps) => {
   const { center, container, title, unitLists } = styles;
-
+  const { userId } = useAuth();
   const [article, setArticle] = useState<Article>();
   const [course, setCourse] = useState<CourseWithUnits>();
+  const [articleProgressPercent, setArticleProgress] = useState(0);
+
+  const patchProgress = async () => {
+    try {
+      const requestBody = {
+        userID: userId,
+        articleSlug: params.articleSlug,
+        articleProgressPercent: 100,
+      };
+      const fetchOptions = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json', // Specifying JSON content in the headers
+        },
+        body: JSON.stringify(requestBody), // Convert the object to JSON string
+      };
+
+      const updateResponse = await fetch(
+        'http://localhost:4000/articleProgress',
+        fetchOptions,
+      );
+
+      if (updateResponse.ok)
+        // Progress updated successfully
+        setArticleProgress(100); // Update the local progress state
+      else {
+        const error: ErrorResponse = await updateResponse.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const [color, setColor] = useState<'gray' | 'yellow'>('gray');
   const [isFavourited, setIsFavourited] = useState<boolean>(false);
@@ -112,10 +146,29 @@ const ArticleList = ({ params }: ArticleProps) => {
     }
   };
 
+  const getProgress = async () => {
+    try {
+      const progressResponse = await fetch(
+        `http://localhost:4000/progress/article?userID=${userId}&articleSlug=${params.articleSlug}`,
+      );
+      if (progressResponse.ok) {
+        const progressData = await progressResponse.json();
+        setArticleProgress(progressData.progressPercent);
+        if (articleProgressPercent != 100) await patchProgress();
+      } else {
+        const error: ErrorResponse = await progressResponse.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   /* Without a dependency array the call to get all article is only made once */
   useEffect(() => {
     getCourseWithUnits();
     getArticle();
+    getProgress();
   }, [params]);
 
   if (!course && !article)
@@ -130,6 +183,20 @@ const ArticleList = ({ params }: ArticleProps) => {
         />
         <Text>Loading Article</Text>
       </div>
+    );
+
+  if (!userId || userId == null)
+    return (
+      <Spinner
+        alignSelf="center"
+        color="blue.500"
+        emptyColor="gray.200"
+        justifyContent="center"
+        marginTop="240"
+        size="xl"
+        speed="0.65s"
+        thickness="4px"
+      />
     );
 
   return (
