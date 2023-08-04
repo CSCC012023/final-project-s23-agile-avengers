@@ -11,7 +11,7 @@ type SymbolInfo = {
   currentChange: number;
 };
 const TradeHistioryRow = (Props: TradeHistoryRowProps) => {
-  const { symbol, purchasePrice, quantity, type } = Props;
+  const { symbol, purchasePrice, quantity } = Props;
 
   const [loaded, setLoaded] = useState(false);
   const [symbolInfo, setSymbolInfo] = useState<SymbolInfo | null>(null);
