@@ -17,8 +17,8 @@ export interface Article extends Document {
 }
 
 export interface FavouriteArticles {
-  article: Article,
-  courseSlug: String,
+  article: Article;
+  courseSlug: String;
 }
 
 export interface Video extends Document {

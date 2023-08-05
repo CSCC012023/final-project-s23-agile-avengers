@@ -9,7 +9,7 @@ import {
   Td,
   Th,
   Thead,
-  Tr
+  Tr,
 } from '@chakra-ui/react';
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
@@ -19,7 +19,6 @@ const USDollar = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
 });
-
 
 const TradeHistoryPage = () => {
   const [userPortfolio, setUserPortfolio] = useState<Portfolio | null>(null);
@@ -71,16 +70,17 @@ const TradeHistoryPage = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {userPortfolio.history.equity.map(({ symbol, price, quantity, action }, idx) => {
-              return (
-                <Tr key={idx}>
-                  <Td>{symbol}</Td>
-                  <Td>{USDollar.format(price)}</Td>
-                  <Td>{quantity}</Td>
-                  <Td>{action.charAt(0).toUpperCase() + action.slice(1)}</Td>
-                </Tr>
-            );
-              }
+            {userPortfolio.history.equity.map(
+              ({ symbol, price, quantity, action }, idx) => {
+                return (
+                  <Tr key={idx}>
+                    <Td>{symbol}</Td>
+                    <Td>{USDollar.format(price)}</Td>
+                    <Td>{quantity}</Td>
+                    <Td>{action.charAt(0).toUpperCase() + action.slice(1)}</Td>
+                  </Tr>
+                );
+              },
             )}
           </Tbody>
         </Table>

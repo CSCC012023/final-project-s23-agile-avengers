@@ -6,7 +6,11 @@ import modelPortfolio from '../../models/Trading/portfolio';
 
 import { createError } from '../../utils/error';
 import { getGlobalQuote } from '../../utils/query';
-import { validateInput, validateTradeOrder, validateUserID } from '../../utils/validate';
+import {
+  validateInput,
+  validateTradeOrder,
+  validateUserID,
+} from '../../utils/validate';
 
 const getTradingModels = async (userID: string, symbol: string) => {
   const user = await modelUser.findOne({ userID });
@@ -74,59 +78,67 @@ const getTradingModels = async (userID: string, symbol: string) => {
   };
 };
 
-export const getMaxStocks =async (req: Request, res: Response) => {
+export const getMaxStocks = async (req: Request, res: Response) => {
   try {
     const userID = req.query.userID as string;
     const symbol = req.query.symbol as string;
-  
+
     // Verify UserID
     const userIDValidation = validateUserID(userID);
-    if (!userIDValidation.status) return res.status(400).json(userIDValidation.error)
-  
+    if (!userIDValidation.status)
+      return res.status(400).json(userIDValidation.error);
+
     // Verify Symbol
     const symbolValidation = validateInput('symbol', symbol, 'symbol');
-    if (!symbolValidation.status) return res.status(400).json(symbolValidation.error)
+    if (!symbolValidation.status)
+      return res.status(400).json(symbolValidation.error);
 
     const user = await modelUser.findOne({ userID });
 
     if (!user)
-      return res.status(400).json(createError(
-        'UserDoesNotExist',
-        `User with ID: ${userID} does not exist`,
-      ))
-
+      return res
+        .status(400)
+        .json(
+          createError(
+            'UserDoesNotExist',
+            `User with ID: ${userID} does not exist`,
+          ),
+        );
 
     const portfolio = await modelPortfolio.findOne({ userID: user.id });
 
     if (!portfolio)
-      return res.status(400).json(createError(
-          'UserDoesNotExist',
-          `User with ID: ${userID} does not have a Trading Account`,
-        ))
+      return res
+        .status(400)
+        .json(
+          createError(
+            'UserDoesNotExist',
+            `User with ID: ${userID} does not have a Trading Account`,
+          ),
+        );
 
+    if (!portfolio.holdings.equity.has(symbol))
+      return res
+        .status(400)
+        .json(
+          createError('InvalidTickerSymbol', `User does not own ${symbol}`),
+        );
 
-    if (!portfolio.holdings.equity.has(symbol)) 
-      return res.status(400).json(createError(
-        'InvalidTickerSymbol',
-        `User does not own ${symbol}`,
-      ))
+    const numStocksOwned = portfolio.holdings.equity
+      .get(symbol)
+      ?.reduce((accumulator, position) => {
+        return accumulator + position.quantity;
+      }, 0);
 
-    const numStocksOwned = portfolio.holdings.equity.get(symbol)?.reduce((accumulator, position) => {
-      return accumulator + position.quantity;
-    }, 0);
-
-    res.status(200).json(
-      {
-        max: numStocksOwned
-      }
-    )
-    
+    res.status(200).json({
+      max: numStocksOwned,
+    });
   } catch (error) {
     res
-    .status(500)
-    .json(createError('InternalServerError', 'Failed to Find Max Stocks'));
+      .status(500)
+      .json(createError('InternalServerError', 'Failed to Find Max Stocks'));
   }
-}
+};
 
 export const buyStocks = async (req: Request, res: Response) => {
   try {

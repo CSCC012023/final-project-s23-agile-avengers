@@ -48,7 +48,7 @@ const VideoSchema = new Schema<Video>(
       type: Boolean,
       required: true,
       default: false,
-    }
+    },
   },
   {
     toJSON: {
