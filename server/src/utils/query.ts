@@ -20,6 +20,7 @@ export const queryAlphaVantage = async (params: AlphaVantageParams) => {
 
     // Sends the Request and returns a Response
     const url = `https://www.alphavantage.co/query?${serializedParams}&apikey=${ALPHAVANTAGE_API_KEY}`;
+    console.log(url);
     const response: Response = await fetch(url);
     return response.ok ? await response.json() : {};
   } catch (error) {

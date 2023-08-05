@@ -132,6 +132,24 @@ export default function TradingPage() {
     }
   };
 
+  const getMaxStocks = async () => {
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/trading/maxStocks?userID=${userId}&symbol=${symbol}`,
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log(parseInt(data.max))
+        return parseInt(data.max)
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  };
+
   const buyStocks = async () => {
     try {
       const response: Response = await fetch(
@@ -202,10 +220,6 @@ export default function TradingPage() {
     getAccountInfo();
   }, []);
 
-  useEffect(() => {
-    getPrice();
-  }, [symbol !== undefined]);
-
   const spacing = useBreakpointValue({ base: '20%', md: '51%' });
 
   if (!accInfo)
@@ -222,8 +236,9 @@ export default function TradingPage() {
       </div>
     );
 
-  const getMaxQuantity = () => {
-    return Math.floor(accInfo.cash / (price as number));
+  const getMaxQuantity = async () => {
+    if (action === 'buy') return Math.floor(accInfo.cash / (price as number));
+    if (action === 'sell') return await getMaxStocks();
   };
 
   const submitOrder = async () => {
@@ -254,6 +269,7 @@ export default function TradingPage() {
         <SymbolSearch
           callback={(symbol: string) => {
             setSymbol(symbol);
+            getPrice();
           }}
         />
         <div className={accountInfo}>
@@ -310,7 +326,6 @@ export default function TradingPage() {
               <FormLabel>Quantity</FormLabel>
               <NumberInput
                 defaultValue={0}
-                max={!price ? Number.MAX_SAFE_INTEGER : getMaxQuantity()}
                 min={0}
                 onChange={(_, value) => setQuantity(value)}
                 value={quantity}>
@@ -325,9 +340,8 @@ export default function TradingPage() {
             <Button
               className={showMax}
               colorScheme="gray"
-              isDisabled={!symbol || !price}
               maxWidth="30%"
-              onClick={() => setQuantity(getMaxQuantity())}>
+              onClick={async () => setQuantity(await getMaxQuantity())}>
               Show Max
             </Button>
           </div>
@@ -348,7 +362,6 @@ export default function TradingPage() {
             </Button>
             <Button
               colorScheme="blue"
-              isDisabled={!symbol || !quantity || !price}
               onClick={() => onOpen()}
               size={'lg'}>
               Preview Order

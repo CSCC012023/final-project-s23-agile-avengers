@@ -39,7 +39,7 @@ export const getTradingSymbolPrice = async (req: Request, res: Response) => {
     res.status(200).json({
       symbol: globalQuote.symbol,
       price: globalQuote.price,
-      change: globalQuote,
+      change: globalQuote.change,
     });
   } catch (error) {
     res
