@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+
+import { getGlobalQuote } from '../../utils/query';
+
 import { createError } from '../../utils/error';
-import { queryAlphaVantage } from '../../utils/query';
 import { validateInput } from '../../utils/validate';
 
 /**
@@ -18,27 +20,32 @@ export const getTradingSymbolPrice = async (req: Request, res: Response) => {
     const { status, error } = validateInput('symbol', symbol, 'symbol');
     if (!status) return res.status(400).json(error);
 
-    const { 'Global Quote': globalQuote } = await queryAlphaVantage({
-      function: 'GLOBAL_QUOTE',
-      symbol,
-    });
+    const globalQuote = await getGlobalQuote(symbol);
 
-    if (!globalQuote || Object.keys(globalQuote).length === 0)
+    if (globalQuote === undefined)
       return res
         .status(400)
-        .json({ message: 'Invalid symbol or no data available' });
+        .json(
+          createError('AlphaVantageError', 'Unable to Retrive Latest Price'),
+        );
 
-    const response = {
-      symbol: globalQuote['01. symbol'],
-      price: globalQuote['05. price'],
-      change: globalQuote['10. change percent'],
-    };
+    if (globalQuote === null)
+      return res
+        .status(400)
+        .json(
+          createError('InvalidTickerSymbol', `Symbol ${symbol} does not exist`),
+        );
 
-    res.status(200).json(response);
+    res.status(200).json({
+      symbol: globalQuote.symbol,
+      price: globalQuote.price,
+      change: globalQuote.change,
+    });
   } catch (error) {
-    // Handle specific errors from queryAlphaVantage function if needed
     res
       .status(500)
-      .json(createError('InternalServerError', 'Failed to retrieve the Price'));
+      .json(
+        createError('InternalServerError', 'Failed to retrieve Latest Price'),
+      );
   }
 };

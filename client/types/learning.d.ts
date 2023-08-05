@@ -31,7 +31,7 @@ export type Article = {
 export interface Video {
   name: string;
   slug: string;
-  isFavourited: Boolean;
+  isFavourited: boolean;
   createdAt: Date;
   updatedAt: Date;
   videoId: string;

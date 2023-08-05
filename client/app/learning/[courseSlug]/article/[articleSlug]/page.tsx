@@ -75,8 +75,6 @@ const ArticleList = ({ params }: ArticleProps) => {
   const [color, setColor] = useState<'gray' | 'yellow'>('gray');
   const [isFavourited, setIsFavourited] = useState<boolean>(false);
 
-  console.log('color', color, article?.isFavourited);
-
   useEffect(() => {
     setColor(isFavourited ? 'yellow' : 'gray');
   }, [isFavourited]);

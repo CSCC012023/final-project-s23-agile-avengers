@@ -36,7 +36,7 @@ export default function ContentPage({ params }: VideoProps) {
   const [course, setCourse] = useState<CourseWithUnits>();
   const [videoProgress, setVideoProgress] = useState(0);
   const [color, setColor] = useState<'gray' | 'yellow'>('gray');
-  const [isFavourited, setIsFavourited] = useState<Boolean>(false);
+  const [isFavourited, setIsFavourited] = useState<boolean>(false);
 
   useEffect(() => {
     setColor(isFavourited ? 'yellow' : 'gray');

@@ -6,6 +6,10 @@ type RequestErrorTypes =
   | 'InvalidUserID'
   | 'MissingSlug'
   | 'InvalidSlug'
+  | 'InvalidTradeOrder'
+  | 'InvalidTradeStockQuantity'
+  | 'InvalidTickerSymbol'
+  | 'AlphaVantageError'
   | 'ParentUnitNotFound'
   | 'ParentCourseNotFound'
   | 'PortfolioDoesNotExist';

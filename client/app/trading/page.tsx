@@ -58,6 +58,12 @@ type SymbolPrice = {
   price: string;
 };
 
+type TradeOrderResponse = {
+  cash: number;
+  symbol: string;
+  price: number;
+};
+
 export default function TradingPage() {
   const { userId } = useAuth();
 
@@ -66,7 +72,7 @@ export default function TradingPage() {
 
   const [accInfo, setAccInfo] = useState<AccountInfo>();
   const [action, setAction] = useState<string>('buy');
-  const [amount, setAmount] = useState<number>();
+  const [quantity, setQuantity] = useState<number>();
   const [symbol, setSymbol] = useState<string>();
   const [price, setPrice] = useState<number>();
 
@@ -126,13 +132,91 @@ export default function TradingPage() {
     }
   };
 
+  const getMaxStocks = async () => {
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/trading/maxStocks?userID=${userId}&symbol=${symbol}`,
+      );
+      if (response.ok) {
+        const data = await response.json();
+        return parseInt(data.max);
+      }
+      const error: ErrorResponse = await response.json();
+      console.error(error);
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  };
+
+  const buyStocks = async () => {
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/trading/buyStocks`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userID: userId,
+            symbol,
+            quantity,
+            order: 'market',
+          }),
+        },
+      );
+      if (response.ok) {
+        const data: TradeOrderResponse = await response.json();
+        setAccInfo({
+          cash: data.cash,
+          value: accInfo?.value as number,
+        });
+        alert(`${symbol} was bought at ${USDollar.format(data.price)}`);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  };
+
+  const sellStocks = async () => {
+    try {
+      const response: Response = await fetch(
+        `http://localhost:4000/trading/sellStocks`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userID: userId,
+            symbol,
+            quantity,
+            order: 'market',
+          }),
+        },
+      );
+      if (response.ok) {
+        const data: TradeOrderResponse = await response.json();
+        setAccInfo({
+          cash: data.cash,
+          value: accInfo?.value as number,
+        });
+        alert(`${symbol} was sold at ${USDollar.format(data.price)}`);
+      } else {
+        const error: ErrorResponse = await response.json();
+        console.error(error);
+      }
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  };
+
   useEffect(() => {
     getAccountInfo();
   }, []);
-
-  useEffect(() => {
-    getPrice();
-  }, [symbol !== undefined]);
 
   const spacing = useBreakpointValue({ base: '20%', md: '51%' });
 
@@ -150,8 +234,15 @@ export default function TradingPage() {
       </div>
     );
 
-  const getMaxAmount = () => {
-    return Math.floor(accInfo.cash / (price as number));
+  const getMaxQuantity = async () => {
+    if (action === 'buy') return Math.floor(accInfo.cash / (price as number));
+    if (action === 'sell') return await getMaxStocks();
+  };
+
+  const submitOrder = async () => {
+    onClose();
+    if (action === 'buy') await buyStocks();
+    if (action === 'sell') await sellStocks();
   };
 
   return (
@@ -176,6 +267,7 @@ export default function TradingPage() {
         <SymbolSearch
           callback={(symbol: string) => {
             setSymbol(symbol);
+            getPrice();
           }}
         />
         <div className={accountInfo}>
@@ -229,13 +321,12 @@ export default function TradingPage() {
             <FormControl
               className={amountContainer}
               mr={'10%'}>
-              <FormLabel>Amount</FormLabel>
+              <FormLabel>Quantity</FormLabel>
               <NumberInput
                 defaultValue={0}
-                max={!price ? Number.MAX_SAFE_INTEGER : getMaxAmount()}
                 min={0}
-                onChange={(_, value) => setAmount(value)}
-                value={amount}>
+                onChange={(_, value) => setQuantity(value)}
+                value={quantity}>
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -247,9 +338,8 @@ export default function TradingPage() {
             <Button
               className={showMax}
               colorScheme="gray"
-              isDisabled={!symbol || !price}
               maxWidth="30%"
-              onClick={() => setAmount(getMaxAmount())}>
+              onClick={async () => setQuantity(await getMaxQuantity())}>
               Show Max
             </Button>
           </div>
@@ -261,7 +351,7 @@ export default function TradingPage() {
               colorScheme="red"
               onClick={() => {
                 setAction('buy');
-                setAmount(undefined);
+                setQuantity(undefined);
                 setSymbol(undefined);
                 setPrice(undefined);
               }}
@@ -270,10 +360,7 @@ export default function TradingPage() {
             </Button>
             <Button
               colorScheme="blue"
-              isDisabled={!symbol || amount === 0 || !price}
-              onClick={() => {
-                onOpen();
-              }}
+              onClick={() => onOpen()}
               size={'lg'}>
               Preview Order
             </Button>
@@ -305,13 +392,15 @@ export default function TradingPage() {
                     <Td>{USDollar.format(price as number)}</Td>
                   </Tr>
                   <Tr>
-                    <Td>Amount</Td>
-                    <Td>{amount}</Td>
+                    <Td>Quantity</Td>
+                    <Td>{quantity}</Td>
                   </Tr>
                   <Tr>
                     <Td>Estimated Total</Td>
                     <Td>
-                      {USDollar.format((amount as number) * (price as number))}
+                      {USDollar.format(
+                        (quantity as number) * (price as number),
+                      )}
                     </Td>
                   </Tr>
                 </Tbody>
@@ -327,7 +416,10 @@ export default function TradingPage() {
             </Button>
             <Button
               colorScheme="blue"
-              mr={3}>
+              mr={3}
+              onClick={async () => {
+                await submitOrder();
+              }}>
               Submit Order
             </Button>
           </ModalFooter>

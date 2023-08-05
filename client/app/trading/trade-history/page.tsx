@@ -6,14 +6,21 @@ import {
   Table,
   TableContainer,
   Tbody,
+  Td,
   Th,
   Thead,
-  Tr,
+  Tr
 } from '@chakra-ui/react';
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { Portfolio } from '../../../../server/src/types/trading';
-import TradeHistioryRow from '../../../components/TradingHistory';
+
+const USDollar = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
+
+
 const TradeHistoryPage = () => {
   const [userPortfolio, setUserPortfolio] = useState<Portfolio | null>(null);
   const { userId } = useAuth();
@@ -58,26 +65,22 @@ const TradeHistoryPage = () => {
           <Thead>
             <Tr>
               <Th>Symbol</Th>
-              <Th>Purchase Price</Th>
-              <Th>Current Price</Th>
+              <Th>Price</Th>
               <Th>Quantity</Th>
-              <Th>Total Value</Th>
-              <Th>Todays Change</Th>
-              <Th>Total Return</Th>
               <Th>Type</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {userPortfolio.equity.map((item) =>
-              item.action === 'buy' ? (
-                <TradeHistioryRow
-                  key={item.date.toString() + item.symbol.toString()}
-                  purchasePrice={item.price}
-                  quantity={item.quantity}
-                  symbol={item.symbol.toString()}></TradeHistioryRow>
-              ) : (
-                <></>
-              ),
+            {userPortfolio.history.equity.map(({ symbol, price, quantity, action }, idx) => {
+              return (
+                <Tr key={idx}>
+                  <Td>{symbol}</Td>
+                  <Td>{USDollar.format(price)}</Td>
+                  <Td>{quantity}</Td>
+                  <Td>{action.charAt(0).toUpperCase() + action.slice(1)}</Td>
+                </Tr>
+            );
+              }
             )}
           </Tbody>
         </Table>

@@ -31,9 +31,11 @@ export const getPortfolio = async (req: Request, res: Response) => {
             `User with ID: ${userID} does not exist`,
           ),
         );
+
     const portfolio = await modelPortfolio.findOne({
       userID: user.id,
     });
+
     if (!portfolio)
       return res
         .status(400)
