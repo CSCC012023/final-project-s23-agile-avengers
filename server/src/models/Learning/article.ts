@@ -47,7 +47,7 @@ const ArticleSchema = new Schema<Article>(
     isFavourited: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   {
     toJSON: {
