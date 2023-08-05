@@ -139,12 +139,10 @@ export default function TradingPage() {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(parseInt(data.max))
-        return parseInt(data.max)
-      } else {
-        const error: ErrorResponse = await response.json();
-        console.error(error);
+        return parseInt(data.max);
       }
+      const error: ErrorResponse = await response.json();
+      console.error(error);
     } catch (error) {
       console.error((error as Error).message);
     }

@@ -1,5 +1,4 @@
 import { Td, Tr } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 
 type TradeHistoryRowProps = {
   symbol: string;
@@ -13,7 +12,12 @@ const USDollar = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 });
 
-const TradeHistoryRow = ({ symbol, price, quantity, action }: TradeHistoryRowProps) => {
+const TradeHistoryRow = ({
+  symbol,
+  price,
+  quantity,
+  action,
+}: TradeHistoryRowProps) => {
   return (
     <Tr>
       <Td>{symbol}</Td>
