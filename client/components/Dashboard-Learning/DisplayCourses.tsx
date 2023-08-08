@@ -2,8 +2,10 @@
 
 import { Course } from '@/types/learning';
 import {
+    Button,
   CardBody,
   CardHeader,
+  Flex,
   HStack,
   Heading,
   Icon,
@@ -11,11 +13,13 @@ import {
   StackDivider,
 } from '@chakra-ui/react';
 import { AiFillCaretRight } from '@react-icons/all-files/ai/AiFillCaretRight';
+import Link from 'next/link';
 import styles from '../../styles/components/sidebar.module.scss';
+import FavoriteButton from '../FavoriteButton';
 
 type DisplayCoursesProps = {
   courses: Course[];
-  headerString: string;
+  headerString: 'My Courses' | 'Explore';
   selectedCourse: Course | undefined;
   setSelectedCourse: React.Dispatch<React.SetStateAction<Course | undefined>>;
 };
@@ -38,7 +42,9 @@ const DisplayCourses = ({
   return (
     <>
       <CardHeader>
-        <Heading size="md">{headerString}</Heading>
+        <Flex justifyContent="space-between">
+          <Heading size="md">{headerString}</Heading>
+        </Flex>
       </CardHeader>
       <hr className={styles.divider} />
       <CardBody>

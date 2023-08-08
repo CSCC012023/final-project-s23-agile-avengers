@@ -36,6 +36,10 @@ const navLinks = [
     name: 'Trading',
     href: '/trading',
   },
+  {
+    name: 'Favourites',
+    href: '/dashboard/favourites',
+  },
 ];
 
 type NavLinkProps = {
