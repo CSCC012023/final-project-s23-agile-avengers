@@ -57,7 +57,7 @@ export default function ResearchInfoPage({ searchParams }: ResearchInfoProps) {
           size="xl">
           {symbol}
         </Heading>
-        <Link href={`/trading`}>
+        <Link href={`/trading?symbol=${symbol}`}>
           <Button
             colorScheme="blue"
             px={8}
