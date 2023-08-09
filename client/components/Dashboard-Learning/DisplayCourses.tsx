@@ -2,7 +2,6 @@
 
 import { Course } from '@/types/learning';
 import {
-    Button,
   CardBody,
   CardHeader,
   Flex,
@@ -13,9 +12,7 @@ import {
   StackDivider,
 } from '@chakra-ui/react';
 import { AiFillCaretRight } from '@react-icons/all-files/ai/AiFillCaretRight';
-import Link from 'next/link';
 import styles from '../../styles/components/sidebar.module.scss';
-import FavoriteButton from '../FavoriteButton';
 
 type DisplayCoursesProps = {
   courses: Course[];
