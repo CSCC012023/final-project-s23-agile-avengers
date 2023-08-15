@@ -1,0 +1,24 @@
+{
+  "name": "finlearn",
+  "version": "0.17.0",
+  "description": "FinLearn Packages",
+  "license": "ISC",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "format": "prettier --config .prettierrc --ignore-path .prettierignore -u --write .",
+    "purge": "rimraf node_modules client/.next server/build"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.7",
+    "@commitlint/config-conventional": "^17.6.7",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.1",
+    "rimraf": "^5.0.1"
+  }
+}

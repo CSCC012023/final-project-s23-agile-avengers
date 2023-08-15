@@ -1,0 +1,22 @@
+@import '../abstracts/mixins';
+
+.center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.courses {
+  grid-column: span 3 / span 2;
+}
+
+@include geq(400px) {
+  .courses {
+    grid-column: span 2 / span 2;
+  }
+}
